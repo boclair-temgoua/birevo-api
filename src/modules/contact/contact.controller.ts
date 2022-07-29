@@ -5,7 +5,7 @@ import { ContactService } from './contact.service';
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
-  @Get()
+  @Get(`/`)
   async getAllContact(): Promise<any> {
     console.log('getAllContact');
     return this.contactService.getHello();
