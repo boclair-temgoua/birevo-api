@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { configurations } from './infrastructure/configurations';
 
@@ -13,6 +14,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.use(helmet());
   await app.listen(port, () => {
     console.log(`=============================================`);
     console.log(`*** 🚀 Link  http://localhost:${port}/api/${version} ***`);

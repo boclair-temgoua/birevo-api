@@ -5,7 +5,7 @@ export const connectionMicroserviceOptions = {
   transport: Transport.RMQ,
   options: {
     urls: [`${configurations.implementations.amqp}`],
-    queue: 'payment_queue',
+    queue: 'auth_queue',
     queueOptions: {
       durable: false,
     },
