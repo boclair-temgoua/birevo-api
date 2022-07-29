@@ -1,4 +1,4 @@
-import { configurations } from './../infrastructure/configurations/index';
+import { configurations } from '../configurations/index';
 import { Transport } from '@nestjs/microservices';
 
 export const connectionMicroserviceOptions = {

@@ -8,7 +8,8 @@ export const configurations = {
    */
   datasite: {
     name: process.env.NODE_NAME,
-    url: process.env.NODE_CLIENT_URL,
+    url: process.env.NODE_APP_URL,
+    urlClient: process.env.NODE_CLIENT_URL,
     email: process.env.MAIL_FROM_ADDRESS,
     daysOneMonth: Number(process.env.DAYS_ONE_MONTH_SUBSCRIBE),
     amountOneMonth: Number(process.env.AMOUNT_ONE_MONTH_SUBSCRIBE),
