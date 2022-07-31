@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ContactController } from './contact.controller';
-import { ContactService } from './contact.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Contact } from '../../models/Contact';
+import { FindOneContactByService } from './services/query/find-one-contact-by.service';
+import { GetContactController, GetOneContactController } from './controllers';
+import { FindContactService } from './services/query/find-contact.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Contact])],
-  controllers: [ContactController],
-  providers: [ContactService],
+  controllers: [GetContactController, GetOneContactController],
+  providers: [FindOneContactByService, FindContactService],
 })
 export class ContactModule {}

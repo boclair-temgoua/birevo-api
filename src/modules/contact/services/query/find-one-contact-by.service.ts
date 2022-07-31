@@ -1,0 +1,48 @@
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Contact } from '../../../../models/Contact';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
+import { GetOneContactSelections } from '../../types/index';
+
+@Injectable()
+export class FindOneContactByService {
+  constructor(
+    @InjectRepository(Contact)
+    private contactRepository: Repository<Contact>,
+  ) {}
+
+  async findOneBy(
+    selections: GetOneContactSelections,
+  ): Promise<GetOneContactSelections> {
+    const { option1, option2, option3 } = { ...selections };
+    let query = this.contactRepository
+      .createQueryBuilder('contact')
+      .select('contact.id', 'id')
+      .addSelect('contact.uuid', 'uuid')
+      .addSelect('contact.slug', 'slug')
+      .addSelect('contact.lastName', 'lastName')
+      .addSelect('contact.email', 'email');
+
+    if (option1) {
+      const { contactId } = { ...option1 };
+      query = query.where('contact.id = :id', { id: contactId });
+    }
+
+    if (option2) {
+      const { contact_slug } = { ...option2 };
+      query = query.where('contact.slug = :slug', { slug: contact_slug });
+    }
+
+    if (option3) {
+      const { contact_uuid } = { ...option3 };
+      query = query.where('contact.uuid = :uuid', { uuid: contact_uuid });
+    }
+
+    const [error, result] = await useCatch(query.getRawOne());
+    if (error)
+      throw new HttpException('Contact not found', HttpStatus.NOT_FOUND);
+
+    return result;
+  }
+}

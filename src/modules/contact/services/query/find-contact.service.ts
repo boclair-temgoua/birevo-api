@@ -1,38 +1,23 @@
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { Contact } from './../../models/Contact';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Contact } from '../../../../models/Contact';
 import { Brackets, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { useCatch } from '../../infrastructure/utils/use-catch';
-import { withPagination } from '../../infrastructure/utils/pagination';
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
+import { withPagination } from '../../../../infrastructure/utils/pagination';
+import { GetContactsSelections } from '../../types/index';
 
 @Injectable()
-export class ContactService {
+export class FindContactService {
   constructor(
     @InjectRepository(Contact)
     private contactRepository: Repository<Contact>,
   ) {}
-  getHello(): string {
-    return 'Contact!';
-  }
 
-  async findById(contactId: number): Promise<Contact> {
-    let query = this.contactRepository
-      .createQueryBuilder('contact')
-      .where('contact.id = :id', { id: contactId });
+  async findAllContacts(
+    selections: GetContactsSelections,
+  ): Promise<GetContactsSelections> {
+    const { filterQuery, pagination } = { ...selections };
 
-    const [error, result] = await useCatch(query.getRawOne());
-    if (error) throw new NotFoundException(error);
-
-    return result;
-  }
-
-  async findAllContacts(pagination, filterQuery): Promise<Contact | any> {
     let query = this.contactRepository
       .createQueryBuilder('contact')
       .select('contact.id', 'id')
