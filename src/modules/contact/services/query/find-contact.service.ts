@@ -10,7 +10,7 @@ import { GetContactsSelections } from '../../types/index';
 export class FindContactService {
   constructor(
     @InjectRepository(Contact)
-    private contactRepository: Repository<Contact>,
+    private driver: Repository<Contact>,
   ) {}
 
   async findAllContacts(
@@ -18,13 +18,14 @@ export class FindContactService {
   ): Promise<GetContactsSelections> {
     const { filterQuery, pagination } = { ...selections };
 
-    let query = this.contactRepository
+    let query = this.driver
       .createQueryBuilder('contact')
       .select('contact.id', 'id')
       .addSelect('contact.uuid', 'uuid')
       .addSelect('contact.slug', 'slug')
       .addSelect('contact.lastName', 'lastName')
-      .addSelect('contact.email', 'email');
+      .addSelect('contact.email', 'email')
+      .addSelect('contact.createdAt', 'createdAt');
 
     if (filterQuery?.q) {
       query = query.where(

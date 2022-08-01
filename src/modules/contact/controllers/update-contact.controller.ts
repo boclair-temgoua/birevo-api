@@ -4,27 +4,32 @@ import {
   Response,
   NotFoundException,
   Body,
+  Put,
+  Param,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
-import { CreateOrUpdateContactDto } from '../dto/create-or-update-contact.dto';
 import { CreateOrUpdateContactService } from '../services/mutations/create-or-update-contact.service';
+import { CreateOrUpdateContactDto } from '../dto/create-or-update-contact.dto';
 
 @Controller('contacts')
-export class CreateContactController {
+export class UpdateContactController {
   constructor(
     private readonly createOrUpdateContactService: CreateOrUpdateContactService,
   ) {}
 
-  @Post(`/create`)
+  @Put(`/update/:contact_uuid`)
   async createOneContact(
     @Response() res: any,
     @Body() createOrUpdateContactDto: CreateOrUpdateContactDto,
+    @Param('contact_uuid', ParseUUIDPipe) contact_uuid: string,
   ) {
     const [errors, results] = await useCatch(
-      this.createOrUpdateContactService.createOne({
-        ...createOrUpdateContactDto,
-      }),
+      this.createOrUpdateContactService.updateOne(
+        { option1: { contact_uuid } },
+        { ...createOrUpdateContactDto },
+      ),
     );
     if (errors) {
       throw new NotFoundException(errors);

@@ -15,6 +15,12 @@ export type GetOneContactSelections = {
   option3?: { contact_uuid: Contact['uuid'] };
 };
 
+export type UpdateContactSelections = {
+  option1?: {
+    contact_uuid: Contact['uuid'];
+  };
+};
+
 export type CreateContactOptions = Partial<Contact>;
 
 export type UpdateContactOptions = Partial<Contact>;

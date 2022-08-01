@@ -2,7 +2,7 @@ import {
   IsString,
   IsNotEmpty,
   IsInt,
-  Min,
+  IsBoolean,
   MaxLength,
   IsEmail,
   IsOptional,
@@ -23,6 +23,10 @@ export class CreateOrUpdateContactDto {
   @IsEmail()
   @MaxLength(100)
   email: string;
+
+  @IsOptional()
+  @IsBoolean()
+  isRed: boolean;
 
   @IsNotEmpty()
   @IsString()

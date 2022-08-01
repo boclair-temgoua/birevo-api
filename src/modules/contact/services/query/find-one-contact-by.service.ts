@@ -9,20 +9,21 @@ import { GetOneContactSelections } from '../../types/index';
 export class FindOneContactByService {
   constructor(
     @InjectRepository(Contact)
-    private contactRepository: Repository<Contact>,
+    private driver: Repository<Contact>,
   ) {}
 
   async findOneBy(
     selections: GetOneContactSelections,
   ): Promise<GetOneContactSelections> {
     const { option1, option2, option3 } = { ...selections };
-    let query = this.contactRepository
+    let query = this.driver
       .createQueryBuilder('contact')
       .select('contact.id', 'id')
       .addSelect('contact.uuid', 'uuid')
       .addSelect('contact.slug', 'slug')
       .addSelect('contact.lastName', 'lastName')
-      .addSelect('contact.email', 'email');
+      .addSelect('contact.email', 'email')
+      .addSelect('contact.createdAt', 'createdAt');
 
     if (option1) {
       const { contactId } = { ...option1 };
