@@ -3,22 +3,31 @@ import {
   IsNotEmpty,
   IsInt,
   Min,
-  Max,
+  MaxLength,
   IsEmail,
+  IsOptional,
 } from 'class-validator';
-export class CreateContactDto {
-  @IsNotEmpty()
+export class CreateOrUpdateContactDto {
+  @IsOptional()
   @IsString()
+  @MaxLength(100)
   firstName: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
+  @MaxLength(100)
   lastName: string;
 
   @IsNotEmpty()
   @IsString()
   @IsEmail()
+  @MaxLength(100)
   email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(100)
+  subject: string;
 
   @IsNotEmpty()
   @IsString()

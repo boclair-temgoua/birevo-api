@@ -21,7 +21,7 @@ export class CreateContactService {
 
     const contact = new Contact();
     contact.uuid = generateUUID();
-    contact.slug = generateLongUUID(10);
+    // contact.slug = generateLongUUID(10);
     contact.email = email;
     contact.description = description;
     contact.subject = subject;
