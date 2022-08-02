@@ -15,12 +15,6 @@ export class Profile extends BaseDeleteEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
-  @Column({
-    type: 'uuid',
-    unique: true,
-  })
-  uuid?: string;
-
   @Column({ nullable: true })
   firstName?: string;
 

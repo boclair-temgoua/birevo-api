@@ -6,6 +6,8 @@ import {
 } from './infrastructure/databases/config';
 import { ConfigModule } from '@nestjs/config';
 import { ContactModule } from './modules/contact/contact.module';
+import { UserModule } from './modules/user/user.module';
+import { ProfileModule } from './modules/profile/profile.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { ContactModule } from './modules/contact/contact.module';
     TypeOrmModule.forRoot(AppDataSource.options),
     TypeOrmModule.forRoot(AppSeedDataSource.options),
     ContactModule,
+    ProfileModule,
+    UserModule,
   ],
 })
 export class AppModule {}
