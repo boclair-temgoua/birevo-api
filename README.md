@@ -36,9 +36,6 @@ $ npm install
 
 ```bash
 # development
-$ npm run start
-
-# watch mode
 $ docker:dev:rebuild
 
 # production mode
