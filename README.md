@@ -59,7 +59,7 @@ $ npm run migration:run
 
 # Revert migrations
 $ npm run migration:revert
-
+```
 
 ## Test
 
