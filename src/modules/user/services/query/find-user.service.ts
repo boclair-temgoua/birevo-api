@@ -7,7 +7,7 @@ import { GetUsersSelections } from '../../types/index';
 import { User } from '../../../../models/User';
 
 @Injectable()
-export class FindOneUserByService {
+export class FindUserService {
   constructor(
     @InjectRepository(User)
     private driver: Repository<User>,

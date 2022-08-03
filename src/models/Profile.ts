@@ -9,7 +9,7 @@ import {
 
 import { User } from './User';
 import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteEntity';
-
+import { Color } from '../infrastructure/utils/commons/get-colors';
 @Entity('profile')
 export class Profile extends BaseDeleteEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -23,6 +23,9 @@ export class Profile extends BaseDeleteEntity {
 
   @Column({ nullable: true })
   image?: string;
+
+  @Column({ nullable: true })
+  color?: Color;
 
   @Column({ nullable: true })
   lastName?: string;

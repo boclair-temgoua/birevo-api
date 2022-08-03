@@ -3,6 +3,8 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { Profile } from '../../../../models/Profile';
+import { colorsArrays } from '../../../../infrastructure/utils/commons/get-colors';
+import { getRandomElement } from '../../../../infrastructure/utils/array/get-random-element';
 import {
   CreateProfileOptions,
   UpdateProfileOptions,
@@ -18,13 +20,14 @@ export class CreateOrUpdateProfileService {
 
   /** Create one profile to the database. */
   async createOne(options: CreateProfileOptions): Promise<Profile> {
-    const { firstName, currencyId, lastName, image } = {
+    const { firstName, currencyId, lastName, image, color } = {
       ...options,
     };
 
     const profile = new Profile();
     profile.image = image;
     profile.lastName = lastName;
+    profile.color = getRandomElement(colorsArrays);
     profile.currencyId = currencyId;
     profile.firstName = firstName;
 
