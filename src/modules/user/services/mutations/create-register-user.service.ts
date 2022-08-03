@@ -7,7 +7,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateOrRegisterUserDto } from '../../dto/create-or-register-user.dto';
+import { CreateRegisterUserDto } from '../../dto/create-register-user.dto';
 import { useCatch } from 'src/infrastructure/utils/use-catch';
 import { CreateOrUpdateOrganizationService } from '../../../organization/services/mutations/create-or-update-organization.service';
 
@@ -21,7 +21,7 @@ export class CreateRegisterUserService {
   ) {}
 
   /** Create one register to the database. */
-  async createOneRegister(options: CreateOrRegisterUserDto): Promise<any> {
+  async createOneRegister(options: CreateRegisterUserDto): Promise<any> {
     const { email, password, lastName, firstName } = { ...options };
 
     const [_error, user] = await useCatch(

@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { ResetPassword } from '../../../../models/ResetPassword';
+import { generateLongUUID } from '../../../../infrastructure/utils/commons/generate-long-uuid';
 import {
   CreateResetPasswordOptions,
   UpdateResetPasswordOptions,
@@ -23,7 +24,7 @@ export class CreateOrUpdateResetPasswordService {
     const resetPassword = new ResetPassword();
     resetPassword.email = email;
     resetPassword.accessToken = accessToken;
-    resetPassword.token = token;
+    resetPassword.token = generateLongUUID(50);
 
     const query = this.driver.save(resetPassword);
 

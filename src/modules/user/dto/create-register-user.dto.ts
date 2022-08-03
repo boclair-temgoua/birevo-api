@@ -6,8 +6,8 @@ import {
   MinLength,
   Matches,
 } from 'class-validator';
-import { Match } from './../../../infrastructure/utils/commons';
-export class CreateOrRegisterUserDto {
+import { Match } from '../../../infrastructure/utils/commons';
+export class CreateRegisterUserDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)

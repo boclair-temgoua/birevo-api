@@ -69,7 +69,7 @@ export class User extends BaseDeleteEntity {
 
   @BeforeInsert()
   async setPassword(password: string) {
-    this.password = await bcrypt.hash(password || this.password, 8);
+    this.password = await bcrypt.hashSync(password || this.password, 8);
   }
 
   checkIfPasswordMatch(unencryptedPassword: string) {

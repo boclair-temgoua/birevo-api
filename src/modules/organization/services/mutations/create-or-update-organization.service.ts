@@ -21,9 +21,7 @@ export class CreateOrUpdateOrganizationService {
 
   /** Create one Organization to the database. */
   async createOne(options: CreateOrganizationOptions): Promise<Organization> {
-    const { userId, name } = {
-      ...options,
-    };
+    const { userId, name } = { ...options };
 
     const organization = new Organization();
     organization.uuid = generateUUID();
