@@ -31,7 +31,6 @@ export class CreateRegisterUserDto {
 
   @IsString()
   @MinLength(8)
-  @MaxLength(20)
   @Match('password')
   passwordConfirm: string;
 }

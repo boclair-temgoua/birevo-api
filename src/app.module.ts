@@ -11,7 +11,7 @@ import { ProfileModule } from './modules/profile/profile.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(AppDataSource.options),
     TypeOrmModule.forRoot(AppSeedDataSource.options),
     ContactModule,
