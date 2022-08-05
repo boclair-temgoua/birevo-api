@@ -1,3 +1,4 @@
+import { configurations } from './../../../infrastructure/configurations/index';
 import {
   Controller,
   Get,
@@ -11,11 +12,19 @@ import { FilterQueryDto } from '../../../infrastructure/utils/filter-query';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { FindContactService } from '../services/query/find-contact.service';
 
-@Controller('contacts')
+@Controller()
 export class GetContactController {
   constructor(private readonly findContactService: FindContactService) {}
 
   @Get(`/`)
+  async getLandingPage(@Response() res: any) {
+    return reply({
+      res,
+      results: `Welcome to ${configurations.datasite.name}`,
+    });
+  }
+
+  @Get(`/contacts`)
   async getAllContact(
     @Response() res: any,
     @Query() pagination: RequestPaginationDto,
