@@ -20,6 +20,6 @@ export const AppSeedDataSource = new DataSource({
   synchronize: false,
   logging: configurations.database.logging === 'true' ? true : false,
   entities: [`${__dirname}/../../../models/**/*.{ts,js}`],
-  migrations: [`${__dirname}/../seeds/**/*.ts`],
+  migrations: [`${__dirname}/../seeds/**/*.{ts,js}`],
   migrationsRun: false,
 } as DataSourceOptions);

@@ -6,7 +6,6 @@ import {
   OneToMany,
   OneToOne,
   JoinColumn,
-  BeforeInsert,
   ManyToOne,
 } from 'typeorm';
 
@@ -26,7 +25,7 @@ export class User extends BaseDeleteEntity {
   })
   uuid?: string;
 
-  @Column({ nullable: true })
+  @Column({ unique: true, nullable: true })
   email?: string;
 
   @Column('simple-array', { nullable: true })
@@ -67,8 +66,7 @@ export class User extends BaseDeleteEntity {
   ])
   organizationInUtilization?: Organization;
 
-  @BeforeInsert()
-  async setPassword(password: string) {
+  async hashPassword(password: string) {
     this.password = await bcrypt.hashSync(password || this.password, 8);
   }
 

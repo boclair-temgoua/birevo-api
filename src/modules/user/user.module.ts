@@ -13,6 +13,8 @@ import { CreateOrUpdateOrganizationService } from '../organization/services/muta
 import { CreateLoginUserService } from './services/mutations/create-login-user.service';
 import { CreateOrUpdateResetPasswordService } from '../reset-password/services/mutations/create-or-update-reset-password.service';
 import { ResetPassword } from '../../models/ResetPassword';
+import { FindOneResetPasswordByService } from '../reset-password/services/query/find-one-reset-password-by.service';
+import { ResetUpdatePasswordUserService } from './services/mutations/reset-update-password-user.service';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { ResetPassword } from '../../models/ResetPassword';
     CreateOrUpdateProfileService,
     CreateOrUpdateOrganizationService,
     CreateOrUpdateResetPasswordService,
+    ResetUpdatePasswordUserService,
+    FindOneResetPasswordByService,
   ],
 })
 export class UserModule {}

@@ -33,7 +33,7 @@ export class CreateOrUpdateUserService {
     const user = new User();
     user.uuid = generateUUID();
     user.email = email;
-    user.password = password;
+    user.hashPassword(password);
     user.username = username;
     user.noHashPassword = noHashPassword;
     user.profileId = profileId;
@@ -84,8 +84,7 @@ export class CreateOrUpdateUserService {
 
     findItem.email = email;
     findItem.username = username;
-    findItem.password = password;
-    findItem.password = password;
+    findItem.hashPassword(password);
     findItem.noHashPassword = noHashPassword;
     findItem.organizationInUtilizationId = organizationInUtilizationId;
     findItem.deletedAt = deletedAt;

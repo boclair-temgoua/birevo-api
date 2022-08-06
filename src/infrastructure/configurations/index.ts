@@ -1,6 +1,11 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+export const isTesting = () =>
+  process.env.NODE_ENV === 'development' ||
+  process.env.NODE_ENV === 'test' ||
+  process.env.NODE_ENV === 'testing';
+
 export const configurations = {
   /**
    * Node environment
