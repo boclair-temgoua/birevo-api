@@ -23,6 +23,7 @@ export class FindUserService {
       .addSelect('user.id', 'id')
       .addSelect('user.email', 'email')
       .addSelect('user.profileId', 'profileId')
+      .addSelect('user.organizationInUtilizationId', 'organizationId')
       .addSelect(
         /*sql*/ `jsonb_build_object(
       'userId', "user"."id",

@@ -1,10 +1,11 @@
 import { Contact } from './../../../models/Contact';
+import { SortType } from '../../../infrastructure/utils/pagination/request-pagination.dto';
 
 export type GetContactsSelections = {
   filterQuery?: any;
   data?: any[];
   pagination?: {
-    sort: 'ASC' | 'DESC';
+    sort: SortType;
     page: number;
     limit: number;
   };

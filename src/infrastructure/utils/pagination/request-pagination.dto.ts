@@ -7,6 +7,8 @@ import {
   IsPositive,
   IsIn,
 } from 'class-validator';
+
+export type SortType = 'ASC' | 'DESC';
 export class RequestPaginationDto {
   @IsNotEmpty()
   @IsInt()
@@ -26,5 +28,5 @@ export class RequestPaginationDto {
   @IsString()
   @IsIn(['ASC', 'DESC'])
   @Type(() => String)
-  sort: 'ASC' | 'DESC';
+  sort: SortType;
 }

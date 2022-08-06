@@ -1,10 +1,11 @@
 import { User } from '../../../models/User';
+import { SortType } from '../../../infrastructure/utils/pagination/request-pagination.dto';
 
 export type GetUsersSelections = {
   filterQuery?: any;
   data?: any[];
   pagination?: {
-    sort: 'ASC' | 'DESC';
+    sort: SortType;
     page: number;
     limit: number;
   };
