@@ -36,19 +36,20 @@ export class FindUserService {
       .leftJoin('user.profile', 'profile');
 
     if (filterQuery?.q) {
+      const qSearch = filterQuery?.q;
       query = query.andWhere(
         new Brackets((qb) => {
           qb.where('user.email ::text ILIKE :searchQuery', {
-            searchQuery: `%${filterQuery}%`,
+            searchQuery: `%${qSearch}%`,
           })
             .orWhere('user.username ::text ILIKE :searchQuery', {
-              searchQuery: `%${filterQuery}%`,
+              searchQuery: `%${qSearch}%`,
             })
             .orWhere('profile.firstName ::text ILIKE :searchQuery', {
-              searchQuery: `%${filterQuery}%`,
+              searchQuery: `%${qSearch}%`,
             })
             .orWhere('profile.lastName ::text ILIKE :searchQuery', {
-              searchQuery: `%${filterQuery}%`,
+              searchQuery: `%${qSearch}%`,
             });
         }),
       );
