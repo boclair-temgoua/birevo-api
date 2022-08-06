@@ -4,6 +4,7 @@ export type GetUsersSelections = {
   filterQuery?: any;
   data?: any[];
   pagination?: {
+    sort: 'ASC' | 'DESC';
     page: number;
     limit: number;
   };
@@ -18,6 +19,9 @@ export type GetOneUserSelections = {
   };
   option3?: {
     profileId?: User['profileId'];
+  };
+  option4?: {
+    user_uuid?: User['uuid'];
   };
 };
 

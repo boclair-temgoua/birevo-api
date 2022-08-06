@@ -36,23 +36,25 @@ export class FindOneUserByService {
   }
 
   async findOneInfoBy(selections: GetOneUserSelections): Promise<User> {
-    const { option1, option2, option3 } = { ...selections };
+    const { option1, option2, option4 } = { ...selections };
     let query = this.driver
       .createQueryBuilder('user')
       .select('user.uuid', 'uuid')
       .addSelect('user.id', 'id')
       .addSelect('user.email', 'email')
+      .addSelect('user.profileId', 'profileId')
       .addSelect(
         /*sql*/ `jsonb_build_object(
-          'firstName', profile.firstName,
-          'image', profile.image,
-          'currencyId', profile.currencyId,
-          'lastName', profile.lastName
-      ) AS "profile"`,
+      'userId', "user"."id",
+      'firstName', "profile"."firstName",
+      'image', "profile"."image",
+      'currencyId', "profile"."currencyId",
+      'lastName', "profile"."lastName"
+  ) AS "profile"`,
       )
       .where('user.deletedAt IS NULL')
-      .leftJoin('user.profile', 'profile');
-    // .leftJoin('user.organizationInUtilization', 'organization');
+      .leftJoin('user.profile', 'profile')
+      .leftJoin('user.organizationInUtilization', 'organization');
 
     if (option1) {
       const { userId } = { ...option1 };
@@ -64,7 +66,12 @@ export class FindOneUserByService {
       query = query.andWhere('user.email = :email', { email });
     }
 
-    const [error, result] = await useCatch(query.getOne());
+    if (option4) {
+      const { user_uuid } = { ...option4 };
+      query = query.andWhere('user.uuid = :uuid', { uuid: user_uuid });
+    }
+
+    const [error, result] = await useCatch(query.getRawOne());
     if (error) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
 
     return result;

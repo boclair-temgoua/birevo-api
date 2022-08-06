@@ -15,6 +15,8 @@ import { CreateOrUpdateResetPasswordService } from '../reset-password/services/m
 import { ResetPassword } from '../../models/ResetPassword';
 import { FindOneResetPasswordByService } from '../reset-password/services/query/find-one-reset-password-by.service';
 import { ResetUpdatePasswordUserService } from './services/mutations/reset-update-password-user.service';
+import { GetUsersController } from './controllers/user/get-users.controller';
+import { GetOneUserController } from './controllers/user/get-one-user.controller';
 
 @Module({
   imports: [
@@ -23,7 +25,7 @@ import { ResetUpdatePasswordUserService } from './services/mutations/reset-updat
     TypeOrmModule.forFeature([Organization]),
     TypeOrmModule.forFeature([ResetPassword]),
   ],
-  controllers: [AuthUserController],
+  controllers: [AuthUserController, GetUsersController, GetOneUserController],
   providers: [
     CreateOrUpdateUserService,
     FindOneUserByService,

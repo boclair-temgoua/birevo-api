@@ -1,12 +1,5 @@
 import { generateUUID } from './generate-uuid';
-import {
-  NumberGenerator,
-  NumberHashGenerator,
-  aleaRNGFactory,
-  murmurhash2_x86_32,
-  murmurhash3_x86_32,
-  murmurhash3_x64_128,
-} from 'number-generator';
+import { murmurhash3_x64_128 } from 'number-generator';
 
 export const generateLongUUID = (length: number) => {
   let result = '';

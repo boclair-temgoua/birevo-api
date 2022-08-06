@@ -23,21 +23,22 @@ export class FindOneContactByService {
       .addSelect('contact.slug', 'slug')
       .addSelect('contact.lastName', 'lastName')
       .addSelect('contact.email', 'email')
-      .addSelect('contact.createdAt', 'createdAt');
+      .addSelect('contact.createdAt', 'createdAt')
+      .where('contact.deletedAt IS NULL');
 
     if (option1) {
       const { contactId } = { ...option1 };
-      query = query.where('contact.id = :id', { id: contactId });
+      query = query.andWhere('contact.id = :id', { id: contactId });
     }
 
     if (option2) {
       const { contact_slug } = { ...option2 };
-      query = query.where('contact.slug = :slug', { slug: contact_slug });
+      query = query.andWhere('contact.slug = :slug', { slug: contact_slug });
     }
 
     if (option3) {
       const { contact_uuid } = { ...option3 };
-      query = query.where('contact.uuid = :uuid', { uuid: contact_uuid });
+      query = query.andWhere('contact.uuid = :uuid', { uuid: contact_uuid });
     }
 
     const [error, result] = await useCatch(query.getRawOne());

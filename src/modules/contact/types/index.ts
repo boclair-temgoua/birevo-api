@@ -4,6 +4,7 @@ export type GetContactsSelections = {
   filterQuery?: any;
   data?: any[];
   pagination?: {
+    sort: 'ASC' | 'DESC';
     page: number;
     limit: number;
   };

@@ -22,13 +22,14 @@ export class FindUserService {
       .select('user.uuid', 'uuid')
       .addSelect('user.id', 'id')
       .addSelect('user.email', 'email')
+      .addSelect('user.profileId', 'profileId')
       .addSelect(
         /*sql*/ `jsonb_build_object(
-      'userId', user.id,
-      'firstName', profile.firstName,
-      'image', profile.image,
-      'currencyId', profile.currencyId,
-      'lastName', profile.lastName
+      'userId', "user"."id",
+      'firstName', "profile"."firstName",
+      'image', "profile"."image",
+      'currencyId', "profile"."currencyId",
+      'lastName', "profile"."lastName"
   ) AS "profile"`,
       )
       .where('user.deletedAt IS NULL')
@@ -58,7 +59,7 @@ export class FindUserService {
 
     const [error, users] = await useCatch(
       query
-        .orderBy('user.createdAt', 'DESC')
+        .orderBy('user.createdAt', pagination?.sort)
         .limit(pagination.limit)
         .offset((pagination.page - 1) * pagination.limit)
         .getRawMany(),

@@ -10,6 +10,7 @@ import {
 import { User } from './User';
 import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteEntity';
 import { Color } from '../infrastructure/utils/commons/get-colors';
+import { Currency } from './Currency';
 @Entity('profile')
 export class Profile extends BaseDeleteEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -34,4 +35,8 @@ export class Profile extends BaseDeleteEntity {
     onDelete: 'CASCADE',
   })
   user?: User;
+
+  @ManyToOne(() => Currency, (currency) => currency.profiles)
+  @JoinColumn()
+  currency?: Currency;
 }

@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ContactModule } from './modules/contact/contact.module';
 import { UserModule } from './modules/user/user.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { CurrencyModule } from './modules/currency/currency.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProfileModule } from './modules/profile/profile.module';
     TypeOrmModule.forRoot(AppSeedDataSource.options),
     ContactModule,
     ProfileModule,
+    CurrencyModule,
     UserModule,
   ],
 })

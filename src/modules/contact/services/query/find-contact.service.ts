@@ -25,10 +25,11 @@ export class FindContactService {
       .addSelect('contact.slug', 'slug')
       .addSelect('contact.lastName', 'lastName')
       .addSelect('contact.email', 'email')
-      .addSelect('contact.createdAt', 'createdAt');
+      .addSelect('contact.createdAt', 'createdAt')
+      .where('contact.deletedAt IS NULL');
 
     if (filterQuery?.q) {
-      query = query.where(
+      query = query.andWhere(
         new Brackets((qb) => {
           qb.where('contact.email ::text ILIKE :searchQuery', {
             searchQuery: `%${filterQuery?.q}%`,
@@ -44,14 +45,12 @@ export class FindContactService {
 
     const [error, results] = await useCatch(
       query
-        .orderBy('contact.createdAt', 'DESC')
+        .orderBy('contact.createdAt', pagination?.sort)
         .limit(pagination.limit)
         .offset((pagination.page - 1) * pagination.limit)
         .getRawMany(),
     );
-    if (error) {
-      throw new NotFoundException(error);
-    }
+    if (error) throw new NotFoundException(error);
 
     return withPagination({
       pagination,
