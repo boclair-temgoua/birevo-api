@@ -26,6 +26,7 @@ export class CreateOrUpdateContactService {
 
     const contact = new Contact();
     contact.uuid = generateUUID();
+    contact.slug = generateLongUUID(30);
     contact.email = email;
     contact.description = description;
     contact.subject = subject;
