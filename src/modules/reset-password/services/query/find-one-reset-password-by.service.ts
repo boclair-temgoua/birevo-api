@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { GetOneResetPasswordSelections } from '../../types/index';
+import { GetOneResetPasswordSelections } from '../../types';
 import { ResetPassword } from '../../../../models/ResetPassword';
 
 @Injectable()

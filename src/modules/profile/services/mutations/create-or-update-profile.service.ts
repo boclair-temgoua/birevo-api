@@ -3,13 +3,13 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { Profile } from '../../../../models/Profile';
-import { colorsArrays } from '../../../../infrastructure/utils/commons/get-colors';
+import { colorsArrays } from '../../../../infrastructure/utils/commons';
 import { getRandomElement } from '../../../../infrastructure/utils/array/get-random-element';
 import {
   CreateProfileOptions,
   UpdateProfileOptions,
   UpdateProfileSelections,
-} from '../../types/index';
+} from '../../types';
 
 @Injectable()
 export class CreateOrUpdateProfileService {

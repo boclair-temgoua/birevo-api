@@ -3,12 +3,12 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { ResetPassword } from '../../../../models/ResetPassword';
-import { generateLongUUID } from '../../../../infrastructure/utils/commons/generate-long-uuid';
+import { generateLongUUID } from '../../../../infrastructure/utils/commons';
 import {
   CreateResetPasswordOptions,
   UpdateResetPasswordOptions,
   UpdateResetPasswordSelections,
-} from '../../types/index';
+} from '../../types';
 
 @Injectable()
 export class CreateOrUpdateResetPasswordService {

@@ -3,7 +3,7 @@ import { Contact } from '../../../../models/Contact';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { GetOneContactSelections } from '../../types/index';
+import { GetOneContactSelections } from '../../types';
 
 @Injectable()
 export class FindOneContactByService {

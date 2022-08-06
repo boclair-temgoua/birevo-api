@@ -1,4 +1,4 @@
-import { CreateOrUpdateProfileService } from './../profile/services/mutations/create-or-update-profile.service';
+import { CreateOrUpdateProfileService } from '../profile/services/mutations/create-or-update-profile.service';
 import { FindOneUserByService } from './services/query/find-one-user-by.service';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';

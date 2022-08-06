@@ -5,7 +5,8 @@ import {
   IsNotEmpty,
   MinLength,
 } from 'class-validator';
-import { Match } from 'src/infrastructure/utils/commons';
+import {Match} from "../../../infrastructure/utils/commons";
+
 export class CreateOrUpdateUserDto {
   @IsNotEmpty()
   @IsString()

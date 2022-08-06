@@ -1,5 +1,5 @@
-import { Contact } from './../../../models/Contact';
-import { SortType } from '../../../infrastructure/utils/pagination/request-pagination.dto';
+import { Contact } from '../../../models/Contact';
+import { SortType } from '../../../infrastructure/utils/pagination';
 
 export type GetContactsSelections = {
   filterQuery?: any;

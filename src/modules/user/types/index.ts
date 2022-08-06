@@ -1,5 +1,5 @@
 import { User } from '../../../models/User';
-import { SortType } from '../../../infrastructure/utils/pagination/request-pagination.dto';
+import { SortType } from '../../../infrastructure/utils/pagination';
 
 export type GetUsersSelections = {
   filterQuery?: any;

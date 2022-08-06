@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { GetOneProfileSelections } from '../../types/index';
+import { GetOneProfileSelections } from '../../types';
 import { Profile } from '../../../../models/Profile';
 
 @Injectable()

@@ -3,14 +3,13 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { Organization } from '../../../../models/Organization';
-import { colorsArrays } from '../../../../infrastructure/utils/commons/get-colors';
+import { colorsArrays,generateUUID } from '../../../../infrastructure/utils/commons';
 import { getRandomElement } from '../../../../infrastructure/utils/array/get-random-element';
-import { generateUUID } from '../../../../infrastructure/utils/commons/generate-uuid';
 import {
   CreateOrganizationOptions,
   UpdateOrganizationOptions,
   UpdateOrganizationSelections,
-} from '../../types/index';
+} from '../../types';
 
 @Injectable()
 export class CreateOrUpdateOrganizationService {

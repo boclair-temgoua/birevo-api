@@ -1,9 +1,9 @@
-import { withPagination } from './../../../../infrastructure/utils/pagination/with-pagination';
+import { withPagination } from '../../../../infrastructure/utils/pagination';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, Brackets } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { GetUsersSelections } from '../../types/index';
+import { GetUsersSelections } from '../../types';
 import { User } from '../../../../models/User';
 
 @Injectable()

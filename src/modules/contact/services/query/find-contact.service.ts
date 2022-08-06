@@ -4,7 +4,7 @@ import { Brackets, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { withPagination } from '../../../../infrastructure/utils/pagination';
-import { GetContactsSelections } from '../../types/index';
+import { GetContactsSelections } from '../../types';
 
 @Injectable()
 export class FindContactService {

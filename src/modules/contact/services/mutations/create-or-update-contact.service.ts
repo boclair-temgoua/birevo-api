@@ -1,15 +1,15 @@
-import { generateLongUUID } from '../../../../infrastructure/utils/commons/generate-long-uuid';
+import { generateLongUUID } from '../../../../infrastructure/utils/commons';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Contact } from '../../../../models/Contact';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { generateUUID } from '../../../../infrastructure/utils/commons/generate-uuid';
+import { generateUUID } from '../../../../infrastructure/utils/commons';
 import {
   CreateContactOptions,
   UpdateContactOptions,
   UpdateContactSelections,
-} from '../../types/index';
+} from '../../types';
 
 @Injectable()
 export class CreateOrUpdateContactService {

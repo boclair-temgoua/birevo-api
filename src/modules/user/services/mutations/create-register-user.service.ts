@@ -1,6 +1,6 @@
-import { FindOneUserByService } from './../query/find-one-user-by.service';
+import { FindOneUserByService } from '../query/find-one-user-by.service';
 import { CreateOrUpdateUserService } from './create-or-update-user.service';
-import { CreateOrUpdateProfileService } from './../../../profile/services/mutations/create-or-update-profile.service';
+import { CreateOrUpdateProfileService } from '../../../profile/services/mutations/create-or-update-profile.service';
 import {
   Injectable,
   NotFoundException,

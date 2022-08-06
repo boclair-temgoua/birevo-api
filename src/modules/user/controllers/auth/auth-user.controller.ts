@@ -1,4 +1,3 @@
-import { CreateOrUpdateProfileService } from '../../../profile/services/mutations/create-or-update-profile.service';
 import {
   Controller,
   Post,
@@ -7,7 +6,6 @@ import {
   Body,
   Put,
   Param,
-  ParseUUIDPipe,
 } from '@nestjs/common';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
