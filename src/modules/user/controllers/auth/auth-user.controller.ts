@@ -28,6 +28,7 @@ export class AuthUserController {
     private readonly resetUpdatePasswordUserService: ResetUpdatePasswordUserService,
   ) {}
 
+  /** Register new user */
   @Post(`/register`)
   async createOneRegister(
     @Response() res: any,
@@ -44,6 +45,7 @@ export class AuthUserController {
     return reply({ res, results });
   }
 
+  /** Login user */
   @Post(`/login`)
   async createOneLogin(
     @Response() res: any,

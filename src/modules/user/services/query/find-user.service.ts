@@ -24,6 +24,7 @@ export class FindUserService {
       .addSelect('user.email', 'email')
       .addSelect('user.profileId', 'profileId')
       .addSelect('user.organizationInUtilizationId', 'organizationId')
+      .addSelect('user.username', 'username')
       .addSelect(
         /*sql*/ `jsonb_build_object(
       'userId', "user"."id",
@@ -33,8 +34,17 @@ export class FindUserService {
       'lastName', "profile"."lastName"
   ) AS "profile"`,
       )
+      .addSelect(
+        /*sql*/ `jsonb_build_object(
+          'id', "organization"."id",
+          'color', "organization"."color",
+          'userId', "organization"."userId",
+          'name', "organization"."name"
+      ) AS "organization"`,
+      )
       .where('user.deletedAt IS NULL')
-      .leftJoin('user.profile', 'profile');
+      .leftJoin('user.profile', 'profile')
+      .leftJoin('user.organizationInUtilization', 'organization');
 
     if (filterQuery?.q) {
       const qSearch = filterQuery?.q;

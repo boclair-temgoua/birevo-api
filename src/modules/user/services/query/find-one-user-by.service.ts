@@ -49,9 +49,18 @@ export class FindOneUserByService {
       'userId', "user"."id",
       'firstName', "profile"."firstName",
       'image', "profile"."image",
+      'color', "profile"."color",
       'currencyId', "profile"."currencyId",
       'lastName', "profile"."lastName"
   ) AS "profile"`,
+      )
+      .addSelect(
+        /*sql*/ `jsonb_build_object(
+          'id', "organization"."id",
+          'color', "organization"."color",
+          'userId', "organization"."userId",
+          'name', "organization"."name"
+      ) AS "organization"`,
       )
       .where('user.deletedAt IS NULL')
       .leftJoin('user.profile', 'profile')

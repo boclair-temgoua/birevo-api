@@ -36,6 +36,9 @@ export type UpdateUserSelections = {
   option3?: {
     profileId?: User['profileId'];
   };
+  option4?: {
+    user_uuid?: User['uuid'];
+  };
 };
 
 export type CreateUserOptions = Partial<User>;

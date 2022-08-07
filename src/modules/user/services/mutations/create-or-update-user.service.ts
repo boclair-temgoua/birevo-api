@@ -52,7 +52,7 @@ export class CreateOrUpdateUserService {
     selections: UpdateUserSelections,
     options: UpdateUserOptions,
   ): Promise<User> {
-    const { option1, option2, option3 } = { ...selections };
+    const { option1, option2, option4 } = { ...selections };
     const {
       email,
       username,
@@ -77,6 +77,11 @@ export class CreateOrUpdateUserService {
     if (option2) {
       const { email } = { ...option2 };
       findQuery = findQuery.andWhere('user.email = :email', { email });
+    }
+
+    if (option4) {
+      const { user_uuid } = { ...option4 };
+      findQuery = findQuery.andWhere('user.uuid = :uuid', { uuid: user_uuid });
     }
 
     const [errorFind, findItem] = await useCatch(findQuery.getOne());

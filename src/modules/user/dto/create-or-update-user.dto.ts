@@ -4,10 +4,12 @@ import {
   IsEmail,
   IsNotEmpty,
   MinLength,
+  IsInt,
+  IsOptional,
 } from 'class-validator';
-import {Match} from "../../../infrastructure/utils/commons";
+import { Match } from '../../../infrastructure/utils/commons';
 
-export class CreateOrUpdateUserDto {
+export class UpdateInfoUserDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
@@ -15,9 +17,8 @@ export class CreateOrUpdateUserDto {
   email: string;
 
   @IsNotEmpty()
-  @MaxLength(8)
-  @IsString()
-  password: string;
+  @IsInt()
+  organizationInUtilizationId: number;
 }
 
 export class TokenResetPasswordUserDto {
