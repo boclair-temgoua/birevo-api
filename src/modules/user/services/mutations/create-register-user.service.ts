@@ -7,7 +7,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { CreateRegisterUserDto } from '../../dto/create-register-user.dto';
+import { CreateRegisterUserDto } from '../../dto/validation-user.dto';
 import { useCatch } from 'src/infrastructure/utils/use-catch';
 import { CreateOrUpdateOrganizationService } from '../../../organization/services/mutations/create-or-update-organization.service';
 

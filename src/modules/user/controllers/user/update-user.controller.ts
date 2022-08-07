@@ -12,7 +12,7 @@ import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { FindOneUserByService } from '../../services/query/find-one-user-by.service';
 import { CreateOrUpdateUserService } from '../../services/mutations/create-or-update-user.service';
-import { UpdateInfoUserDto } from '../../dto/create-or-update-user.dto';
+import { UpdateInfoUserDto } from '../../dto/validation-user.dto';
 
 @Controller('users')
 export class UpdateContactController {

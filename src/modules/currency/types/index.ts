@@ -1,5 +1,5 @@
 import { Currency } from '../../../models/Currency';
-import { CreateOrUpdateCurrencyDto } from '../dto/create-or-update-currency.dto';
+import { CreateOrUpdateCurrencyDto } from '../dto/validation-currency.dto';
 
 export type GetCurrenciesSelections = {
   filterQuery?: any;

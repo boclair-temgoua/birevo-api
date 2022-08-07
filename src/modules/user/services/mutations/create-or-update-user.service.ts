@@ -63,9 +63,7 @@ export class CreateOrUpdateUserService {
     } = {
       ...options,
     };
-    let findQuery = this.driver
-      .createQueryBuilder('user')
-      .where('user.deletedAt IS NULL');
+    let findQuery = this.driver.createQueryBuilder('user');
 
     if (option1) {
       const { userId } = { ...option1 };

@@ -11,7 +11,7 @@ import {
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateCurrencyService } from '../services/mutations/create-or-update-currency.service';
-import { CreateOrUpdateCurrencyDto } from '../dto/create-or-update-currency.dto';
+import { CreateOrUpdateCurrencyDto } from '../dto/validation-currency.dto';
 
 @Controller('currency')
 export class CreateOrUpdateCurrencyController {

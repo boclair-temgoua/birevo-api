@@ -6,7 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { useCatch } from 'src/infrastructure/utils/use-catch';
-import { CreateLoginUserDto } from '../../dto/create-login-user.dto';
+import { CreateLoginUserDto } from '../../dto/validation-user.dto';
 
 @Injectable()
 export class CreateLoginUserService {

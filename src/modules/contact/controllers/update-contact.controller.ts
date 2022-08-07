@@ -11,7 +11,7 @@ import {
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateContactService } from '../services/mutations/create-or-update-contact.service';
-import { CreateOrUpdateContactDto } from '../dto/create-or-update-contact.dto';
+import { CreateOrUpdateContactDto } from '../dto/validation-contact.dto';
 
 @Controller('contacts')
 export class UpdateContactController {

@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
-import { CreateOrUpdateContactDto } from '../dto/create-or-update-contact.dto';
+import { CreateOrUpdateContactDto } from '../dto/validation-contact.dto';
 import { CreateOrUpdateContactService } from '../services/mutations/create-or-update-contact.service';
 
 @Controller('contacts')

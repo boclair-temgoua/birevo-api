@@ -10,15 +10,16 @@ import {
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateRegisterUserService } from '../../services/mutations/create-register-user.service';
-import { CreateRegisterUserDto } from '../../dto/create-register-user.dto';
-import { CreateLoginUserDto } from '../../dto/create-login-user.dto';
+
 import { CreateLoginUserService } from '../../services/mutations/create-login-user.service';
-import { CreateOrUpdateResetPasswordDto } from '../../../reset-password/dto/create-or-update-reset-password.dto';
+import { CreateOrUpdateResetPasswordDto } from '../../../reset-password/dto/validation-reset-password.dto';
 import { ResetUpdatePasswordUserService } from '../../services/mutations/reset-update-password-user.service';
 import {
-  TokenResetPasswordUserDto,
+  CreateRegisterUserDto,
+  CreateLoginUserDto,
   UpdateResetPasswordUserDto,
-} from '../../dto/create-or-update-user.dto';
+  TokenResetPasswordUserDto,
+} from '../../dto/validation-user.dto';
 
 @Controller()
 export class AuthUserController {

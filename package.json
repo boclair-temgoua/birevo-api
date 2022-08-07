@@ -1,6 +1,6 @@
 {
   "name": "berivo-api-v2",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "description": "",
   "author": "",
   "private": true,
@@ -51,7 +51,7 @@
     "@nestjs/throttler": "^3.0.0",
     "@nestjs/typeorm": "^9.0.0",
     "amqp-connection-manager": "^4.1.4",
-    "amqplib": "^0.10.1",
+    "amqplib": "^0.10.2",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",

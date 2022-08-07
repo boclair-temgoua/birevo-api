@@ -6,14 +6,14 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { useCatch } from 'src/infrastructure/utils/use-catch';
-import { CreateOrUpdateResetPasswordDto } from '../../../reset-password/dto/create-or-update-reset-password.dto';
+import { CreateOrUpdateResetPasswordDto } from '../../../reset-password/dto/validation-reset-password.dto';
 import { CreateOrUpdateResetPasswordService } from '../../../reset-password/services/mutations/create-or-update-reset-password.service';
 import { FindOneResetPasswordByService } from '../../../reset-password/services/query/find-one-reset-password-by.service';
 import { CreateOrUpdateUserService } from './create-or-update-user.service';
 import {
   UpdateResetPasswordUserDto,
   TokenResetPasswordUserDto,
-} from '../../dto/create-or-update-user.dto';
+} from '../../dto/validation-user.dto';
 
 @Injectable()
 export class ResetUpdatePasswordUserService {

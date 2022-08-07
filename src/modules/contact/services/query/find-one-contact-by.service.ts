@@ -12,9 +12,7 @@ export class FindOneContactByService {
     private driver: Repository<Contact>,
   ) {}
 
-  async findOneBy(
-    selections: GetOneContactSelections,
-  ): Promise<GetOneContactSelections> {
+  async findOneBy(selections: GetOneContactSelections): Promise<Contact> {
     const { option1, option2, option3 } = { ...selections };
     let query = this.driver
       .createQueryBuilder('contact')

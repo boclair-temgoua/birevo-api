@@ -12,6 +12,7 @@ import {
 import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteEntity';
 import { Profile } from './Profile';
 import { Organization } from './Organization';
+import { ApplicationToken } from './ApplicationToken';
 
 @Entity('user')
 export class User extends BaseDeleteEntity {
@@ -65,6 +66,13 @@ export class User extends BaseDeleteEntity {
     { name: 'organizationInUtilizationId', referencedColumnName: 'id' },
   ])
   organizationInUtilization?: Organization;
+
+  @OneToMany(
+    () => ApplicationToken,
+    (applicationToken) => applicationToken.user,
+    { onDelete: 'CASCADE' },
+  )
+  applicationTokens?: ApplicationToken[];
 
   async hashPassword(password: string) {
     this.password = await bcrypt.hashSync(password || this.password, 8);

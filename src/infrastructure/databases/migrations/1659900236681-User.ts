@@ -1,9 +1,12 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class User1659786649324 implements MigrationInterface {
-  name = 'User1659786649324';
+export class User1659900236681 implements MigrationInterface {
+  name = 'User1659900236681';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `CREATE TABLE "country" ("createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP WITH TIME ZONE, "id" BIGSERIAL NOT NULL, "uuid" uuid, "code" character varying NOT NULL DEFAULT false, "name" character varying, CONSTRAINT "UQ_4e06beff3ecfb1a974312fe536d" UNIQUE ("uuid"), CONSTRAINT "PK_bf6e37c231c4f4ea56dcd887269" PRIMARY KEY ("id"))`,
+    );
     await queryRunner.query(
       `CREATE TABLE "organization" ("createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP WITH TIME ZONE, "id" BIGSERIAL NOT NULL, "uuid" uuid NOT NULL, "name" character varying, "color" character varying, "userId" bigint, CONSTRAINT "UQ_59f940b5775a9ccf5c2f094c8af" UNIQUE ("uuid"), CONSTRAINT "PK_472c1f99a32def1b0abb219cd67" PRIMARY KEY ("id"))`,
     );
@@ -15,6 +18,9 @@ export class User1659786649324 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "currency" ("createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP WITH TIME ZONE, "id" BIGSERIAL NOT NULL, "name" character varying, "status" boolean NOT NULL DEFAULT true, "code" character varying, "symbol" character varying, "amount" double precision, CONSTRAINT "PK_3cda65c731a6264f0e444cc9b91" PRIMARY KEY ("id"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE "qr_code" ("createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "id" BIGSERIAL NOT NULL, "qrCode" text, "barCode" text, "qrCodType" character varying, "qrCodableId" bigint, CONSTRAINT "PK_21be15bed42505b3cddf438a037" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "reset_password" ("createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP WITH TIME ZONE, "id" SERIAL NOT NULL, "email" character varying, "accessToken" character varying, "token" character varying, CONSTRAINT "PK_82bffbeb85c5b426956d004a8f5" PRIMARY KEY ("id"))`,
@@ -47,9 +53,11 @@ export class User1659786649324 implements MigrationInterface {
       `ALTER TABLE "organization" DROP CONSTRAINT "FK_b0d30285f6775593196167e2016"`,
     );
     await queryRunner.query(`DROP TABLE "reset_password"`);
+    await queryRunner.query(`DROP TABLE "qr_code"`);
     await queryRunner.query(`DROP TABLE "currency"`);
     await queryRunner.query(`DROP TABLE "profile"`);
     await queryRunner.query(`DROP TABLE "user"`);
     await queryRunner.query(`DROP TABLE "organization"`);
+    await queryRunner.query(`DROP TABLE "country"`);
   }
 }

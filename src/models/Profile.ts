@@ -9,7 +9,7 @@ import {
 
 import { User } from './User';
 import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteEntity';
-import { Color } from '../infrastructure/utils/commons/get-colors';
+import { Color } from '../infrastructure/utils/commons';
 import { Currency } from './Currency';
 @Entity('profile')
 export class Profile extends BaseDeleteEntity {
