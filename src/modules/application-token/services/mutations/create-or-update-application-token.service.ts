@@ -50,13 +50,11 @@ export class CreateOrUpdateApplicationTokenService {
     const { option1 } = { ...selections };
     const { userId, userCreatedId, applicationId, deletedAt } = { ...options };
 
-    let findQuery = this.driver
-      .createQueryBuilder('applicationToken')
-      .where('applicationToken.deletedAt IS NULL');
+    let findQuery = this.driver.createQueryBuilder('applicationToken');
 
     if (option1) {
       const { application_token_uuid } = { ...option1 };
-      findQuery = findQuery.andWhere('applicationToken.uuid = :uuid', {
+      findQuery = findQuery.where('applicationToken.uuid = :uuid', {
         uuid: application_token_uuid,
       });
     }

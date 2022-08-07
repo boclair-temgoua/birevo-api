@@ -42,13 +42,11 @@ export class CreateOrUpdateResetPasswordService {
     const { option1 } = { ...selections };
     const { deletedAt } = { ...options };
 
-    let findQuery = this.driver
-      .createQueryBuilder('resetPassword')
-      .where('resetPassword.deletedAt IS NULL');
+    let findQuery = this.driver.createQueryBuilder('resetPassword');
 
     if (option1) {
       const { token } = { ...option1 };
-      findQuery = findQuery.andWhere('resetPassword.token = :token', { token });
+      findQuery = findQuery.where('resetPassword.token = :token', { token });
     }
 
     const [errorFind, findItem] = await useCatch(findQuery.getOne());

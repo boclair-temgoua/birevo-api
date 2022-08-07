@@ -50,13 +50,13 @@ export class CreateOrUpdateApplicationService {
     let findQuery = this.driver.createQueryBuilder('application');
 
     if (option1) {
-      findQuery = findQuery.andWhere('application.uuid = :uuid', {
+      findQuery = findQuery.where('application.uuid = :uuid', {
         uuid: option1.application_uuid,
       });
     }
 
     if (option2) {
-      findQuery = findQuery.andWhere('application.id = :id', {
+      findQuery = findQuery.where('application.id = :id', {
         id: option2.applicationId,
       });
     }
