@@ -1,17 +1,18 @@
 import {
   Controller,
   Post,
-  Response,
   NotFoundException,
   Body,
   Put,
   Param,
+  Ip,
+  Res,
 } from '@nestjs/common';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateRegisterUserService } from '../../services/mutations/create-register-user.service';
 
-import { CreateLoginUserService } from '../../services/mutations/create-login-user.service';
+import { CreateLoginUser } from '../../services/use-cases/create-login-user';
 import { CreateOrUpdateResetPasswordDto } from '../../../reset-password/dto/validation-reset-password.dto';
 import { ResetUpdatePasswordUserService } from '../../services/mutations/reset-update-password-user.service';
 import {
@@ -25,14 +26,14 @@ import {
 export class AuthUserController {
   constructor(
     private readonly createRegisterUserService: CreateRegisterUserService,
-    private readonly createLoginUserService: CreateLoginUserService,
+    private readonly createLoginUser: CreateLoginUser,
     private readonly resetUpdatePasswordUserService: ResetUpdatePasswordUserService,
   ) {}
 
   /** Register new user */
   @Post(`/register`)
   async createOneRegister(
-    @Response() res: any,
+    @Res() res,
     @Body() createRegisterUserDto: CreateRegisterUserDto,
   ) {
     const [errors, results] = await useCatch(
@@ -49,22 +50,24 @@ export class AuthUserController {
   /** Login user */
   @Post(`/login`)
   async createOneLogin(
-    @Response() res: any,
+    @Res() res,
+    @Ip() ip: string,
     @Body() createLoginUserDto: CreateLoginUserDto,
   ) {
     const [errors, results] = await useCatch(
-      this.createLoginUserService.createOneLogin({ ...createLoginUserDto }),
+      this.createLoginUser.createOneLogin({ ...createLoginUserDto }),
     );
     if (errors) {
       throw new NotFoundException(errors);
     }
+    console.log(`ip ====>`, ip);
     return reply({ res, results });
   }
 
   /** Reset password */
   @Post(`/password/reset`)
   async createOneResetPassword(
-    @Response() res: any,
+    @Res() res,
     @Body() createOrUpdateResetPasswordDto: CreateOrUpdateResetPasswordDto,
   ) {
     const [errors, results] = await useCatch(
@@ -81,7 +84,7 @@ export class AuthUserController {
   /** Update reset password */
   @Put(`/password/update/:token`)
   async updateOneResetPassword(
-    @Response() res: any,
+    @Res() res,
     @Body() updateResetPasswordUserDto: UpdateResetPasswordUserDto,
     @Param() tokenResetPasswordUserDto: TokenResetPasswordUserDto,
   ) {

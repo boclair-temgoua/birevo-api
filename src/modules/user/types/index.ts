@@ -1,5 +1,15 @@
 import { User } from '../../../models/User';
 import { SortType } from '../../../infrastructure/utils/pagination';
+import { Nullable } from '../../../infrastructure/utils/use-catch';
+
+export type JwtPayloadType = {
+  id: number;
+  uuid: string;
+  profileId: number;
+  organizationId: number;
+  lastName: string;
+  firstName: string;
+};
 
 export type GetUsersSelections = {
   filterQuery?: any;

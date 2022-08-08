@@ -10,7 +10,7 @@ import { CreateRegisterUserService } from './services/mutations/create-register-
 import { Profile } from '../../models/Profile';
 import { Organization } from '../../models/Organization';
 import { CreateOrUpdateOrganizationService } from '../organization/services/mutations/create-or-update-organization.service';
-import { CreateLoginUserService } from './services/mutations/create-login-user.service';
+import { CreateLoginUser } from './services/use-cases';
 import { CreateOrUpdateResetPasswordService } from '../reset-password/services/mutations/create-or-update-reset-password.service';
 import { ResetPassword } from '../../models/ResetPassword';
 import { FindOneResetPasswordByService } from '../reset-password/services/query/find-one-reset-password-by.service';
@@ -18,6 +18,8 @@ import { ResetUpdatePasswordUserService } from './services/mutations/reset-updat
 import { GetUsersController } from './controllers/user/get-users.controller';
 import { GetOneUserController } from './controllers/user/get-one-user.controller';
 import { UpdateContactController } from './controllers/user/update-user.controller';
+import { JwtCheckUserService } from './services/middlewares/jwt-check-user.service';
+import { JwtStrategy } from './services/middlewares/jwt.strategy';
 
 @Module({
   imports: [
@@ -33,14 +35,21 @@ import { UpdateContactController } from './controllers/user/update-user.controll
     UpdateContactController,
   ],
   providers: [
-    CreateOrUpdateUserService,
+    /** Imports providers query */
     FindOneUserByService,
     FindUserService,
+    JwtStrategy,
+
+    /** Imports providers mutations */
     CreateRegisterUserService,
-    CreateLoginUserService,
+    CreateLoginUser,
+    JwtCheckUserService,
+    CreateOrUpdateUserService,
     CreateOrUpdateProfileService,
     CreateOrUpdateOrganizationService,
     CreateOrUpdateResetPasswordService,
+
+    /** Imports providers use-cases */
     ResetUpdatePasswordUserService,
     FindOneResetPasswordByService,
   ],

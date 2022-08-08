@@ -7,10 +7,16 @@ import {
 } from '@nestjs/common';
 import { useCatch } from 'src/infrastructure/utils/use-catch';
 import { CreateLoginUserDto } from '../../dto/validation-user.dto';
+import { sign, verify } from 'jsonwebtoken';
+import { JwtPayloadType } from '../../types';
+import { JwtCheckUserService } from '../middlewares/jwt-check-user.service';
 
 @Injectable()
-export class CreateLoginUserService {
-  constructor(private readonly findOneUserByService: FindOneUserByService) {}
+export class CreateLoginUser {
+  constructor(
+    private readonly findOneUserByService: FindOneUserByService,
+    private readonly jwtCheckUserService: JwtCheckUserService,
+  ) {}
 
   /** Create one login to the database. */
   async createOneLogin(options: CreateLoginUserDto): Promise<any> {
@@ -26,6 +32,18 @@ export class CreateLoginUserService {
       throw new HttpException(`Invalid credentials`, HttpStatus.NOT_FOUND);
     /** Fix create JWT token */
 
-    return user;
+    const jwtPayload: JwtPayloadType = {
+      id: user.id,
+      uuid: user.uuid,
+      profileId: user.profileId,
+      lastName: user?.profile?.lastName,
+      firstName: user?.profile?.firstName,
+      organizationId: user.organizationInUtilizationId,
+    };
+
+    const refreshToken = await this.jwtCheckUserService.createJwtTokens(
+      jwtPayload,
+    );
+    return 'Bearer ' + refreshToken;
   }
 }

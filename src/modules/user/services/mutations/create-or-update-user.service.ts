@@ -58,6 +58,8 @@ export class CreateOrUpdateUserService {
       username,
       password,
       noHashPassword,
+      accessToken,
+      refreshToken,
       organizationInUtilizationId,
       deletedAt,
     } = {
@@ -87,8 +89,12 @@ export class CreateOrUpdateUserService {
 
     findItem.email = email;
     findItem.username = username;
-    findItem.hashPassword(password);
+    if (password) {
+      findItem.hashPassword(password);
+    }
     findItem.noHashPassword = noHashPassword;
+    findItem.accessToken = accessToken;
+    findItem.refreshToken = refreshToken;
     findItem.organizationInUtilizationId = organizationInUtilizationId;
     findItem.deletedAt = deletedAt;
 
