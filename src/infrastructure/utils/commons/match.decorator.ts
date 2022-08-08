@@ -1,4 +1,3 @@
-import { ClassConstructor } from 'class-transformer';
 import {
   registerDecorator,
   ValidationArguments,

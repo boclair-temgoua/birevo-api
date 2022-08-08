@@ -18,8 +18,11 @@ import { ResetUpdatePasswordUserService } from './services/mutations/reset-updat
 import { GetUsersController } from './controllers/user/get-users.controller';
 import { GetOneUserController } from './controllers/user/get-one-user.controller';
 import { UpdateContactController } from './controllers/user/update-user.controller';
-import { JwtCheckUserService } from './services/middleware/jwt-check-user.service';
+import { CheckUserService } from './services/middleware/check-user.service';
 import { JwtStrategy } from './services/middleware/jwt-strategy';
+import { FindOneApplicationTokenByService } from '../application-token/services/query/find-one-application-token-by.service';
+import { ApplicationToken } from '../../models/ApplicationToken';
+// import { LocalStrategy } from './services/middleware/auth-token-middleware';
 
 @Module({
   imports: [
@@ -27,6 +30,7 @@ import { JwtStrategy } from './services/middleware/jwt-strategy';
     TypeOrmModule.forFeature([Profile]),
     TypeOrmModule.forFeature([Organization]),
     TypeOrmModule.forFeature([ResetPassword]),
+    TypeOrmModule.forFeature([ApplicationToken]),
   ],
   controllers: [
     AuthUserController,
@@ -36,22 +40,23 @@ import { JwtStrategy } from './services/middleware/jwt-strategy';
   ],
   providers: [
     /** Imports providers query */
-    FindOneUserByService,
-    FindUserService,
     JwtStrategy,
+    FindUserService,
+    FindOneUserByService,
+    FindOneApplicationTokenByService,
 
     /** Imports providers mutations */
-    CreateRegisterUserService,
     CreateLoginUser,
-    JwtCheckUserService,
+    CheckUserService,
+    CreateRegisterUserService,
     CreateOrUpdateUserService,
     CreateOrUpdateProfileService,
-    CreateOrUpdateOrganizationService,
     CreateOrUpdateResetPasswordService,
+    CreateOrUpdateOrganizationService,
 
     /** Imports providers use-cases */
-    ResetUpdatePasswordUserService,
     FindOneResetPasswordByService,
+    ResetUpdatePasswordUserService,
   ],
 })
 export class UserModule {}

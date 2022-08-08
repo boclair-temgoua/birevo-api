@@ -9,13 +9,13 @@ import { useCatch } from 'src/infrastructure/utils/use-catch';
 import { CreateLoginUserDto } from '../../dto/validation-user.dto';
 import { sign, verify } from 'jsonwebtoken';
 import { JwtPayloadType } from '../../types';
-import { JwtCheckUserService } from '../middleware/jwt-check-user.service';
+import { CheckUserService } from '../middleware/check-user.service';
 
 @Injectable()
 export class CreateLoginUser {
   constructor(
     private readonly findOneUserByService: FindOneUserByService,
-    private readonly jwtCheckUserService: JwtCheckUserService,
+    private readonly checkUserService: CheckUserService,
   ) {}
 
   /** Create one login to the database. */
@@ -41,7 +41,7 @@ export class CreateLoginUser {
       organizationId: user.organizationInUtilizationId,
     };
 
-    const refreshToken = await this.jwtCheckUserService.createJwtTokens(
+    const refreshToken = await this.checkUserService.createJwtTokens(
       jwtPayload,
     );
     return 'Bearer ' + refreshToken;

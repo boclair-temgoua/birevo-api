@@ -46,9 +46,7 @@ export class ApplicationToken extends BaseDeleteEntity {
   @ManyToOne(
     () => Application,
     (application) => application.applicationTokens,
-    {
-      onDelete: 'CASCADE',
-    },
+    { onDelete: 'CASCADE' },
   )
   @JoinColumn()
   application?: Application;

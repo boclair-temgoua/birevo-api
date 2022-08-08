@@ -7,7 +7,7 @@ export async function useCatch<T>(
   try {
     const res = await fn;
     return [null, res];
-  } catch (error) {
+  } catch (error: any) {
     return [error, null];
   }
 }

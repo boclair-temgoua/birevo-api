@@ -5,6 +5,9 @@ import {
   Response,
   ParseUUIDPipe,
   NotFoundException,
+  Req,
+  Res,
+  UseGuards,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
@@ -18,9 +21,11 @@ export class GetOneContactController {
 
   @Get(`/show/:contact_uuid`)
   async getOneByUUIDContact(
-    @Response() res: any,
+    @Res() res,
+    @Req() req,
     @Param('contact_uuid', ParseUUIDPipe) contact_uuid: string,
   ) {
+    console.log(`req ===>>>>>>>>>>>========>`, req.user);
     const [error, result] = await useCatch(
       this.findOneContactByService.findOneBy({
         option3: { contact_uuid },

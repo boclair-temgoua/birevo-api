@@ -7,7 +7,7 @@ import { configurations } from '../../../../infrastructure/configurations/index'
 import { CreateOrUpdateUserService } from '../mutations/create-or-update-user.service';
 
 @Injectable()
-export class JwtCheckUserService {
+export class CheckUserService {
   constructor(
     private readonly findOneUserByService: FindOneUserByService,
     private readonly createOrUpdateUserService: CreateOrUpdateUserService,
