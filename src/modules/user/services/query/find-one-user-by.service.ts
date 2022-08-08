@@ -17,7 +17,8 @@ export class FindOneUserByService {
     let query = this.driver
       .createQueryBuilder('user')
       .where('user.deletedAt IS NULL')
-      .leftJoinAndSelect('user.profile', 'profile');
+      .leftJoinAndSelect('user.profile', 'profile')
+      .leftJoinAndSelect('user.organizationInUtilization', 'organization');
 
     if (option1) {
       const { userId } = { ...option1 };

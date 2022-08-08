@@ -9,7 +9,7 @@ import { useCatch } from 'src/infrastructure/utils/use-catch';
 import { CreateLoginUserDto } from '../../dto/validation-user.dto';
 import { sign, verify } from 'jsonwebtoken';
 import { JwtPayloadType } from '../../types';
-import { JwtCheckUserService } from '../middlewares/jwt-check-user.service';
+import { JwtCheckUserService } from '../middleware/jwt-check-user.service';
 
 @Injectable()
 export class CreateLoginUser {

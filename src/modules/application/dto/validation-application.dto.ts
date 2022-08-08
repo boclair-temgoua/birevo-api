@@ -1,3 +1,4 @@
+import { User } from '../../../models/User';
 import {
   IsString,
   IsNotEmpty,
@@ -28,6 +29,9 @@ export class CreateOrUpdateApplicationDto {
   @MinLength(3)
   @IsIn(statusOnlineArrays)
   statusOnline: StatusOnline;
+
+  @IsOptional()
+  user: User;
 }
 
 export class ApplicationUuidDto {

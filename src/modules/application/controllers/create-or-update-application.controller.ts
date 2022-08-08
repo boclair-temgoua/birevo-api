@@ -7,9 +7,13 @@ import {
   Param,
   ParseUUIDPipe,
   Delete,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
+import { JwtAuthGuard } from '../../user/services/middleware';
+
 import {
   CreateOrUpdateApplicationDto,
   ApplicationUuidDto,
@@ -27,13 +31,17 @@ export class CreateOrUpdateApplicationController {
   ) {}
 
   @Post(`/create-or-update`)
+  @UseGuards(JwtAuthGuard)
   async createOneApplication(
     @Response() res: any,
+    @Request() req: any,
     @Body() createOrUpdateApplicationDto: CreateOrUpdateApplicationDto,
   ) {
+    const { user } = req;
     const [errors, results] = await useCatch(
       this.createOrUpdateApplication.createOrUpdate({
         ...createOrUpdateApplicationDto,
+        user,
       }),
     );
     if (errors) {

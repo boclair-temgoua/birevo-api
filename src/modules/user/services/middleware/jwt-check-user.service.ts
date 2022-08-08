@@ -1,13 +1,7 @@
 import { FindOneUserByService } from '../query/find-one-user-by.service';
-import {
-  Injectable,
-  NotFoundException,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { useCatch } from 'src/infrastructure/utils/use-catch';
-import { CreateLoginUserDto } from '../../dto/validation-user.dto';
-import { sign, verify } from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 import { JwtPayloadType } from '../../types';
 import { configurations } from '../../../../infrastructure/configurations/index';
 import { CreateOrUpdateUserService } from '../mutations/create-or-update-user.service';

@@ -3,14 +3,12 @@ import {
   NotFoundException,
   HttpException,
   HttpStatus,
-  ParseUUIDPipe,
 } from '@nestjs/common';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateApplicationService } from '../mutations/create-or-update-application.service';
 import { CreateOrUpdateApplicationDto } from '../../dto/validation-application.dto';
 import { CreateOrUpdateApplicationTokenService } from '../../../application-token/services/mutations/create-or-update-application-token.service';
 import { FindOneApplicationByService } from '../query/find-one-application-by.service';
-import { FindOneApplicationTokenByService } from '../../../application-token/services/query/find-one-application-token-by.service';
 
 @Injectable()
 export class CreateOrUpdateApplication {
@@ -22,7 +20,7 @@ export class CreateOrUpdateApplication {
 
   /** Create one Application Or Update to the database. */
   async createOrUpdate(options: CreateOrUpdateApplicationDto): Promise<any> {
-    const { application_uuid, name, statusOnline } = { ...options };
+    const { application_uuid, name, statusOnline, user } = { ...options };
 
     if (application_uuid) {
       const [error, findApplication] = await useCatch(
@@ -54,8 +52,8 @@ export class CreateOrUpdateApplication {
         this.createOrUpdateApplicationService.createOne({
           name,
           statusOnline,
-          userId: 1,
-          userCreatedId: 1,
+          userId: user?.organizationInUtilization?.userId,
+          userCreatedId: user?.id,
         }),
       );
       if (_errorSave) {
@@ -65,8 +63,8 @@ export class CreateOrUpdateApplication {
         this.createOrUpdateApplicationTokenService.createOne({
           applicationId: application?.id,
           userId: application?.userId,
-          organizationId: 1,
           userCreatedId: application?.userCreatedId,
+          organizationId: user?.organizationInUtilization?.id,
         }),
       );
       if (__errorSave) {

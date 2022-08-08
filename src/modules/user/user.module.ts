@@ -18,8 +18,8 @@ import { ResetUpdatePasswordUserService } from './services/mutations/reset-updat
 import { GetUsersController } from './controllers/user/get-users.controller';
 import { GetOneUserController } from './controllers/user/get-one-user.controller';
 import { UpdateContactController } from './controllers/user/update-user.controller';
-import { JwtCheckUserService } from './services/middlewares/jwt-check-user.service';
-import { JwtStrategy } from './services/middlewares/jwt.strategy';
+import { JwtCheckUserService } from './services/middleware/jwt-check-user.service';
+import { JwtStrategy } from './services/middleware/jwt-strategy';
 
 @Module({
   imports: [
