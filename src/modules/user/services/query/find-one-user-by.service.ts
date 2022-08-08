@@ -18,7 +18,10 @@ export class FindOneUserByService {
       .createQueryBuilder('user')
       .where('user.deletedAt IS NULL')
       .leftJoinAndSelect('user.profile', 'profile')
-      .leftJoinAndSelect('user.organizationInUtilization', 'organization');
+      .leftJoinAndSelect(
+        'user.organizationInUtilization',
+        'organizationInUtilization',
+      );
 
     if (option1) {
       const { userId } = { ...option1 };
