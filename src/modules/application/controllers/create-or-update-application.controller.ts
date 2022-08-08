@@ -51,6 +51,7 @@ export class CreateOrUpdateApplicationController {
   }
 
   @Post(`/create-new-token`)
+  @UseGuards(JwtAuthGuard)
   async createOneToken(
     @Response() res: any,
     @Body() applicationUuidDto: ApplicationUuidDto,
@@ -67,6 +68,7 @@ export class CreateOrUpdateApplicationController {
   }
 
   @Delete(`/delete/:application_uuid`)
+  @UseGuards(JwtAuthGuard)
   async deleteOneApplication(
     @Response() res: any,
     @Param('application_uuid', ParseUUIDPipe) application_uuid: string,

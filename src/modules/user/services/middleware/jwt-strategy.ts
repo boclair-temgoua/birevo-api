@@ -27,7 +27,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new NotFoundException(_error);
     }
     if (!user)
-      throw new UnauthorizedException('Invalid token please try later');
+      throw new UnauthorizedException(
+        'Invalid token or expired please try later',
+      );
     return user;
   }
 }
