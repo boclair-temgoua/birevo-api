@@ -23,9 +23,8 @@ export class AuthTokenMiddleware implements NestMiddleware {
     const token: string = authHeader.split(' ')[1];
 
     if (!token)
-      throw new HttpException(
+      throw new UnauthorizedException(
         'Invalid token or expired please try later',
-        HttpStatus.UNAUTHORIZED,
       );
 
     /** Find application token to database */

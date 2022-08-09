@@ -32,6 +32,8 @@ import { User } from '../../models/User';
     FindOneContactByService,
     FindContactService,
     CreateOrUpdateContactService,
+
+    /** Integrate user token middleware */
     FindOneApplicationTokenByService,
     FindOneUserByService,
   ],
