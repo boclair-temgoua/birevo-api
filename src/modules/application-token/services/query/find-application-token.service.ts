@@ -12,10 +12,10 @@ export class FindApplicationTokenService {
     private driver: Repository<ApplicationToken>,
   ) {}
 
-  async findAllCurrencies(
+  async findAllApplications(
     selections: GetCurrenciesSelections,
   ): Promise<GetCurrenciesSelections[]> {
-    const { filterQuery } = { ...selections };
+    const { filterQuery, option1, option2 } = { ...selections };
 
     let query = this.driver
       .createQueryBuilder('applicationToken')
@@ -26,6 +26,19 @@ export class FindApplicationTokenService {
       .addSelect('applicationToken.organizationId', 'organizationId')
       .addSelect('applicationToken.token', 'token')
       .where('applicationToken.deletedAt IS NULL');
+
+    if (option1) {
+      const { userId } = { ...option1 };
+      query = query.andWhere('applicationToken.userId = :userId', { userId });
+    }
+
+    if (option2) {
+      const { applicationId } = { ...option2 };
+      query = query.andWhere(
+        'applicationToken.applicationId = :applicationId',
+        { applicationId },
+      );
+    }
 
     if (filterQuery) {
       query = query.andWhere(

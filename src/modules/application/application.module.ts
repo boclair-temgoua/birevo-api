@@ -14,6 +14,7 @@ import {
 } from './services/use-cases';
 import { ApplicationToken } from '../../models/ApplicationToken';
 import { CreateOrUpdateApplicationTokenService } from '../application-token/services/mutations/create-or-update-application-token.service';
+import { FindApplicationTokenService } from '../application-token/services/query/find-application-token.service';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CreateOrUpdateApplicationTokenService } from '../application-token/serv
   providers: [
     /** Imports providers query */
     FindOneApplicationByService,
+    FindApplicationTokenService,
     FindApplicationService,
 
     /** Imports providers mutations */

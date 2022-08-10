@@ -13,6 +13,7 @@ import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteE
 import { Profile } from './Profile';
 import { Organization } from './Organization';
 import { ApplicationToken } from './ApplicationToken';
+import { Voucher } from './Voucher';
 
 @Entity('user')
 export class User extends BaseDeleteEntity {
@@ -53,6 +54,9 @@ export class User extends BaseDeleteEntity {
   @OneToOne(() => Profile, (profile) => profile.user, { onDelete: 'CASCADE' })
   @JoinColumn()
   profile?: Profile;
+
+  @OneToMany(() => Voucher, (voucher) => voucher.user, { onDelete: 'CASCADE' })
+  vouchers?: Voucher[];
 
   @OneToMany(() => Organization, (organization) => organization.user, {
     onDelete: 'CASCADE',

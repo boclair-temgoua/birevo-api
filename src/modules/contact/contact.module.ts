@@ -40,6 +40,6 @@ import { User } from '../../models/User';
 })
 export class ContactModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthTokenMiddleware).forRoutes('*');
+    consumer.apply(AuthTokenMiddleware).forRoutes(GetOneContactController);
   }
 }

@@ -2,6 +2,12 @@ import { ApplicationToken } from '../../../models/ApplicationToken';
 
 export type GetCurrenciesSelections = {
   filterQuery?: any;
+  option1?: {
+    userId: ApplicationToken['userId'];
+  };
+  option2?: {
+    applicationId: ApplicationToken['applicationId'];
+  };
 };
 
 export type GetOneApplicationTokenSelections = {
