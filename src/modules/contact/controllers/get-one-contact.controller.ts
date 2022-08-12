@@ -25,7 +25,6 @@ export class GetOneContactController {
     @Req() req,
     @Param('contact_uuid', ParseUUIDPipe) contact_uuid: string,
   ) {
-    console.log(`req ===>>>>>>>>>>>========>`, req.user);
     const [error, result] = await useCatch(
       this.findOneContactByService.findOneBy({
         option3: { contact_uuid },
