@@ -7,9 +7,9 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { FindOneApplicationTokenByService } from '../../../application-token/services/query/find-one-application-token-by.service';
+import { FindOneApplicationTokenByService } from '../../application-token/services/query/find-one-application-token-by.service';
 import { useCatch } from 'src/infrastructure/utils/use-catch';
-import { FindOneUserByService } from '../query/find-one-user-by.service';
+import { FindOneUserByService } from '../services/query/find-one-user-by.service';
 
 @Injectable()
 export class AuthTokenMiddleware implements NestMiddleware {

@@ -12,7 +12,7 @@ import { FindContactService } from './services/query/find-contact.service';
 import { CreateOrUpdateContactService } from './services/mutations/create-or-update-contact.service';
 import { FindOneApplicationTokenByService } from '../application-token/services/query/find-one-application-token-by.service';
 import { ApplicationToken } from '../../models/ApplicationToken';
-import { AuthTokenMiddleware } from '../user/services/middleware';
+import { AuthTokenMiddleware } from '../user/middleware';
 import { FindOneUserByService } from '../user/services/query/find-one-user-by.service';
 import { User } from '../../models/User';
 
@@ -38,8 +38,4 @@ import { User } from '../../models/User';
     FindOneUserByService,
   ],
 })
-export class ContactModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthTokenMiddleware).forRoutes(GetOneContactController);
-  }
-}
+export class ContactModule {}

@@ -13,7 +13,7 @@ import { RequestPaginationDto } from '../../../infrastructure/utils/pagination';
 import { FilterQueryDto } from '../../../infrastructure/utils/filter-query';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { FindContactService } from '../services/query/find-contact.service';
-import { JwtAuthGuard } from '../../user/services/middleware/jwt-auth.guard';
+import { JwtAuthGuard } from '../../user/middleware/jwt-auth.guard';
 
 @Controller()
 export class GetContactController {

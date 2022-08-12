@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
-import { JwtAuthGuard } from '../../user/services/middleware';
+import { JwtAuthGuard } from '../../user/middleware';
 
 import {
   CreateOrUpdateApplicationDto,

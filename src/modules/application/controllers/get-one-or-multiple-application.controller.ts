@@ -17,7 +17,7 @@ import { FindOneApplicationByService } from '../services/query/find-one-applicat
 import { FindApplicationService } from '../services/query/find-application.service';
 import { FilterQueryDto } from '../../../infrastructure/utils/filter-query';
 import { RequestPaginationDto } from '../../../infrastructure/utils/pagination';
-import { JwtAuthGuard } from '../../user/services/middleware';
+import { JwtAuthGuard } from '../../user/middleware';
 import { FindApplicationTokenService } from '../../application-token/services/query/find-application-token.service';
 
 @Controller('applications')

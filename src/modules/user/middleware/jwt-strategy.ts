@@ -1,13 +1,13 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { configurations } from '../../../../infrastructure/configurations';
+import { configurations } from '../../../infrastructure/configurations';
 import {
   UnauthorizedException,
   NotFoundException,
   Injectable,
 } from '@nestjs/common';
 import { useCatch } from 'src/infrastructure/utils/use-catch';
-import { FindOneUserByService } from '../query/find-one-user-by.service';
+import { FindOneUserByService } from '../services/query/find-one-user-by.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

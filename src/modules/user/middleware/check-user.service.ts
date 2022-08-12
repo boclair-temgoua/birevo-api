@@ -1,10 +1,10 @@
-import { FindOneUserByService } from '../query/find-one-user-by.service';
+import { FindOneUserByService } from '../services/query/find-one-user-by.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { useCatch } from 'src/infrastructure/utils/use-catch';
 import { sign } from 'jsonwebtoken';
-import { JwtPayloadType } from '../../types';
-import { configurations } from '../../../../infrastructure/configurations/index';
-import { CreateOrUpdateUserService } from '../mutations/create-or-update-user.service';
+import { JwtPayloadType } from '../types';
+import { configurations } from '../../../infrastructure/configurations/index';
+import { CreateOrUpdateUserService } from '../services/mutations/create-or-update-user.service';
 
 @Injectable()
 export class CheckUserService {

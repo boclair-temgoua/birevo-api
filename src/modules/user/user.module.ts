@@ -18,8 +18,8 @@ import { ResetUpdatePasswordUserService } from './services/mutations/reset-updat
 import { GetUsersController } from './controllers/user/get-users.controller';
 import { GetOneUserController } from './controllers/user/get-one-user.controller';
 import { UpdateContactController } from './controllers/user/update-user.controller';
-import { CheckUserService } from './services/middleware/check-user.service';
-import { JwtStrategy } from './services/middleware/jwt-strategy';
+import { CheckUserService } from './middleware/check-user.service';
+import { JwtStrategy } from './middleware/jwt-strategy';
 import { FindOneApplicationTokenByService } from '../application-token/services/query/find-one-application-token-by.service';
 import { ApplicationToken } from '../../models/ApplicationToken';
 // import { LocalStrategy } from './services/middleware/auth-token-middleware';

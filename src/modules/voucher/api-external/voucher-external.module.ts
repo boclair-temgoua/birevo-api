@@ -1,7 +1,7 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Voucher } from '../../../models/Voucher';
-import { AuthTokenMiddleware } from '../../user/services/middleware/auth-token.middleware';
+import { AuthTokenMiddleware } from '../../user/middleware/auth-token.middleware';
 import { FindOneApplicationTokenByService } from '../../application-token/services/query/find-one-application-token-by.service';
 import { FindOneUserByService } from '../../user/services/query/find-one-user-by.service';
 import { ApplicationToken } from '../../../models/ApplicationToken';
