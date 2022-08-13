@@ -12,6 +12,7 @@ import {
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { FindOneContactByService } from '../services/query/find-one-contact-by.service';
+import { JwtAuthGuard } from '../../user/middleware/jwt-auth.guard';
 
 @Controller('contacts')
 export class GetOneContactController {
@@ -20,9 +21,9 @@ export class GetOneContactController {
   ) {}
 
   @Get(`/show/:contact_uuid`)
+  @UseGuards(JwtAuthGuard)
   async getOneByUUIDContact(
     @Res() res,
-    @Req() req,
     @Param('contact_uuid', ParseUUIDPipe) contact_uuid: string,
   ) {
     const [error, result] = await useCatch(

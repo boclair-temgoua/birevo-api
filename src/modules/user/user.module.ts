@@ -19,7 +19,7 @@ import { GetUsersController } from './controllers/user/get-users.controller';
 import { GetOneUserController } from './controllers/user/get-one-user.controller';
 import { UpdateContactController } from './controllers/user/update-user.controller';
 import { CheckUserService } from './middleware/check-user.service';
-import { JwtStrategy } from './middleware/jwt-strategy';
+import { JwtAuthStrategy } from './middleware/jwt-auth.strategy';
 import { FindOneApplicationTokenByService } from '../application-token/services/query/find-one-application-token-by.service';
 import { ApplicationToken } from '../../models/ApplicationToken';
 // import { LocalStrategy } from './services/middleware/auth-token-middleware';
@@ -40,7 +40,7 @@ import { ApplicationToken } from '../../models/ApplicationToken';
   ],
   providers: [
     /** Imports providers query */
-    JwtStrategy,
+    JwtAuthStrategy,
     FindUserService,
     FindOneUserByService,
     FindOneApplicationTokenByService,

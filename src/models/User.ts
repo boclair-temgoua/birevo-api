@@ -40,6 +40,9 @@ export class User extends BaseDeleteEntity {
   username?: string;
 
   @Column({ nullable: true })
+  token?: string;
+
+  @Column({ nullable: true })
   password?: string;
 
   @Column({ nullable: true })
