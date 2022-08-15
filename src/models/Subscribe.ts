@@ -9,11 +9,11 @@ import {
 import { User } from './User';
 import { Organization } from './Organization';
 import { Role } from './Role';
-import { BaseEntity } from '../infrastructure/databases/common/BaseEntity';
+import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteEntity';
 import { SubscribableType } from '../modules/subscribe/dto/validation-subscribe.dto';
 
 @Entity('subscribe')
-export class Subscribe extends BaseEntity {
+export class Subscribe extends BaseDeleteEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id!: number;
 

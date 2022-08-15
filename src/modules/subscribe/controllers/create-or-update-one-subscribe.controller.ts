@@ -10,15 +10,18 @@ import {
   Req,
   ParseIntPipe,
   Post,
+  Delete,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { JwtAuthGuard } from '../../user/middleware';
 import { CreateOneContributorToSubscribe } from '../services/use-cases/create-one-contributor-to-subscribe';
+import { CreateOrUpdateSubscribeService } from '../services/mutations/create-or-update-subscribe.service';
 
 @Controller('subscribes')
 export class CreateOrUpdateOneSubscribeController {
   constructor(
+    private readonly createOrUpdateSubscribeService: CreateOrUpdateSubscribeService,
     private readonly createOneContributorToSubscribe: CreateOneContributorToSubscribe,
   ) {}
 
@@ -37,6 +40,25 @@ export class CreateOrUpdateOneSubscribeController {
         organizationId: user?.organizationInUtilizationId,
         contributorId,
       }),
+    );
+
+    if (error) {
+      throw new NotFoundException(error);
+    }
+    return reply({ res, results: result });
+  }
+
+  @Delete(`/delete/:subscribe_uuid`)
+  @UseGuards(JwtAuthGuard)
+  async deleteOneContributor(
+    @Res() res,
+    @Param('subscribe_uuid', ParseUUIDPipe) subscribe_uuid: string,
+  ) {
+    const [error, result] = await useCatch(
+      this.createOrUpdateSubscribeService.updateOne(
+        { option2: { subscribe_uuid } },
+        { deletedAt: new Date() },
+      ),
     );
 
     if (error) {

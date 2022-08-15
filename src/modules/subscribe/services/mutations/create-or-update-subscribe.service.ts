@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { generateUUID } from '../../../../infrastructure/utils/commons';
+import { DeleteSubscribeSelections } from '../../types/index';
 import {
   CreateSubscribeOptions,
   UpdateSubscribeOptions,
@@ -53,7 +54,7 @@ export class CreateOrUpdateSubscribeService {
     options: UpdateSubscribeOptions,
   ): Promise<Subscribe> {
     const { option1, option2 } = { ...selections };
-    const { roleId } = { ...options };
+    const { roleId, deletedAt } = { ...options };
 
     let findQuery = this.driver.createQueryBuilder('subscribe');
 
@@ -68,9 +69,30 @@ export class CreateOrUpdateSubscribeService {
     if (errorFind) throw new NotFoundException(errorFind);
 
     findItem.roleId = roleId;
+    findItem.deletedAt = deletedAt;
 
     const query = this.driver.save(findItem);
     const [errorUp, result] = await useCatch(query);
+    if (errorUp) throw new NotFoundException(errorUp);
+
+    return result;
+  }
+
+  /** Update one Subscribe to the database. */
+  async deleteOne(selections: DeleteSubscribeSelections): Promise<any> {
+    const { option1 } = { ...selections };
+
+    let query = this.driver
+      .createQueryBuilder('subscribe')
+      .delete()
+      .from(Subscribe);
+
+    if (option1) {
+      const { subscribe_uuid } = { ...option1 };
+      query = query.where('uuid = :uuid', { uuid: subscribe_uuid });
+    }
+
+    const [errorUp, result] = await useCatch(query.execute());
     if (errorUp) throw new NotFoundException(errorUp);
 
     return result;

@@ -45,12 +45,13 @@ export class FindSubscribeService {
           'name', "role"."name"
       ) AS "role"`,
       )
-      .addSelect('subscribe.createdAt', 'createdAt');
+      .addSelect('subscribe.createdAt', 'createdAt')
+      .where('subscribe.deletedAt IS NULL');
 
     if (option1) {
       const { userId, subscribableType } = { ...option1 };
       query = query
-        .where('subscribe.userId = :userId', { userId })
+        .andWhere('subscribe.userId = :userId', { userId })
         .andWhere('subscribe.subscribableType = :subscribableType', {
           subscribableType,
         });
@@ -69,7 +70,9 @@ export class FindSubscribeService {
                 'email', "user"."email"
             ) AS "profile"`,
         )
-        .where('subscribe.subscribableId = :subscribableId', { subscribableId })
+        .andWhere('subscribe.subscribableId = :subscribableId', {
+          subscribableId,
+        })
         .andWhere('subscribe.subscribableType = :subscribableType', {
           subscribableType,
         });

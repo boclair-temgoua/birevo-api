@@ -10,14 +10,16 @@ import { ApplicationToken } from '../../models/ApplicationToken';
 import { FindOneUserByService } from '../user/services/query/find-one-user-by.service';
 import { User } from '../../models/User';
 import { HttpModule } from '@nestjs/axios';
-import { GetOneOrMultipleSubscribeController } from './controllers/get-one-or-multiple-subscribe.controller';
+import {
+  GetOneOrMultipleSubscribeController,
+  CreateOrUpdateOneSubscribeController,
+} from './controllers';
 import {
   GetAuthorizationToSubscribe,
   CreateOneContributorToSubscribe,
 } from './services/use-cases';
 import { Organization } from '../../models/Organization';
 import { FindOneOrganizationByService } from '../organization/services/query/find-one-organization-by.service';
-import { CreateOrUpdateOneSubscribeController } from './controllers/create-or-update-one-subscribe.controller';
 
 @Module({
   imports: [

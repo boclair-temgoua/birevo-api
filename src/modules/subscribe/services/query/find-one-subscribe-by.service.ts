@@ -16,14 +16,15 @@ export class FindOneSubscribeByService {
     const { option1, option3 } = { ...selections };
     let query = this.driver
       .createQueryBuilder('subscribe')
-      .leftJoinAndSelect('subscribe.organization', 'organization');
+      .leftJoinAndSelect('subscribe.organization', 'organization')
+      .where('subscribe.deletedAt IS NULL');
 
     if (option1) {
       const { userId, subscribableId, subscribableType, organizationId } = {
         ...option1,
       };
       query = query
-        .where('subscribe.userId = :userId', { userId })
+        .andWhere('subscribe.userId = :userId', { userId })
         .andWhere('subscribe.subscribableType = :subscribableType', {
           subscribableType,
         })
@@ -37,7 +38,9 @@ export class FindOneSubscribeByService {
 
     if (option3) {
       const { subscribe_uuid } = { ...option3 };
-      query = query.where('subscribe.uuid = :uuid', { uuid: subscribe_uuid });
+      query = query.andWhere('subscribe.uuid = :uuid', {
+        uuid: subscribe_uuid,
+      });
     }
 
     const [error, result] = await useCatch(query.getOne());
