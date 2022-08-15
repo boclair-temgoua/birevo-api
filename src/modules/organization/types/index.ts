@@ -4,6 +4,9 @@ export type GetOneOrganizationSelections = {
   option1?: {
     organizationId?: Organization['id'];
   };
+  option2?: {
+    organization_uuid?: Organization['uuid'];
+  };
 };
 
 export type UpdateOrganizationSelections = {

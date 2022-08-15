@@ -15,6 +15,7 @@ import { ApplicationModule } from './modules/application/application.module';
 // import { VoucherInterneModule } from './modules/voucher/api-interne/voucher-interne.module';
 // import { VoucherExternalModule } from './modules/voucher/api-external/voucher-external.module';
 import { SubscribeModule } from './modules/subscribe/subscribe.module';
+import { OrganizationModule } from './modules/organization/organization.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { SubscribeModule } from './modules/subscribe/subscribe.module';
     ApplicationTokenModule,
     ApplicationModule,
     SubscribeModule,
+    OrganizationModule,
     // VoucherExternalModule,
     // VoucherInterneModule,
   ],
