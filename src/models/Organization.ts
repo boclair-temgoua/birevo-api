@@ -11,6 +11,7 @@ import {
 import { User } from './User';
 import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteEntity';
 import { Color } from '../infrastructure/utils/commons/get-colors';
+import { Subscribe } from './Subscribe';
 
 @Entity('organization')
 export class Organization extends BaseDeleteEntity {
@@ -29,8 +30,10 @@ export class Organization extends BaseDeleteEntity {
   @Column({ type: 'bigint', nullable: true })
   userId?: number;
 
-  // @OneToMany(() => Subscribe, (subscribe) => subscribe.organization, { onDelete: 'CASCADE' })
-  // subscribes?: Subscribe[];
+  @OneToMany(() => Subscribe, (subscribe) => subscribe.organization, {
+    onDelete: 'CASCADE',
+  })
+  subscribes?: Subscribe[];
 
   // @OneToMany(() => AmountSubscription, (amountSubscription) => amountSubscription.organization, {
   //     onDelete: 'CASCADE',

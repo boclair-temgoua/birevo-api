@@ -12,7 +12,7 @@ import { FindOneResetPasswordByService } from '../../../reset-password/services/
 import { CreateOrUpdateUserService } from './create-or-update-user.service';
 import {
   UpdateResetPasswordUserDto,
-  TokenResetPasswordUserDto,
+  TokenUserDto,
 } from '../../dto/validation-user.dto';
 
 @Injectable()
@@ -55,7 +55,7 @@ export class ResetUpdatePasswordUserService {
 
   /** Update one reset password to the database. */
   async updateOneResetPassword(
-    options: UpdateResetPasswordUserDto & TokenResetPasswordUserDto,
+    options: UpdateResetPasswordUserDto & TokenUserDto,
   ): Promise<any> {
     const { password, token } = { ...options };
 

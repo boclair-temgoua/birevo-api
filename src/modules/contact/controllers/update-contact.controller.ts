@@ -7,11 +7,13 @@ import {
   Put,
   Param,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateContactService } from '../services/mutations/create-or-update-contact.service';
 import { CreateOrUpdateContactDto } from '../dto/validation-contact.dto';
+import { JwtAuthGuard } from '../../user/middleware/jwt-auth.guard';
 
 @Controller('contacts')
 export class UpdateContactController {
@@ -20,6 +22,7 @@ export class UpdateContactController {
   ) {}
 
   @Put(`/update/:contact_uuid`)
+  @UseGuards(JwtAuthGuard)
   async createOneContact(
     @Response() res: any,
     @Body() createOrUpdateContactDto: CreateOrUpdateContactDto,

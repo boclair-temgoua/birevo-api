@@ -20,6 +20,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
+    "start:listener": "nest start --watch --config listener.json",
     "docker:dev:start": "docker-compose --file docker-compose.yml --compatibility up --no-recreate",
     "docker:dev:rebuild": "docker-compose --file docker-compose.yml --compatibility up --build",
     "start:debug": "nest start --debug --watch",
@@ -40,6 +41,7 @@
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.8.1",
+    "@nestjs/axios": "^0.1.0",
     "@nestjs/common": "^9.0.9",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.9",

@@ -34,6 +34,9 @@ export type GetOneUserSelections = {
   option4?: {
     user_uuid?: User['uuid'];
   };
+  option5?: {
+    token?: User['token'];
+  };
 };
 
 export type UpdateUserSelections = {

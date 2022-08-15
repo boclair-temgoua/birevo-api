@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   MinLength,
   IsInt,
+  IsOptional,
 } from 'class-validator';
 import { Match } from '../../../infrastructure/utils/commons';
 
@@ -20,7 +21,7 @@ export class UpdateInfoUserDto {
   organizationInUtilizationId: number;
 }
 
-export class TokenResetPasswordUserDto {
+export class TokenUserDto {
   @IsNotEmpty()
   @MinLength(6)
   @IsString()
@@ -39,6 +40,26 @@ export class UpdateResetPasswordUserDto {
   passwordConfirm: string;
 }
 
+export class UpdateChangePasswordUserDto {
+  @IsNotEmpty()
+  @MinLength(8)
+  @IsString()
+  password: string;
+
+  @IsString()
+  @MinLength(8)
+  newPassword: string;
+
+  @IsString()
+  @MinLength(8)
+  @Match('newPassword')
+  passwordConfirm: string;
+
+  @IsOptional()
+  @IsInt()
+  userId: number;
+}
+
 export class CreateLoginUserDto {
   @IsNotEmpty()
   @IsString()
@@ -50,6 +71,10 @@ export class CreateLoginUserDto {
   @MinLength(8)
   @IsString()
   password: string;
+
+  @IsOptional()
+  @IsString()
+  ip: string;
 }
 
 export class CreateRegisterUserDto {

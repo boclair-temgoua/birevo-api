@@ -21,9 +21,9 @@ export class GetOneContactController {
   ) {}
 
   @Get(`/show/:contact_uuid`)
-  @UseGuards(JwtAuthGuard)
   async getOneByUUIDContact(
     @Res() res,
+    @Req() req,
     @Param('contact_uuid', ParseUUIDPipe) contact_uuid: string,
   ) {
     const [error, result] = await useCatch(
@@ -32,6 +32,7 @@ export class GetOneContactController {
       }),
     );
 
+    console.log(`req ====>`, req.user);
     if (error) {
       throw new NotFoundException(error);
     }

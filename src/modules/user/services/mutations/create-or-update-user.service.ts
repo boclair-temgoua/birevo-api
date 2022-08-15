@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { generateUUID } from '../../../../infrastructure/utils/commons';
 import { User } from '../../../../models/User';
+import { generateLongUUID } from '../../../../infrastructure/utils/commons/generate-long-uuid';
 import {
   CreateUserOptions,
   UpdateUserOptions,
@@ -32,6 +33,7 @@ export class CreateOrUpdateUserService {
 
     const user = new User();
     user.uuid = generateUUID();
+    user.token = generateLongUUID(50);
     user.email = email;
     user.hashPassword(password);
     user.username = username;
@@ -62,6 +64,7 @@ export class CreateOrUpdateUserService {
       refreshToken,
       organizationInUtilizationId,
       deletedAt,
+      confirmedAt,
     } = {
       ...options,
     };
@@ -97,6 +100,7 @@ export class CreateOrUpdateUserService {
     findItem.refreshToken = refreshToken;
     findItem.organizationInUtilizationId = organizationInUtilizationId;
     findItem.deletedAt = deletedAt;
+    findItem.confirmedAt = confirmedAt;
 
     const query = this.driver.save(findItem);
     const [errorUp, result] = await useCatch(query);

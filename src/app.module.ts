@@ -14,6 +14,7 @@ import { ApplicationTokenModule } from './modules/application-token/application-
 import { ApplicationModule } from './modules/application/application.module';
 // import { VoucherInterneModule } from './modules/voucher/api-interne/voucher-interne.module';
 // import { VoucherExternalModule } from './modules/voucher/api-external/voucher-external.module';
+import { SubscribeModule } from './modules/subscribe/subscribe.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ApplicationModule } from './modules/application/application.module';
     QrCodeModule,
     ApplicationTokenModule,
     ApplicationModule,
+    SubscribeModule,
     // VoucherExternalModule,
     // VoucherInterneModule,
   ],

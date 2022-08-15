@@ -14,6 +14,7 @@ import { Profile } from './Profile';
 import { Organization } from './Organization';
 import { ApplicationToken } from './ApplicationToken';
 import { Voucher } from './Voucher';
+import { Subscribe } from './Subscribe';
 
 @Entity('user')
 export class User extends BaseDeleteEntity {
@@ -26,6 +27,9 @@ export class User extends BaseDeleteEntity {
     nullable: true,
   })
   uuid?: string;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  confirmedAt?: Date;
 
   @Column({ unique: true, nullable: true })
   email?: string;
@@ -61,6 +65,11 @@ export class User extends BaseDeleteEntity {
   @OneToMany(() => Voucher, (voucher) => voucher.user, { onDelete: 'CASCADE' })
   vouchers?: Voucher[];
 
+  @OneToMany(() => Subscribe, (subscribe) => subscribe.userCreated, {
+    onDelete: 'CASCADE',
+  })
+  subscribes?: Subscribe[];
+
   @OneToMany(() => Organization, (organization) => organization.user, {
     onDelete: 'CASCADE',
   })
@@ -85,7 +94,7 @@ export class User extends BaseDeleteEntity {
     this.password = await bcrypt.hashSync(password || this.password, 8);
   }
 
-  checkIfPasswordMatch(unencryptedPassword: string) {
-    return bcrypt.compareSync(unencryptedPassword, String(this.password));
+  checkIfPasswordMatch(password: string) {
+    return bcrypt.compareSync(password, String(this.password));
   }
 }

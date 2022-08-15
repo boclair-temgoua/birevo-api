@@ -15,9 +15,11 @@ import { ApplicationToken } from '../../models/ApplicationToken';
 import { AuthTokenMiddleware } from '../user/middleware';
 import { FindOneUserByService } from '../user/services/query/find-one-user-by.service';
 import { User } from '../../models/User';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
+    HttpModule,
     TypeOrmModule.forFeature([User]),
     TypeOrmModule.forFeature([Contact]),
     TypeOrmModule.forFeature([ApplicationToken]),
@@ -38,4 +40,9 @@ import { User } from '../../models/User';
     FindOneUserByService,
   ],
 })
-export class ContactModule {}
+export class ContactModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthTokenMiddleware).forRoutes(GetOneContactController);
+  }
+}
+// export class ContactModule {}

@@ -14,10 +14,14 @@ import { FilterQueryDto } from '../../../infrastructure/utils/filter-query';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { FindContactService } from '../services/query/find-contact.service';
 import { JwtAuthGuard } from '../../user/middleware/jwt-auth.guard';
+import { HttpService } from '@nestjs/axios';
 
 @Controller()
 export class GetContactController {
-  constructor(private readonly findContactService: FindContactService) {}
+  constructor(
+    private readonly findContactService: FindContactService,
+    private readonly httpService: HttpService,
+  ) {}
 
   @Get(`/`)
   async getLandingPage(@Response() res: any) {
@@ -44,7 +48,6 @@ export class GetContactController {
     if (errors) {
       throw new NotFoundException(errors);
     }
-    console.log(`req ====>`, req.user);
     return reply({ res, results });
   }
 }

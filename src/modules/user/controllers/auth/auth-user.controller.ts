@@ -7,10 +7,14 @@ import {
   Param,
   Ip,
   Res,
+  Query,
+  Get,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { CreateRegisterUserService } from '../../services/mutations/create-register-user.service';
+import { CreateRegisterUser } from '../../services/use-cases';
 
 import { CreateLoginUser } from '../../services/use-cases/create-login-user';
 import { CreateOrUpdateResetPasswordDto } from '../../../reset-password/dto/validation-reset-password.dto';
@@ -19,14 +23,20 @@ import {
   CreateRegisterUserDto,
   CreateLoginUserDto,
   UpdateResetPasswordUserDto,
-  TokenResetPasswordUserDto,
+  TokenUserDto,
 } from '../../dto/validation-user.dto';
+import { ConfirmAccountTokenUser } from '../../services/use-cases/confirm-account-token-user';
+import { ChangePasswordUser } from '../../services/use-cases/change-password-user';
+import { JwtAuthGuard } from '../../middleware/jwt-auth.guard';
+import { UpdateChangePasswordUserDto } from '../../dto/validation-user.dto';
 
 @Controller()
 export class AuthUserController {
   constructor(
-    private readonly createRegisterUserService: CreateRegisterUserService,
+    private readonly createRegisterUser: CreateRegisterUser,
     private readonly createLoginUser: CreateLoginUser,
+    private readonly changePasswordUser: ChangePasswordUser,
+    private readonly confirmAccountTokenUser: ConfirmAccountTokenUser,
     private readonly resetUpdatePasswordUserService: ResetUpdatePasswordUserService,
   ) {}
 
@@ -37,7 +47,7 @@ export class AuthUserController {
     @Body() createRegisterUserDto: CreateRegisterUserDto,
   ) {
     const [errors, results] = await useCatch(
-      this.createRegisterUserService.createOneRegister({
+      this.createRegisterUser.execute({
         ...createRegisterUserDto,
       }),
     );
@@ -55,12 +65,11 @@ export class AuthUserController {
     @Body() createLoginUserDto: CreateLoginUserDto,
   ) {
     const [errors, results] = await useCatch(
-      this.createLoginUser.createOneLogin({ ...createLoginUserDto }),
+      this.createLoginUser.execute({ ...createLoginUserDto, ip }),
     );
     if (errors) {
       throw new NotFoundException(errors);
     }
-    console.log(`ip ====>`, ip);
     return reply({ res, results });
   }
 
@@ -86,12 +95,46 @@ export class AuthUserController {
   async updateOneResetPassword(
     @Res() res,
     @Body() updateResetPasswordUserDto: UpdateResetPasswordUserDto,
-    @Param() tokenResetPasswordUserDto: TokenResetPasswordUserDto,
+    @Param() tokenUserDto: TokenUserDto,
   ) {
     const [errors, results] = await useCatch(
       this.resetUpdatePasswordUserService.updateOneResetPassword({
         ...updateResetPasswordUserDto,
-        ...tokenResetPasswordUserDto,
+        ...tokenUserDto,
+      }),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results });
+  }
+
+  /** Confirm account*/
+  @Get(`/confirm-account`)
+  async confirmAccount(@Res() res, @Query() tokenUserDto: TokenUserDto) {
+    const [errors, results] = await useCatch(
+      this.confirmAccountTokenUser.execute({ ...tokenUserDto }),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results });
+  }
+
+  /** Change password account*/
+  @Put(`/change-password`)
+  @UseGuards(JwtAuthGuard)
+  async changePassword(
+    @Res() res,
+    @Req() req,
+    @Body() updateChangePasswordUserDto: UpdateChangePasswordUserDto,
+  ) {
+    const { user } = req;
+    const userId = req?.user?.id;
+    const [errors, results] = await useCatch(
+      this.changePasswordUser.execute({
+        ...updateChangePasswordUserDto,
+        userId,
       }),
     );
     if (errors) {
