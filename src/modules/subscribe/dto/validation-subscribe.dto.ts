@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsNotEmpty,
@@ -7,6 +8,7 @@ import {
   IsEmail,
   IsOptional,
   IsIn,
+  Min,
 } from 'class-validator';
 
 export type RoleName = 'ADMIN' | 'MODERATOR';
@@ -61,4 +63,8 @@ export class SubscribeRequestDto {
   @IsOptional()
   @IsInt()
   contributorId?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  is_paginate?: boolean;
 }

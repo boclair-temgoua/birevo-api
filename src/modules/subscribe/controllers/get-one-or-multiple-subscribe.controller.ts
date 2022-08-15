@@ -2,24 +2,73 @@ import {
   Controller,
   Get,
   Param,
-  ParseUUIDPipe,
   NotFoundException,
   UseGuards,
   Res,
   Query,
   Req,
   ParseIntPipe,
+  ParseBoolPipe,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { JwtAuthGuard } from '../../user/middleware';
 import { FindOneSubscribeByService } from '../services/query/find-one-subscribe-by.service';
+import { RequestPaginationDto } from '../../../infrastructure/utils/pagination/request-pagination.dto';
+import { FilterQueryDto } from '../../../infrastructure/utils/filter-query/filter-query.dto';
+import { FindSubscribeService } from '../services/query/find-subscribe.service';
+import { GetAuthorizationToSubscribe } from '../services/use-cases/get-authorization-to-subscribe';
 
 @Controller('subscribes')
 export class GetOneOrMultipleSubscribeController {
   constructor(
     private readonly findOneSubscribeByService: FindOneSubscribeByService,
+    private readonly getAuthorizationToSubscribe: GetAuthorizationToSubscribe,
+    private readonly findSubscribeService: FindSubscribeService,
   ) {}
+
+  @Get(`/contributors`)
+  @UseGuards(JwtAuthGuard)
+  async findAllContributorsBy(
+    @Res() res,
+    @Req() req,
+    @Query() pagination: RequestPaginationDto,
+    @Query() filterQuery: FilterQueryDto,
+    @Query('is_paginate', ParseBoolPipe) is_paginate: boolean,
+  ) {
+    const { user } = req;
+    const type = 'ORGANIZATION';
+    // Check permission user action
+    const [_errorOr, result] = await useCatch(
+      this.getAuthorizationToSubscribe.execute({
+        organizationId: user?.organizationInUtilizationId,
+        userId: user?.id,
+        type,
+      }),
+    );
+    if (_errorOr) {
+      throw new NotFoundException(_errorOr);
+    }
+    if (!result?.subscribeOrganization) throw new UnauthorizedException();
+
+    /** get contributor filter by organization */
+    const [errors, results] = await useCatch(
+      this.findSubscribeService.findAllSubscribes({
+        is_paginate,
+        filterQuery,
+        pagination,
+        option2: {
+          subscribableId: result?.subscribeOrganization?.subscribableId,
+          subscribableType: type,
+        },
+      }),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results });
+  }
 
   @Get(`/show`)
   @UseGuards(JwtAuthGuard)

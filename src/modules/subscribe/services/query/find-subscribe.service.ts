@@ -15,11 +15,13 @@ export class FindSubscribeService {
 
   async findAllSubscribes(
     selections: GetSubscribesSelections,
-  ): Promise<GetSubscribesSelections> {
-    const { option1, option2, filterQuery, pagination } = { ...selections };
+  ): Promise<GetSubscribesSelections | any> {
+    const { option1, option2, is_paginate, filterQuery, pagination } = {
+      ...selections,
+    };
 
     let query = this.driver
-      .createQueryBuilder('Subscribe')
+      .createQueryBuilder('subscribe')
       .select('subscribe.id', 'id')
       .addSelect('subscribe.uuid', 'uuid')
       .addSelect('subscribe.userCreatedId', 'userCreatedId')
@@ -35,7 +37,7 @@ export class FindSubscribeService {
           'userId', "organization"."userId",
           'color', "organization"."color",
           'name', "organization"."name",
-          'slug', "organization"."slug"
+          'uuid', "organization"."uuid"
       ) AS "organization"`,
       )
       .addSelect(
@@ -102,22 +104,36 @@ export class FindSubscribeService {
       .leftJoin('subscribe.role', 'role')
       .leftJoin('user.profile', 'profile');
 
-    const [errorRowCount, rowCount] = await useCatch(query.getCount());
-    if (errorRowCount) throw new NotFoundException(errorRowCount);
+    if (is_paginate) {
+      const [errorRowCount, rowCount] = await useCatch(query.getCount());
+      if (errorRowCount) throw new NotFoundException(errorRowCount);
 
-    const [error, results] = await useCatch(
-      query
-        .orderBy('subscribe.createdAt', pagination?.sort)
-        .limit(pagination.limit)
-        .offset((pagination.page - 1) * pagination.limit)
-        .getRawMany(),
-    );
-    if (error) throw new NotFoundException(error);
+      const [errors, results] = await useCatch(
+        query
+          .orderBy('subscribe.createdAt', pagination?.sort)
+          .limit(pagination.limit)
+          .offset((pagination.page - 1) * pagination.limit)
+          .getRawMany(),
+      );
+      if (errors) throw new NotFoundException(errors);
 
-    return withPagination({
-      pagination,
-      rowCount,
-      data: results,
-    });
+      return withPagination({
+        pagination,
+        rowCount,
+        data: results,
+      });
+    } else {
+      const [errors, results] = await useCatch(
+        pagination
+          ? query
+              .orderBy('subscribe.createdAt', pagination?.sort)
+              .limit(pagination.limit)
+              .getRawMany()
+          : query.orderBy('subscribe.createdAt', 'DESC').getRawMany(),
+      );
+      if (errors) throw new NotFoundException(errors);
+
+      return results;
+    }
   }
 }

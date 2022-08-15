@@ -2,6 +2,7 @@ import { Subscribe } from '../../../models/Subscribe';
 import { SortType } from '../../../infrastructure/utils/pagination';
 
 export type GetSubscribesSelections = {
+  is_paginate?: boolean;
   filterQuery?: any;
   data?: any[];
   pagination?: {
