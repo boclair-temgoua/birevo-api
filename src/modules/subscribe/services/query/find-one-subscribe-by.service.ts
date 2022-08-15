@@ -14,7 +14,9 @@ export class FindOneSubscribeByService {
 
   async findOneBy(selections: GetOneSubscribeSelections): Promise<Subscribe> {
     const { option1, option3 } = { ...selections };
-    let query = this.driver.createQueryBuilder('subscribe');
+    let query = this.driver
+      .createQueryBuilder('subscribe')
+      .leftJoinAndSelect('subscribe.organization', 'organization');
 
     if (option1) {
       const { userId, subscribableId, subscribableType, organizationId } = {
@@ -38,7 +40,7 @@ export class FindOneSubscribeByService {
       query = query.where('subscribe.uuid = :uuid', { uuid: subscribe_uuid });
     }
 
-    const [error, result] = await useCatch(query.getRawOne());
+    const [error, result] = await useCatch(query.getOne());
     if (error)
       throw new HttpException('Subscribe not found', HttpStatus.NOT_FOUND);
 
