@@ -77,6 +77,11 @@ export class GetOnUserVoucher {
     if (_errorV) {
       throw new NotFoundException(_errorV);
     }
+    if (!findVoucher)
+      throw new HttpException(
+        `Invalid coupon or voucher please try again`,
+        HttpStatus.NOT_FOUND,
+      );
 
     if (findVoucher) {
       /** Here create Activity */

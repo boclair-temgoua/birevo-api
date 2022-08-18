@@ -119,7 +119,7 @@ export class FindOneVoucherByService {
       .addSelect(
         /*sql*/ `(
           SELECT jsonb_build_object(
-          'id', "app"."id",
+          'uuid', "app"."uuid",
           'name', "app"."name",
           'userId', "app"."userId",
           'createdAt', "app"."createdAt"
@@ -163,8 +163,8 @@ export class FindOneVoucherByService {
         .andWhere('voucher.organizationId = :organizationId', {
           organizationId,
         })
-        .andWhere('voucher.voucherType = :voucherType', { voucherType: type });
-      //   .andWhere("voucher.status IN ('ACTIVE')");
+        .andWhere('voucher.voucherType = :voucherType', { voucherType: type })
+        .andWhere("voucher.status IN ('ACTIVE')");
       // if (type === 'COUPON') {
       //   query = query.andWhere('voucher.usedAt IS NULL');
       // }

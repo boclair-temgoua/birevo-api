@@ -38,7 +38,7 @@ export class GetOneOrMultipleExternalVoucherController {
     private readonly findVoucherService: FindVoucherService,
   ) {}
 
-  @Get(`/voucher`)
+  @Get(`/vouchers`)
   async getAllVouchers(
     @Res() res,
     @Req() req,
@@ -63,7 +63,7 @@ export class GetOneOrMultipleExternalVoucherController {
     return reply({ res, results: results });
   }
 
-  @Get(`/voucher/show/:code`)
+  @Get(`/vouchers/show/:code`)
   async getOneByUuidOrrCode(
     @Res() res,
     @Req() req,

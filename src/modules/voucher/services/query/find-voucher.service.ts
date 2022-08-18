@@ -102,7 +102,7 @@ export class FindVoucherService {
       .addSelect(
         /*sql*/ `(
           SELECT jsonb_build_object(
-          'id', "app"."id",
+          'uuid', "app"."uuid",
           'name', "app"."name",
           'userId', "app"."userId",
           'createdAt', "app"."createdAt"

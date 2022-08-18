@@ -128,6 +128,7 @@ export class CreateOrUpdateVoucher {
     if (_errorV) {
       throw new NotFoundException(_errorV);
     }
+
     if (!findVoucher)
       throw new HttpException(
         `Invalid voucher please try again`,

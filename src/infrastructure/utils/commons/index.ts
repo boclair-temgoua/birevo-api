@@ -8,4 +8,5 @@ export * from './generate-long-uuid';
 export * from './capitalized-name';
 export * from './match.decorator';
 export * from './date.decorator';
+export * from './check-if-number-or-empty';
 export * from './database-utils';

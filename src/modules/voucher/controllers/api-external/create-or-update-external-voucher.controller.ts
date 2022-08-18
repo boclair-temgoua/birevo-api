@@ -27,7 +27,7 @@ import { getIpRequest } from '../../../../infrastructure/utils/commons/get-ip-re
 export class CreateOrUpdateExternalVoucherController {
   constructor(private readonly createOrUpdateVoucher: CreateOrUpdateVoucher) {}
 
-  @Post(`/voucher/create`)
+  @Post(`/vouchers/create`)
   async createOneCoupon(
     @Res() res,
     @Req() req,
@@ -45,7 +45,7 @@ export class CreateOrUpdateExternalVoucherController {
     return reply({ res, results: result });
   }
 
-  @Put(`/voucher/use/:code`)
+  @Put(`/vouchers/use/:code`)
   async useOneCoupon(
     @Res() res,
     @Req() req,

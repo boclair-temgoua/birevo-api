@@ -3,7 +3,10 @@ import { Voucher } from '../../../../models/Voucher';
 import { Repository, DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { generateUUID } from '../../../../infrastructure/utils/commons';
+import {
+  checkIfNumberOrEmpty,
+  generateUUID,
+} from '../../../../infrastructure/utils/commons';
 import { DatabaseUtils } from '../../../../infrastructure/utils/commons/database-utils';
 import {
   CreateVoucherOptions,
@@ -53,10 +56,10 @@ export class CreateOrUpdateVoucherService {
 
     if (deliveryType === 'AMOUNT') {
       voucher.currencyId = currencyId;
-      voucher.amount = amount;
+      voucher.amount = checkIfNumberOrEmpty(amount) ? amount : null;
     }
     if (deliveryType === 'PERCENT') {
-      voucher.percent = percent;
+      voucher.percent = checkIfNumberOrEmpty(percent) ? percent : null;
     }
 
     voucher.code = code;
