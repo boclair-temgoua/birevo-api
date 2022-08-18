@@ -7,12 +7,25 @@ import {
   IsIn,
   IsOptional,
   IsUUID,
+  IsEmail,
+  IsInt,
+  IsPositive,
+  IsDateString,
+  MinDate,
+  IsDate,
+  MaxDate,
 } from 'class-validator';
+import { MatchDate } from 'src/infrastructure/utils/commons';
 export type StatusOnline = 'ONLINE' | 'OFFLINE' | 'TEST';
+export type DeliveryType = 'AMOUNT' | 'PERCENT';
 export type StatusVoucher = 'PENDING' | 'ACTIVE' | 'USED' | 'TEST';
 export type VoucherableType = 'COUPON' | 'VOUCHER' | 'BON';
 
+export const deliveryTypeArrays = ['AMOUNT', 'PERCENT'];
+
 export const statusVoucherArrays = ['PENDING', 'ACTIVE', 'USED'];
+
+export const voucherableTypeArrays = ['COUPON', 'VOUCHER', 'BON'];
 
 export const getOneStatusVoucher = (state: StatusVoucher): number => {
   switch (state) {
@@ -64,32 +77,112 @@ export const getOneByNumberVoucherType = (state: number): VoucherableType => {
   }
 };
 
-export class CreateOrUpdateApplicationDto {
-  @IsOptional()
-  @IsString()
-  @IsUUID()
-  application_uuid: string;
-
+export class CreateOrUpdateVoucherDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
   @MinLength(3)
   name: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  @MaxLength(10)
-  @MinLength(3)
-  @IsIn(statusVoucherArrays)
-  statusVoucher: StatusVoucher;
+  currency: string;
 
   @IsOptional()
-  user: User;
-}
+  @IsString()
+  status: string;
 
-export class ApplicationUuidDto {
+  @IsOptional()
+  @IsString()
+  email: string;
+
+  @IsOptional()
+  @IsString()
+  amount: string;
+
+  @IsOptional()
+  @IsString()
+  description: string;
+
   @IsNotEmpty()
   @IsString()
+  @IsIn(deliveryTypeArrays)
+  deliveryType: NonNullable<DeliveryType>;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(voucherableTypeArrays)
+  type?: NonNullable<VoucherableType>;
+
+  @IsOptional()
+  @IsInt()
+  voucherId?: number;
+
+  @IsOptional()
+  @IsString()
+  percent?: string;
+
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
+  applicationId?: number;
+
+  @IsNotEmpty()
+  startedAt: Date;
+
+  @IsNotEmpty()
+  @MatchDate('startedAt')
+  expiredAt: Date;
+
+  @IsOptional()
+  user: any;
+}
+
+export class GetOneVoucherDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(20)
+  @MinLength(8)
+  code: string;
+
+  @IsOptional()
+  @IsString()
   @IsUUID()
-  application_uuid: string;
+  voucher_uuid: string;
+
+  @IsOptional()
+  @IsString()
+  userAgent: string;
+
+  @IsOptional()
+  @IsString()
+  ipLocation: string;
+
+  @IsOptional()
+  user: any;
+}
+
+export class VoucherableTypeDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsIn(['1', '2', '3'])
+  voucher_type: string;
+}
+export class CodeVoucherDto {
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(20)
+  @MinLength(8)
+  code: string;
+
+  @IsOptional()
+  @IsString()
+  userAgent: string;
+
+  @IsOptional()
+  @IsString()
+  ipLocation: string;
+
+  @IsOptional()
+  user: any;
 }

@@ -12,10 +12,9 @@ import { CurrencyModule } from './modules/currency/currency.module';
 import { QrCodeModule } from './modules/qr-code/qr-code.module';
 import { ApplicationTokenModule } from './modules/application-token/application-token.module';
 import { ApplicationModule } from './modules/application/application.module';
-// import { VoucherInterneModule } from './modules/voucher/api-interne/voucher-interne.module';
-// import { VoucherExternalModule } from './modules/voucher/api-external/voucher-external.module';
 import { SubscribeModule } from './modules/subscribe/subscribe.module';
 import { OrganizationModule } from './modules/organization/organization.module';
+import { VoucherModule } from './modules/voucher/voucher.module';
 
 @Module({
   imports: [
@@ -31,8 +30,7 @@ import { OrganizationModule } from './modules/organization/organization.module';
     ApplicationModule,
     SubscribeModule,
     OrganizationModule,
-    // VoucherExternalModule,
-    // VoucherInterneModule,
+    VoucherModule,
   ],
 })
 export class AppModule {}

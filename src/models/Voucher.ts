@@ -9,6 +9,8 @@ import {
 import { Currency } from './Currency';
 import { User } from './User';
 import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteEntity';
+import { DeliveryType } from '../modules/voucher/dto/validation-voucher.dto';
+import { Nullable } from '../infrastructure/utils/use-catch';
 import {
   StatusOnline,
   StatusVoucher,
@@ -20,14 +22,17 @@ export class Voucher extends BaseDeleteEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
-  @Column({ type: 'timestamptz', nullable: true })
-  usedAt?: Date;
-
   @Column({ type: 'uuid', unique: true })
   uuid?: string;
 
   @Column()
   code?: string;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  validity: Date;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  usedAt?: Date;
 
   @Column({ type: 'bigint', nullable: true })
   voucherCategoryId?: number;
@@ -58,6 +63,9 @@ export class Voucher extends BaseDeleteEntity {
 
   @Column({ type: 'float', nullable: true })
   percent?: number;
+
+  @Column({ nullable: true })
+  deliveryType?: DeliveryType;
 
   @Column({ nullable: true, type: 'timestamptz' })
   startedAt?: Date;

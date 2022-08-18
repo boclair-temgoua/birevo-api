@@ -33,6 +33,7 @@ export class CreateOneContributorToSubscribe {
     if (_errorOr) {
       throw new NotFoundException(_errorOr);
     }
+    console.log(`result ======>`, organizationId, userId, type);
     if (!result?.subscribeOrganization) throw new UnauthorizedException();
 
     const [__errorOr, isExistedResult] = await useCatch(

@@ -14,7 +14,7 @@ export class FindVoucherService {
     private driver: Repository<Voucher>,
   ) {}
 
-  async findAllContacts(selections: GetVoucherSelections): Promise<any> {
+  async findAllVouchers(selections: GetVoucherSelections): Promise<any> {
     const { filterQuery, is_paginate, type, status, pagination, option1 } = {
       ...selections,
     };
@@ -32,6 +32,7 @@ export class FindVoucherService {
       .addSelect('voucher.startedAt', 'startedAt')
       .addSelect('voucher.voucherType', 'voucherType')
       .addSelect('voucher.percent', 'percent')
+      .addSelect('voucher.deliveryType', 'deliveryType')
       .addSelect('voucher.email', 'email')
       .addSelect('voucher.applicationId', 'applicationId')
       .addSelect('voucher.usedAt', 'usedAt')
@@ -42,15 +43,15 @@ export class FindVoucherService {
       .addSelect('currency.code', 'currency')
       .addSelect('voucher.userTransactionId', 'userTransactionId')
       .addSelect('voucher.userId', 'userId')
-      //     .addSelect(
-      //         /*sql*/ `
-      //     CASE WHEN ("voucher"."expiredAt" >= now()::date) THEN false
-      //         WHEN ("voucher"."expiredAt" < now()::date) THEN true
-      //         ELSE false
-      //         END
-      // `,
-      //         'isExpired',
-      //     )
+      .addSelect(
+        /*sql*/ `
+          CASE WHEN ("voucher"."expiredAt" >= now()::date) THEN false
+              WHEN ("voucher"."expiredAt" < now()::date) THEN true
+              ELSE false
+              END
+      `,
+        'isExpired',
+      )
       .addSelect(
         /*sql*/ `jsonb_build_object(
               'code', "currency"."code",
@@ -73,25 +74,25 @@ export class FindVoucherService {
           WHERE "voucher"."organizationId" = "us"."id"
           ) AS "profileOwner"`,
       )
-      // .addSelect(
-      //   /*sql*/ `(
-      //     SELECT jsonb_build_object(
-      //     'view', CAST(SUM("ac"."view") AS INT),
-      //     'usage',  CAST(SUM("ac"."usage") AS INT)
-      //     )
-      //     FROM "activity" "ac"
-      //     WHERE "ac"."activityAbleType" = "voucher"."voucherType"
-      //     AND "ac"."activityAbleId" = "voucher"."id"
-      //     GROUP BY "ac"."activityAbleId", "ac"."activityAbleType"
-      //     ) AS "activity"`,
-      // )
+      .addSelect(
+        /*sql*/ `(
+          SELECT jsonb_build_object(
+          'view', CAST(SUM("ac"."view") AS INT),
+          'usage',  CAST(SUM("ac"."usage") AS INT)
+          )
+          FROM "activity" "ac"
+          WHERE "ac"."activityAbleType" = "voucher"."voucherType"
+          AND "ac"."activityAbleId" = "voucher"."id"
+          GROUP BY "ac"."activityAbleId", "ac"."activityAbleType"
+          ) AS "activity"`,
+      )
       .addSelect(
         /*sql*/ `(
           SELECT jsonb_build_object(
           'uuid', "org"."uuid",
           'name', "org"."name",
           'color', "org"."color",
-          'slug', "org"."slug"
+          'uuid', "org"."uuid"
           )
           FROM "organization" "org"
           WHERE "voucher"."organizationId" = "org"."id"
@@ -125,6 +126,11 @@ export class FindVoucherService {
       .andWhere('voucher.deletedAt IS NULL')
       .leftJoin('voucher.currency', 'currency');
 
+    if (option1) {
+      const { userId } = { ...option1 };
+      query = query.andWhere('voucher.userId = :userId', { userId });
+    }
+
     if (filterQuery?.q) {
       query = query.andWhere(
         new Brackets((qb) => {
@@ -143,7 +149,10 @@ export class FindVoucherService {
 
       const [error, results] = await useCatch(
         query
-          .orderBy('voucher.createdAt', pagination?.sort)
+          .orderBy(
+            'voucher.createdAt',
+            pagination?.sort ? pagination?.sort : 'DESC',
+          )
           .limit(pagination.limit)
           .offset((pagination.page - 1) * pagination.limit)
           .getRawMany(),

@@ -16,6 +16,7 @@ async function bootstrap() {
   );
   app.enableCors();
   app.use(helmet());
+  // app.use(useragent.express());
   await app.listen(port, () => {
     console.log(`=============================================`);
     console.log(`*** 🚀 Link  http://localhost:${port}/api/${version} ***`);

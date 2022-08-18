@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { QrCode } from '../../../../models/QrCode';
 import { CreateQrCodeOptions } from '../../types';
-import QRCode from 'qrcode';
+import { toDataURL } from 'qrcode';
 
 @Injectable()
 export class CreateOrUpdateQrCodeService {
@@ -15,12 +15,10 @@ export class CreateOrUpdateQrCodeService {
 
   /** Create one QrCode to the database. */
   async createOne(options: CreateQrCodeOptions): Promise<QrCode> {
-    const { qrCode, barCode, qrCodType, qrCodableId } = {
-      ...options,
-    };
+    const { qrCode, barCode, qrCodType, qrCodableId } = { ...options };
 
     const qrCodeSave = new QrCode();
-    qrCodeSave.qrCode = await QRCode.toDataURL(qrCode);
+    qrCodeSave.qrCode = await toDataURL(qrCode);
     qrCodeSave.barCode = barCode;
     qrCodeSave.qrCodType = qrCodType;
     qrCodeSave.qrCodableId = qrCodableId;

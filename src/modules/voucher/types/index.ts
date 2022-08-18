@@ -29,7 +29,6 @@ export type GetOneVoucherSelections = {
   option5?: {
     code: Voucher['code'];
     organizationId: Voucher['organizationId'];
-    type: Voucher['voucherType'];
   };
   option6?: {
     code: Voucher['code'];

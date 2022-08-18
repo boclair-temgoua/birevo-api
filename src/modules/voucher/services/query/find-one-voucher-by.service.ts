@@ -18,6 +18,31 @@ export class FindOneVoucherByService {
     };
     let query = this.driver
       .createQueryBuilder('voucher')
+      .where('voucher.deletedAt IS NULL');
+
+    if (option1) {
+      const { uuid } = { ...option1 };
+      query = query.andWhere('voucher.uuid = :uuid', { uuid });
+    }
+
+    if (option2) {
+      const { code } = { ...option2 };
+      query = query.andWhere('voucher.code = :code', { code });
+    }
+
+    const [error, result] = await useCatch(query.getOne());
+    if (error)
+      throw new HttpException('Voucher not found', HttpStatus.NOT_FOUND);
+
+    return result;
+  }
+
+  async findOneInfoBy(selections: GetOneVoucherSelections): Promise<Voucher> {
+    const { option1, option2, option3, option4, option5, option6 } = {
+      ...selections,
+    };
+    let query = this.driver
+      .createQueryBuilder('voucher')
       .select('voucher.id', 'id')
       .addSelect('voucher.uuid', 'uuid')
       .addSelect('voucher.code', 'code')
@@ -29,6 +54,7 @@ export class FindOneVoucherByService {
       .addSelect('voucher.startedAt', 'startedAt')
       .addSelect('voucher.voucherType', 'voucherType')
       .addSelect('voucher.percent', 'percent')
+      .addSelect('voucher.deliveryType', 'deliveryType')
       .addSelect('voucher.email', 'email')
       .addSelect('voucher.applicationId', 'applicationId')
       .addSelect('voucher.usedAt', 'usedAt')
@@ -45,7 +71,7 @@ export class FindOneVoucherByService {
           WHEN ("voucher"."expiredAt" < now()::date) THEN true
           ELSE false
           END
-  `,
+        `,
         'isExpired',
       )
       .addSelect(
@@ -66,25 +92,24 @@ export class FindOneVoucherByService {
               'image', "profile"."image"
           ) AS "profileOwner"`,
       )
-      // .addSelect(
-      //   /*sql*/ `(
-      //     SELECT jsonb_build_object(
-      //     'view', CAST(SUM("ac"."view") AS INT),
-      //     'usage',  CAST(SUM("ac"."usage") AS INT)
-      //     )
-      //     FROM "activity" "ac"
-      //     WHERE "ac"."activityAbleType" = "voucher"."voucherType"
-      //     AND "ac"."activityAbleId" = "voucher"."id"
-      //     GROUP BY "ac"."activityAbleId", "ac"."activityAbleType"
-      //     ) AS "activity"`,
-      // )
+      .addSelect(
+        /*sql*/ `(
+          SELECT jsonb_build_object(
+          'view', CAST(SUM("ac"."view") AS INT),
+          'usage',  CAST(SUM("ac"."usage") AS INT)
+          )
+          FROM "activity" "ac"
+          WHERE "ac"."activityAbleType" = "voucher"."voucherType"
+          AND "ac"."activityAbleId" = "voucher"."id"
+          GROUP BY "ac"."activityAbleId", "ac"."activityAbleType"
+          ) AS "activity"`,
+      )
       .addSelect(
         /*sql*/ `(
           SELECT jsonb_build_object(
           'uuid', "org"."uuid",
           'name', "org"."name",
-          'color', "org"."color",
-          'slug', "org"."slug"
+          'color', "org"."color"
           )
           FROM "organization" "org"
           WHERE "voucher"."organizationId" = "org"."id"
@@ -111,10 +136,12 @@ export class FindOneVoucherByService {
           'image', "qc"."qrCode"
           )
           FROM "qr_code" "qc"
-          WHERE "qc"."qrCodableId" = "voucher"."id"
+          WHERE "qc"."qrCodableId" = "voucher"."id" 
+          AND "voucher"."voucherType" = "qc"."qrCodType"
           ) AS "qrCode"`,
       )
       .where('voucher.deletedAt IS NULL')
+      .andWhere('voucher.validity IS NOT NULL')
       .leftJoin('voucher.currency', 'currency')
       .leftJoin('voucher.user', 'user')
       .leftJoin('user.profile', 'profile');
@@ -136,11 +163,11 @@ export class FindOneVoucherByService {
         .andWhere('voucher.organizationId = :organizationId', {
           organizationId,
         })
-        .andWhere('voucher.voucherType = :voucherType', { voucherType: type })
-        .andWhere("voucher.status IN ('ACTIVE')");
-      if (type === 'COUPON') {
-        query = query.andWhere('voucher.usedAt IS NULL');
-      }
+        .andWhere('voucher.voucherType = :voucherType', { voucherType: type });
+      //   .andWhere("voucher.status IN ('ACTIVE')");
+      // if (type === 'COUPON') {
+      //   query = query.andWhere('voucher.usedAt IS NULL');
+      // }
     }
 
     if (option4) {
@@ -149,13 +176,13 @@ export class FindOneVoucherByService {
     }
 
     if (option5) {
-      const { code, type, organizationId } = { ...option5 };
+      const { code, organizationId } = { ...option5 };
       query = query
         .andWhere('voucher.code = :code', { code })
         .andWhere('voucher.organizationId = :organizationId', {
           organizationId,
         })
-        .andWhere('voucher.voucherType = :voucherType', { voucherType: type });
+        .andWhere('voucher.usedAt IS NULL');
     }
 
     if (option6) {

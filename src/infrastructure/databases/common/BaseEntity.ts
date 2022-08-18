@@ -8,3 +8,8 @@ export abstract class BaseEntity {
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: Date;
 }
+
+// export abstract class BaseVersionTable extends BaseTable {
+//   @Column({ type: 'tstzrange', default: null })
+//   validity: Nullable<string>;
+// }

@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Voucher } from '../../../../models/Voucher';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { generateUUID } from '../../../../infrastructure/utils/commons';
+import { DatabaseUtils } from '../../../../infrastructure/utils/commons/database-utils';
 import {
   CreateVoucherOptions,
   UpdateVoucherOptions,
@@ -15,16 +16,18 @@ export class CreateOrUpdateVoucherService {
   constructor(
     @InjectRepository(Voucher)
     private driver: Repository<Voucher>,
+    private dataSource: DataSource,
   ) {}
 
   /** Create one Voucher to the database. */
-  async createOne(options: CreateVoucherOptions): Promise<Voucher> {
+  async createOne(options: CreateVoucherOptions): Promise<any> {
     const {
       name,
       amount,
       percent,
       currencyId,
       description,
+      deliveryType,
       startedAt,
       expiredAt,
       status,
@@ -37,6 +40,7 @@ export class CreateOrUpdateVoucherService {
       applicationId,
       userCreatedId,
       organizationId,
+      validity,
       code,
     } = {
       ...options,
@@ -46,17 +50,25 @@ export class CreateOrUpdateVoucherService {
     voucher.uuid = generateUUID();
     voucher.name = name;
     voucher.email = email;
-    voucher.amount = amount;
-    voucher.percent = percent;
+
+    if (deliveryType === 'AMOUNT') {
+      voucher.currencyId = currencyId;
+      voucher.amount = amount;
+    }
+    if (deliveryType === 'PERCENT') {
+      voucher.percent = percent;
+    }
+
     voucher.code = code;
     voucher.status = status;
     voucher.usedAt = usedAt;
-    voucher.startedAt = startedAt ? startedAt : null;
-    voucher.expiredAt = expiredAt ? expiredAt : null;
+    voucher.startedAt = new Date(startedAt).getTime() ? startedAt : null;
+    voucher.expiredAt = new Date(expiredAt).getTime() ? expiredAt : null;
     voucher.voucherType = voucherType;
     voucher.description = description;
+    voucher.validity = new Date();
+    voucher.deliveryType = deliveryType;
     voucher.organizationId = organizationId;
-    voucher.currencyId = currencyId;
     voucher.userCreatedId = userCreatedId;
     voucher.applicationId = applicationId;
     voucher.voucherCategoryId = voucherCategoryId;
@@ -94,6 +106,7 @@ export class CreateOrUpdateVoucherService {
       status,
       code,
       statusOnline,
+      validity,
       deletedAt,
     } = {
       ...options,
@@ -103,7 +116,7 @@ export class CreateOrUpdateVoucherService {
 
     if (option1) {
       const { uuid } = { ...option1 };
-      findQuery = findQuery.where('voucher.uuid = :uuid', { uuid });
+      findQuery = findQuery.andWhere('voucher.uuid = :uuid', { uuid });
     }
 
     const [errorFind, findItem] = await useCatch(findQuery.getOne());
@@ -123,6 +136,7 @@ export class CreateOrUpdateVoucherService {
     findItem.applicationId = applicationId;
     findItem.description = description;
     findItem.usedAt = usedAt;
+    findItem.validity = validity;
     findItem.startedAt = startedAt;
     findItem.expiredAt = expiredAt;
     findItem.deletedAt = deletedAt;

@@ -6,15 +6,12 @@ export type GetCurrenciesSelections = {
 };
 
 export type GetOneCurrencySelections = {
-  option1?: {
-    currencyId?: Currency['id'];
-  };
+  option1?: { currencyId?: Currency['id'] };
+  option2?: { code?: Currency['code'] };
 };
 
 export type UpdateCurrencySelections = {
-  option1?: {
-    currencyId?: Currency['id'];
-  };
+  option1?: { currencyId?: Currency['id'] };
 };
 
 export type CreateCurrencyOptions = Partial<Currency>;

@@ -13,7 +13,7 @@ export class FindOneCurrencyByService {
   ) {}
 
   async findOneBy(selections: GetOneCurrencySelections): Promise<Currency> {
-    const { option1 } = { ...selections };
+    const { option1, option2 } = { ...selections };
     let query = this.driver
       .createQueryBuilder('currency')
       .where('currency.deletedAt IS NULL');
@@ -21,6 +21,11 @@ export class FindOneCurrencyByService {
     if (option1) {
       const { currencyId } = { ...option1 };
       query = query.where('currency.id = :id', { id: currencyId });
+    }
+
+    if (option2) {
+      const { code } = { ...option2 };
+      query = query.andWhere('currency.code = :code', { code });
     }
 
     const [error, result] = await useCatch(query.getOne());
