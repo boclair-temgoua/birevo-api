@@ -11,6 +11,7 @@ import {
 import { User } from './User';
 import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteEntity';
 import { Color } from '../infrastructure/utils/commons/get-colors';
+import { AmountSubscription } from './AmountSubscription';
 import { Subscribe } from './Subscribe';
 
 @Entity('organization')
@@ -35,10 +36,14 @@ export class Organization extends BaseDeleteEntity {
   })
   subscribes?: Subscribe[];
 
-  // @OneToMany(() => AmountSubscription, (amountSubscription) => amountSubscription.organization, {
-  //     onDelete: 'CASCADE',
-  // })
-  // amountSubscriptions?: AmountSubscription[];
+  @OneToMany(
+    () => AmountSubscription,
+    (amountSubscription) => amountSubscription.organization,
+    {
+      onDelete: 'CASCADE',
+    },
+  )
+  amountSubscriptions?: AmountSubscription[];
 
   @ManyToOne(() => User, (user) => user.organizations, { onDelete: 'CASCADE' })
   @JoinColumn()

@@ -64,6 +64,20 @@ export class FindOneUserByService {
   ) AS "profile"`,
       )
       .addSelect(
+        /*sql*/ `(
+        SELECT jsonb_build_object(
+        'total', CAST(SUM("ams"."amountSubscription") AS c)
+        )
+        FROM "amount_subscription" "ams"
+        INNER JOIN "amount" "am" ON "ams"."amountId" = "am"."id"
+        WHERE "ams"."organizationId" = "am"."organizationId"
+        AND "ams"."userId" = "am"."userId"
+        AND "user"."organizationInUtilizationId" = "ams"."organizationId"
+        AND "user"."organizationInUtilizationId" = "am"."organizationId"
+        GROUP BY "ams"."organizationId", "ams"."userId", "am"."userId", "user"."organizationInUtilizationId"
+        ) AS "billing"`,
+      )
+      .addSelect(
         /*sql*/ `jsonb_build_object(
           'id', "organization"."id",
           'uuid', "organization"."uuid",

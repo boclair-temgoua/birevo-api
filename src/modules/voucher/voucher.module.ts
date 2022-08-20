@@ -30,6 +30,11 @@ import { GetOneOrMultipleExternalVoucherController } from './controllers/api-ext
 import { Activity } from '../../models/Activity';
 import { CreateOrUpdateActivity } from '../activity/services/user-cases/create-or-update-activity';
 import { CreateOrUpdateActivityService } from '../activity/services/mutations/create-or-update-activity.service';
+import { CreateAmountAmountSubscription } from '../billing/services/user-cases/create-amount-amountSubscription';
+import { Amount } from '../../models/Amount';
+import { AmountSubscription } from '../../models/AmountSubscription';
+import { CreateOrUpdateAmountSubscriptionService } from '../amount-subscription/services/mutations/create-or-update-amount-subscription.service';
+import { CreateOrUpdateAmountService } from '../amount/services/mutations/create-or-update-amount.service';
 
 @Module({
   imports: [
@@ -41,6 +46,8 @@ import { CreateOrUpdateActivityService } from '../activity/services/mutations/cr
     TypeOrmModule.forFeature([Subscribe]),
     TypeOrmModule.forFeature([Organization]),
     TypeOrmModule.forFeature([ApplicationToken]),
+    TypeOrmModule.forFeature([Amount]),
+    TypeOrmModule.forFeature([AmountSubscription]),
   ],
   controllers: [
     CreateOrUpdateExternalVoucherController,
@@ -67,6 +74,9 @@ import { CreateOrUpdateActivityService } from '../activity/services/mutations/cr
     GetOnUserVoucher,
     CreateOrUpdateActivity,
     CreateOrUpdateVoucher,
+    CreateAmountAmountSubscription,
+    CreateOrUpdateAmountSubscriptionService,
+    CreateOrUpdateAmountService,
 
     /** Integrate user token middleware */
     FindOneApplicationTokenByService,

@@ -15,6 +15,9 @@ import { ApplicationModule } from './modules/application/application.module';
 import { SubscribeModule } from './modules/subscribe/subscribe.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { VoucherModule } from './modules/voucher/voucher.module';
+import { AmountModule } from './modules/amount/amount.module';
+import { AmountSubscriptionModule } from './modules/amount-subscription/amount-subscription.module';
+import { BillingModule } from './modules/billing/billing.module';
 
 @Module({
   imports: [
@@ -31,6 +34,9 @@ import { VoucherModule } from './modules/voucher/voucher.module';
     SubscribeModule,
     OrganizationModule,
     VoucherModule,
+    AmountModule,
+    BillingModule,
+    AmountSubscriptionModule,
   ],
 })
 export class AppModule {}

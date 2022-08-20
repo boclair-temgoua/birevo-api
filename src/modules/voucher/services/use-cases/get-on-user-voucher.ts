@@ -8,12 +8,14 @@ import { useCatch } from 'src/infrastructure/utils/use-catch';
 import { FindOneVoucherByService } from '../query/find-one-voucher-by.service';
 import { GetOneVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
+import { CreateAmountAmountSubscription } from '../../../billing/services/user-cases/create-amount-amountSubscription';
 
 @Injectable()
 export class GetOnUserVoucher {
   constructor(
     private readonly findOneVoucherByService: FindOneVoucherByService,
     private readonly createOrUpdateActivity: CreateOrUpdateActivity,
+    private readonly createAmountAmountSubscription: CreateAmountAmountSubscription,
   ) {}
 
   /** Confirm account token to the database. */
@@ -84,6 +86,25 @@ export class GetOnUserVoucher {
       );
 
     if (findVoucher) {
+      /** Ici je cree la transaction pour le payment de la requete */
+      {
+        /** Start */
+      }
+      const [_errorBull, bulling] = await useCatch(
+        this.createAmountAmountSubscription.execute({
+          amount: -0.5, // Ici c'est le cout de la requete faite par le coupon
+          currency: 'EUR',
+          userId: user?.applicationToken?.userId,
+          organizationId: user?.applicationToken?.organizationId,
+          userCreatedId: user?.applicationToken?.userId,
+        }),
+      );
+      if (_errorBull) {
+        throw new NotFoundException(_errorBull);
+      }
+      {
+        /** End */
+      }
       /** Here create Activity */
       const [_errorAct, _activity] = await useCatch(
         this.createOrUpdateActivity.execute({
