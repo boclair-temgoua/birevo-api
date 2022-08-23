@@ -20,7 +20,9 @@ export class GetOnUserVoucher {
 
   /** Confirm account token to the database. */
   async executeIntern(options: GetOneVoucherDto): Promise<any> {
-    const { code, voucher_uuid, ipLocation, user, userAgent } = { ...options };
+    const { code, voucher_uuid, ipLocation, user, userAgent } = {
+      ...options,
+    };
 
     if (code) {
       const [_errorV, findVoucher] = await useCatch(
@@ -63,15 +65,15 @@ export class GetOnUserVoucher {
     }
   }
 
-  /** Confirm account token to the database. */
+  /** Confirm find voucher to the database. */
   async executeExtern(options: GetOneVoucherDto): Promise<any> {
-    const { code, ipLocation, user, userAgent } = { ...options };
+    const { code, type, ipLocation, user, userAgent } = { ...options };
 
     const [_errorV, findVoucher] = await useCatch(
       this.findOneVoucherByService.findOneInfoBy({
         option3: {
           code,
-          type: 'COUPON',
+          type,
           organizationId: user?.applicationToken?.organizationId,
         },
       }),

@@ -141,7 +141,6 @@ export class FindOneVoucherByService {
           ) AS "qrCode"`,
       )
       .where('voucher.deletedAt IS NULL')
-      .andWhere('voucher.validity IS NOT NULL')
       .leftJoin('voucher.currency', 'currency')
       .leftJoin('voucher.user', 'user')
       .leftJoin('user.profile', 'profile');
@@ -156,6 +155,7 @@ export class FindOneVoucherByService {
       query = query.andWhere('voucher.code = :code', { code });
     }
 
+    /** Cette option3 est tres critique car elle plus utiliser pour les api externe */
     if (option3) {
       const { code, organizationId, type } = { ...option3 };
       query = query
@@ -163,11 +163,14 @@ export class FindOneVoucherByService {
         .andWhere('voucher.organizationId = :organizationId', {
           organizationId,
         })
-        .andWhere('voucher.voucherType = :voucherType', { voucherType: type })
-        .andWhere("voucher.status IN ('ACTIVE')");
-      // if (type === 'COUPON') {
-      //   query = query.andWhere('voucher.usedAt IS NULL');
-      // }
+        .andWhere("voucher.status IN ('ACTIVE')")
+        .andWhere('voucher.validity IS NOT NULL')
+        .andWhere('voucher.usedAt IS NULL');
+      if (type) {
+        query = query.andWhere('voucher.voucherType = :voucherType', {
+          voucherType: type,
+        });
+      }
     }
 
     if (option4) {
@@ -181,8 +184,7 @@ export class FindOneVoucherByService {
         .andWhere('voucher.code = :code', { code })
         .andWhere('voucher.organizationId = :organizationId', {
           organizationId,
-        })
-        .andWhere('voucher.usedAt IS NULL');
+        });
     }
 
     if (option6) {

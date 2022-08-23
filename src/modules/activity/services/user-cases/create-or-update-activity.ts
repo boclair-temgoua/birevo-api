@@ -45,7 +45,7 @@ export class CreateOrUpdateActivity {
     };
 
     const [errorSave, activity] = await useCatch(
-      action === 'USED'
+      action === 'USED' || 'DELETE'
         ? this.createOrUpdateActivityService.createOne({
             ...dataSave,
             usage: 1,

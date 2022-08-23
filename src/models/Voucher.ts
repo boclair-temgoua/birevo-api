@@ -47,7 +47,7 @@ export class Voucher extends BaseDeleteEntity {
   statusOnline?: StatusOnline;
 
   @Column({ default: 'PENDING', length: 30 })
-  status?: string;
+  status?: StatusVoucher;
 
   @Column({ nullable: true })
   name?: string;

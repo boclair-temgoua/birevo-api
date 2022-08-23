@@ -7,13 +7,20 @@ import {
   IsIn,
 } from 'class-validator';
 
-export type ActionActivity = 'VIEW' | 'USED' | 'NEW' | 'LOGIN' | 'REGISTER';
+export type ActionActivity =
+  | 'VIEW'
+  | 'USED'
+  | 'NEW'
+  | 'LOGIN'
+  | 'REGISTER'
+  | 'DELETE';
 
 export const actionActivityArrays = [
   'VIEW',
   'USED',
   'NEW',
   'LOGIN',
+  'DELETE',
   'REGISTER',
 ];
 
@@ -29,6 +36,8 @@ export const getOneActionActivityByNumber = (state: number): ActionActivity => {
       return 'LOGIN';
     case 5:
       return 'REGISTER';
+    case 5:
+      return 'DELETE';
     default:
       return 'VIEW';
   }

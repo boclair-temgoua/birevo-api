@@ -90,7 +90,8 @@ export class CreateOrUpdateVoucherDto {
 
   @IsOptional()
   @IsString()
-  status: string;
+  @IsIn(statusVoucherArrays)
+  status: StatusVoucher;
 
   @IsOptional()
   @IsString()
@@ -147,6 +148,11 @@ export class GetOneVoucherDto {
 
   @IsOptional()
   @IsString()
+  @IsIn(voucherableTypeArrays)
+  type?: NonNullable<VoucherableType>;
+
+  @IsOptional()
+  @IsString()
   @IsUUID()
   voucher_uuid: string;
 
@@ -182,6 +188,11 @@ export class CodeVoucherDto {
   @IsOptional()
   @IsString()
   ipLocation: string;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(voucherableTypeArrays)
+  type?: NonNullable<VoucherableType>;
 
   @IsOptional()
   user: any;

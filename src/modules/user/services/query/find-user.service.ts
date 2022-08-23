@@ -31,6 +31,7 @@ export class FindUserService {
       'userId', "user"."id",
       'firstName', "profile"."firstName",
       'image', "profile"."image",
+      'color', "profile"."color",
       'currencyId', "profile"."currencyId",
       'lastName', "profile"."lastName"
   ) AS "profile"`,

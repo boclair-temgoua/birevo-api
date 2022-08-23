@@ -66,7 +66,7 @@ export class FindOneUserByService {
       .addSelect(
         /*sql*/ `(
         SELECT jsonb_build_object(
-        'total', CAST(SUM("ams"."amountSubscription") AS c)
+        'total', CAST(SUM("ams"."amountSubscription") AS DECIMAL)
         )
         FROM "amount_subscription" "ams"
         INNER JOIN "amount" "am" ON "ams"."amountId" = "am"."id"

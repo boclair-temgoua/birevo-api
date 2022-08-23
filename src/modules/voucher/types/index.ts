@@ -22,7 +22,7 @@ export type GetOneVoucherSelections = {
   option2?: { code: Voucher['code'] };
   option3?: {
     code: Voucher['code'];
-    type: Voucher['voucherType'];
+    type?: Voucher['voucherType'];
     organizationId: Voucher['organizationId'];
   };
   option4?: { id: Voucher['id'] };

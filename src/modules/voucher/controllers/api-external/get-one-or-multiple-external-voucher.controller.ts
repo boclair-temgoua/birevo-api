@@ -63,8 +63,8 @@ export class GetOneOrMultipleExternalVoucherController {
     return reply({ res, results: results });
   }
 
-  @Get(`/vouchers/show/:code`)
-  async getOneByUuidOrrCode(
+  @Get(`/coupons/show/:code`)
+  async getOneCouponByCode(
     @Res() res,
     @Req() req,
     @Param() getOneVoucherDto: GetOneVoucherDto,
@@ -76,6 +76,29 @@ export class GetOneOrMultipleExternalVoucherController {
         ipLocation: getIpRequest(req),
         userAgent,
         user: req.user,
+        type: 'COUPON',
+      }),
+    );
+    if (error) {
+      throw new NotFoundException(error);
+    }
+    return reply({ res, results: result });
+  }
+
+  @Get(`/vouchers/show/:code`)
+  async getOneVoucherByCode(
+    @Res() res,
+    @Req() req,
+    @Param() getOneVoucherDto: GetOneVoucherDto,
+    @Headers('User-Agent') userAgent: string,
+  ) {
+    const [error, result] = await useCatch(
+      this.getOnUserVoucher.executeExtern({
+        ...getOneVoucherDto,
+        ipLocation: getIpRequest(req),
+        userAgent,
+        user: req.user,
+        type: 'VOUCHER',
       }),
     );
     if (error) {

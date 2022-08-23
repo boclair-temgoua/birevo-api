@@ -115,12 +115,13 @@ export class CreateOrUpdateVoucher {
 
   /** Use voucher account token to the database. */
   async useVoucherExtern(options: CodeVoucherDto): Promise<any> {
-    const { code, user, ipLocation, userAgent } = { ...options };
+    const { code, type, user, ipLocation, userAgent } = { ...options };
 
     const [_errorV, findVoucher] = await useCatch(
       this.findOneVoucherByService.findOneInfoBy({
-        option5: {
+        option3: {
           code,
+          type: 'COUPON',
           organizationId: user?.applicationToken?.organizationId,
         },
       }),
@@ -139,7 +140,12 @@ export class CreateOrUpdateVoucher {
       const [_errorV, _updateV] = await useCatch(
         this.createOrUpdateVoucherService.updateOne(
           { option1: { uuid: findVoucher?.uuid } },
-          { usedAt: new Date(), validity: null },
+          {
+            usedAt: new Date(),
+            validity: null,
+            status: 'USED',
+            statusOnline: 'OFFLINE',
+          },
         ),
       );
       if (_errorV) {
@@ -165,5 +171,58 @@ export class CreateOrUpdateVoucher {
       }
     }
     return findVoucher;
+  }
+
+  /** Delete voucher account token to the database. */
+  async deleteVoucherExtern(options: CodeVoucherDto): Promise<any> {
+    const { code, user, ipLocation, userAgent } = { ...options };
+
+    const [_errorV, findVoucher] = await useCatch(
+      this.findOneVoucherByService.findOneInfoBy({
+        option5: {
+          code,
+          organizationId: user?.applicationToken?.token
+            ? user?.applicationToken?.organizationId
+            : user?.organizationInUtilizationId,
+        },
+      }),
+    );
+    if (_errorV) {
+      throw new NotFoundException(_errorV);
+    }
+
+    if (!findVoucher)
+      throw new HttpException(
+        `Invalid voucher please try again`,
+        HttpStatus.NOT_FOUND,
+      );
+    // /** Ici je met a jour le coupon dans la base de donner */
+    const [_errorD, _updateV] = await useCatch(
+      this.createOrUpdateVoucherService.updateOne(
+        { option1: { uuid: findVoucher?.uuid } },
+        { deletedAt: new Date(), usedAt: new Date(), validity: null },
+      ),
+    );
+    if (_errorD) {
+      throw new NotFoundException(_errorV);
+    }
+
+    /** Here create Activity */
+    const [_errorAct, _activity] = await useCatch(
+      this.createOrUpdateActivity.execute({
+        activityAbleType: findVoucher?.voucherType,
+        activityAbleId: findVoucher?.id,
+        action: 'DELETE',
+        ipLocation,
+        browser: userAgent,
+        applicationId: findVoucher?.applicationId,
+        userCreatedId: user?.id,
+      }),
+    );
+    if (_errorAct) {
+      throw new NotFoundException(_errorAct);
+    }
+
+    return { id: findVoucher?.uuid, code: findVoucher?.code };
   }
 }
