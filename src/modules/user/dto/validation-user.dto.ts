@@ -14,11 +14,18 @@ export class UpdateInfoUserDto {
   @IsString()
   @MaxLength(100)
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsNotEmpty()
   @IsInt()
-  organizationInUtilizationId: number;
+  organizationInUtilizationId?: number;
+
+  @IsNotEmpty()
+  @IsInt()
+  organizationId: number;
+
+  @IsOptional()
+  user: any;
 }
 
 export class TokenUserDto {

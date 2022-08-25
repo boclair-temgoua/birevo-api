@@ -74,7 +74,7 @@ export class CreateOrUpdateExternalVoucherController {
     @Headers('User-Agent') userAgent: string,
   ) {
     const [error, result] = await useCatch(
-      this.createOrUpdateVoucher.useVoucherExtern({
+      this.createOrUpdateVoucher.useVoucherExternOrInterne({
         ...codeVoucher,
         ipLocation: getIpRequest(req),
         userAgent,

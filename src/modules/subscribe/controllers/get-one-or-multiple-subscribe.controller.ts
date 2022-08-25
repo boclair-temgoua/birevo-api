@@ -28,6 +28,34 @@ export class GetOneOrMultipleSubscribeController {
     private readonly findSubscribeService: FindSubscribeService,
   ) {}
 
+  @Get(`/`)
+  @UseGuards(JwtAuthGuard)
+  async findAllSubscribesBy(
+    @Res() res,
+    @Req() req,
+    @Query() pagination: RequestPaginationDto,
+    @Query() filterQuery: FilterQueryDto,
+    @Query('is_paginate', ParseBoolPipe) is_paginate: boolean,
+  ) {
+    const { user } = req;
+    /** get contributor filter by organization */
+    const [errors, results] = await useCatch(
+      this.findSubscribeService.findAllSubscribes({
+        is_paginate,
+        filterQuery,
+        pagination,
+        option1: {
+          userId: user?.id,
+          subscribableType: 'ORGANIZATION',
+        },
+      }),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results });
+  }
+
   @Get(`/contributors`)
   @UseGuards(JwtAuthGuard)
   async findAllContributorsBy(

@@ -99,6 +99,10 @@ export class CreateOrUpdateVoucherDto {
 
   @IsOptional()
   @IsString()
+  code: string;
+
+  @IsOptional()
+  @IsString()
   amount: string;
 
   @IsOptional()

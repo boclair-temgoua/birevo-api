@@ -30,6 +30,15 @@ export class FindOneVoucherByService {
       query = query.andWhere('voucher.code = :code', { code });
     }
 
+    if (option5) {
+      const { code, organizationId } = { ...option5 };
+      query = query
+        .andWhere('voucher.code = :code', { code })
+        .andWhere('voucher.organizationId = :organizationId', {
+          organizationId,
+        });
+    }
+
     const [error, result] = await useCatch(query.getOne());
     if (error)
       throw new HttpException('Voucher not found', HttpStatus.NOT_FOUND);

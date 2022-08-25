@@ -12,6 +12,7 @@ import {
   Delete,
   Body,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
@@ -39,6 +40,49 @@ export class CreateOrUpdateInternalCouponController {
       this.createOrUpdateVoucher.create({
         ...createOrUpdateVoucherDto,
         user: req?.user,
+        type: 'COUPON',
+      }),
+    );
+    if (error) {
+      throw new NotFoundException(error);
+    }
+    return reply({ res, results: result });
+  }
+
+  @Put(`/c/use/:code`)
+  @UseGuards(JwtAuthGuard)
+  async useOneCoupon(
+    @Res() res,
+    @Req() req,
+    @Param() codeVoucher: CodeVoucherDto,
+    @Headers('User-Agent') userAgent: string,
+  ) {
+    const [error, result] = await useCatch(
+      this.createOrUpdateVoucher.useVoucherExternOrInterne({
+        ...codeVoucher,
+        ipLocation: getIpRequest(req),
+        userAgent,
+        user: req.user,
+      }),
+    );
+    if (error) {
+      throw new NotFoundException(error);
+    }
+    return reply({ res, results: 'result' });
+  }
+
+  @Post(`/v/create-or-update`)
+  @UseGuards(JwtAuthGuard)
+  async createOneVoucher(
+    @Res() res,
+    @Req() req,
+    @Body() createOrUpdateVoucherDto: CreateOrUpdateVoucherDto,
+  ) {
+    const [error, result] = await useCatch(
+      this.createOrUpdateVoucher.create({
+        ...createOrUpdateVoucherDto,
+        user: req?.user,
+        type: 'VOUCHER',
       }),
     );
     if (error) {

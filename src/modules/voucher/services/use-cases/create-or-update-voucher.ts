@@ -40,6 +40,7 @@ export class CreateOrUpdateVoucher {
       amount,
       description,
       type,
+      code,
       voucherId,
       percent,
       startedAt,
@@ -73,6 +74,23 @@ export class CreateOrUpdateVoucher {
       throw new NotFoundException(_errorC);
     }
 
+    const [_errorV, findVoucher] = await useCatch(
+      this.findOneVoucherByService.findOneBy({
+        option5: {
+          code,
+          organizationId: result?.subscribeOrganization?.organizationId,
+        },
+      }),
+    );
+    if (_errorV) {
+      throw new NotFoundException(_errorV);
+    }
+    if (findVoucher)
+      throw new HttpException(
+        `Code ${code} already exists please change`,
+        HttpStatus.NOT_FOUND,
+      );
+
     const [errorSave, coupon] = await useCatch(
       this.createOrUpdateVoucherService.createOne({
         name,
@@ -80,7 +98,7 @@ export class CreateOrUpdateVoucher {
         currencyId: findCurrency?.id,
         voucherCategoryId: getOneVoucherType(type),
         voucherType: type,
-        code: generateCouponCode(16),
+        code: code ? code : generateCouponCode(16),
         deliveryType,
         description,
         email,
@@ -90,7 +108,7 @@ export class CreateOrUpdateVoucher {
         percent: Number(percent),
         organizationId: user?.organizationInUtilizationId,
         userCreatedId: user?.id,
-        userId: user?.organizationInUtilization?.userId,
+        userId: result?.subscribeOrganization?.userId,
         applicationId: applicationId
           ? applicationId
           : user?.applicationToken?.applicationId,
@@ -114,7 +132,7 @@ export class CreateOrUpdateVoucher {
   }
 
   /** Use voucher account token to the database. */
-  async useVoucherExtern(options: CodeVoucherDto): Promise<any> {
+  async useVoucherExternOrInterne(options: CodeVoucherDto): Promise<any> {
     const { code, type, user, ipLocation, userAgent } = { ...options };
 
     const [_errorV, findVoucher] = await useCatch(
@@ -122,7 +140,9 @@ export class CreateOrUpdateVoucher {
         option3: {
           code,
           type: 'COUPON',
-          organizationId: user?.applicationToken?.organizationId,
+          organizationId: user?.applicationToken?.token
+            ? user?.applicationToken?.organizationId
+            : user?.organizationInUtilizationId,
         },
       }),
     );

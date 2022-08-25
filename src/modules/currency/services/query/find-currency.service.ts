@@ -12,9 +12,7 @@ export class FindCurrencyService {
     private driver: Repository<Currency>,
   ) {}
 
-  async findAllCurrencies(
-    selections: GetCurrenciesSelections,
-  ): Promise<GetCurrenciesSelections[]> {
+  async findAllCurrencies(selections: GetCurrenciesSelections): Promise<any> {
     const { filterQuery } = { ...selections };
 
     let query = this.driver
@@ -26,7 +24,7 @@ export class FindCurrencyService {
       .addSelect('currency.amount', 'amount')
       .where('currency.deletedAt IS NULL');
 
-    if (filterQuery) {
+    if (filterQuery?.q) {
       query = query.andWhere('currency.name ::text ILIKE :searchQuery', {
         searchQuery: `%${filterQuery?.q}%`,
       });

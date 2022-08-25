@@ -4,11 +4,17 @@ import { Currency } from '../../models/Currency';
 import { CreateOrUpdateCurrencyService } from './services/mutations/create-or-update-currency.service';
 import { FindOneCurrencyByService } from './services/query/find-one-currency-by.service';
 import { FindCurrencyService } from './services/query/find-currency.service';
-import { CreateOrUpdateCurrencyController } from './controllers/create-or-update-currency.controller';
+import {
+  CreateOrUpdateCurrencyController,
+  GetOneOrMultipleCurrencyController,
+} from './controllers';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Currency])],
-  controllers: [CreateOrUpdateCurrencyController],
+  controllers: [
+    GetOneOrMultipleCurrencyController,
+    CreateOrUpdateCurrencyController,
+  ],
   providers: [
     FindCurrencyService,
     CreateOrUpdateCurrencyService,
