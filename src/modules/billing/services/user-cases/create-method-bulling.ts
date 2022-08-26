@@ -87,17 +87,17 @@ export class CreateMethodBulling {
       throw new NotFoundException(_errorC);
     }
 
-    if (coupon?.data?.amount !== null) {
+    if (coupon?.amount !== null) {
       const [__errorC, useCoupon] = await useCatch(
-        useOneVoucherApi({ code: coupon?.data?.code }),
+        useOneVoucherApi({ code: coupon?.code }),
       );
       if (__errorC) {
         throw new NotFoundException(__errorC);
       }
       const [_errorBull, bulling] = await useCatch(
         this.createAmountAmountSubscription.execute({
-          amount: coupon?.data?.amount,
-          currency: coupon?.data?.currency?.code,
+          amount: coupon?.amount,
+          currency: coupon?.currency?.code,
           paymentMethod: 'COUPON-PAY',
           userId: user?.organizationInUtilization?.userId,
           organizationId: user?.organizationInUtilizationId,
@@ -109,6 +109,6 @@ export class CreateMethodBulling {
       }
     }
 
-    return coupon?.data;
+    return coupon;
   }
 }

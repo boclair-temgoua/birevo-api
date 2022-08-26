@@ -45,12 +45,13 @@ export class CreateOrUpdateActivity {
     };
 
     const [errorSave, activity] = await useCatch(
-      action === 'USED' || 'DELETE'
-        ? this.createOrUpdateActivityService.createOne({
-            ...dataSave,
-            usage: 1,
-          })
-        : this.createOrUpdateActivityService.createOne({ ...dataSave }),
+      this.createOrUpdateActivityService.createOne({ ...dataSave }),
+      // action === 'USED' || 'DELETE'
+      //   ? this.createOrUpdateActivityService.createOne({
+      //       ...dataSave,
+      //       usage: 1,
+      //     })
+      //   : this.createOrUpdateActivityService.createOne({ ...dataSave }),
     );
     if (errorSave) {
       throw new NotFoundException(errorSave);

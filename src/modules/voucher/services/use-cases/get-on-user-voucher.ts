@@ -12,6 +12,7 @@ import { CreateAmountAmountSubscription } from '../../../billing/services/user-c
 import { configurations } from '../../../../infrastructure/configurations/index';
 import { getOneIpLocationApi } from '../../../integrations/ipapi/api/index';
 import { geoIpRequest } from '../../../../infrastructure/utils/commons';
+import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
 
 @Injectable()
 export class GetOnUserVoucher {
@@ -77,14 +78,14 @@ export class GetOnUserVoucher {
   async executeExtern(options: GetOneVoucherDto): Promise<any> {
     const { code, type, ipLocation, user, userAgent } = { ...options };
 
-    // const [_errorC, geoLocation] = await useCatch(
-    //   getOneIpLocationApi({ ipLocation }),
-    // );
-    // if (_errorC) {
-    //   throw new NotFoundException(_errorC);
-    // }
-    // console.log('TgeoLocation ======> ', geoIpRequest(ipLocation));
-    // console.log('geoLocation ======> ', geoLocation);
+    const [_errorC, geoLocation] = await useCatch(
+      getOneLocationIpApi({ ipLocation }),
+    );
+    if (_errorC) {
+      throw new NotFoundException(_errorC);
+    }
+    // console.log('TgeoLocation ======> ', geoIpRequest('102.128.192.0'));
+    console.log('geoLocation ======> ', geoLocation);
 
     const [_errorV, findVoucher] = await useCatch(
       this.findOneVoucherByService.findOneInfoBy({

@@ -93,6 +93,12 @@ export const configurations = {
       link: process.env.IPAPI_LINK,
     },
     /**
+     * Ip-api
+     */
+    ip_api: {
+      link: process.env.IP_API_LINK,
+    },
+    /**
      * Sentry
      */
     sentry: process.env.SENTRY_DNS,
