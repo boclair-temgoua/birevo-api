@@ -18,10 +18,13 @@ import { GetAuthorizationToSubscribe } from '../../../subscribe/services/use-cas
 import { UnauthorizedException } from '@nestjs/common';
 import { CodeVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
+import { CreateAmountAmountSubscription } from '../../../billing/services/user-cases/create-amount-amountSubscription';
+import { configurations } from '../../../../infrastructure/configurations/index';
 
 @Injectable()
 export class CreateOrUpdateVoucher {
   constructor(
+    private readonly createAmountAmountSubscription: CreateAmountAmountSubscription,
     private readonly findOneVoucherByService: FindOneVoucherByService,
     private readonly createOrUpdateQrCodeService: CreateOrUpdateQrCodeService,
     private readonly findOneCurrencyByService: FindOneCurrencyByService,
@@ -85,6 +88,7 @@ export class CreateOrUpdateVoucher {
     if (_errorV) {
       throw new NotFoundException(_errorV);
     }
+
     if (findVoucher)
       throw new HttpException(
         `Code ${code} already exists please change`,
@@ -108,7 +112,7 @@ export class CreateOrUpdateVoucher {
         percent: Number(percent),
         organizationId: user?.organizationInUtilizationId,
         userCreatedId: user?.id,
-        userId: result?.subscribeOrganization?.userId,
+        userId: result?.organization?.userId,
         applicationId: applicationId
           ? applicationId
           : user?.applicationToken?.applicationId,
@@ -157,6 +161,24 @@ export class CreateOrUpdateVoucher {
       );
     /** Ici je met a jour le coupon dans la base de donner */
     if (findVoucher?.voucherType === 'COUPON') {
+      /** Ici je cree la transaction pour le payment de la requete */
+      {
+        /** Start */
+      }
+      const [_errorBull, bulling] = await useCatch(
+        this.createAmountAmountSubscription.execute({
+          amount: configurations.datasite.pricingBilling,
+          currency: 'EUR',
+          userId: user?.applicationToken?.userId,
+          paymentMethod: 'USED-VOUCHER',
+          organizationId: user?.applicationToken?.organizationId,
+          userCreatedId: user?.applicationToken?.userId,
+        }),
+      );
+      if (_errorBull) {
+        throw new NotFoundException(_errorBull);
+      }
+
       const [_errorV, _updateV] = await useCatch(
         this.createOrUpdateVoucherService.updateOne(
           { option1: { uuid: findVoucher?.uuid } },

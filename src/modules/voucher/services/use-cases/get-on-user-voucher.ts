@@ -9,6 +9,9 @@ import { FindOneVoucherByService } from '../query/find-one-voucher-by.service';
 import { GetOneVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
 import { CreateAmountAmountSubscription } from '../../../billing/services/user-cases/create-amount-amountSubscription';
+import { configurations } from '../../../../infrastructure/configurations/index';
+import { getOneIpLocationApi } from '../../../integrations/ipapi/api/index';
+import { geoIpRequest } from '../../../../infrastructure/utils/commons';
 
 @Injectable()
 export class GetOnUserVoucher {
@@ -26,7 +29,12 @@ export class GetOnUserVoucher {
 
     if (code) {
       const [_errorV, findVoucher] = await useCatch(
-        this.findOneVoucherByService.findOneInfoBy({ option2: { code } }),
+        this.findOneVoucherByService.findOneInfoBy({
+          option5: {
+            code,
+            organizationId: user?.organizationInUtilizationId,
+          },
+        }),
       );
       if (_errorV) {
         throw new NotFoundException(_errorV);
@@ -69,6 +77,15 @@ export class GetOnUserVoucher {
   async executeExtern(options: GetOneVoucherDto): Promise<any> {
     const { code, type, ipLocation, user, userAgent } = { ...options };
 
+    // const [_errorC, geoLocation] = await useCatch(
+    //   getOneIpLocationApi({ ipLocation }),
+    // );
+    // if (_errorC) {
+    //   throw new NotFoundException(_errorC);
+    // }
+    // console.log('TgeoLocation ======> ', geoIpRequest(ipLocation));
+    // console.log('geoLocation ======> ', geoLocation);
+
     const [_errorV, findVoucher] = await useCatch(
       this.findOneVoucherByService.findOneInfoBy({
         option3: {
@@ -89,13 +106,13 @@ export class GetOnUserVoucher {
 
     if (findVoucher) {
       /** Ici je cree la transaction pour le payment de la requete */
-      {
-        /** Start */
-      }
+
+      /** Start */
       const [_errorBull, bulling] = await useCatch(
         this.createAmountAmountSubscription.execute({
-          amount: -0.5, // Ici c'est le cout de la requete faite par le coupon
+          amount: configurations.datasite.pricingBilling,
           currency: 'EUR',
+          paymentMethod: 'VIEW-VOUCHER',
           userId: user?.applicationToken?.userId,
           organizationId: user?.applicationToken?.organizationId,
           userCreatedId: user?.applicationToken?.userId,
@@ -104,9 +121,8 @@ export class GetOnUserVoucher {
       if (_errorBull) {
         throw new NotFoundException(_errorBull);
       }
-      {
-        /** End */
-      }
+      /** End */
+
       /** Here create Activity */
       const [_errorAct, _activity] = await useCatch(
         this.createOrUpdateActivity.execute({

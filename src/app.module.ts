@@ -18,6 +18,7 @@ import { VoucherModule } from './modules/voucher/voucher.module';
 import { AmountModule } from './modules/amount/amount.module';
 import { AmountSubscriptionModule } from './modules/amount-subscription/amount-subscription.module';
 import { BillingModule } from './modules/billing/billing.module';
+import { ActivityModule } from './modules/activity/activity.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { BillingModule } from './modules/billing/billing.module';
     VoucherModule,
     AmountModule,
     BillingModule,
+    ActivityModule,
     AmountSubscriptionModule,
   ],
 })

@@ -55,9 +55,6 @@ export class FindUserService {
           qb.where('user.email ::text ILIKE :searchQuery', {
             searchQuery: `%${filterQuery?.q}%`,
           })
-            .orWhere('user.username ::text ILIKE :searchQuery', {
-              searchQuery: `%${filterQuery?.q}%`,
-            })
             .orWhere('profile.firstName ::text ILIKE :searchQuery', {
               searchQuery: `%${filterQuery?.q}%`,
             })

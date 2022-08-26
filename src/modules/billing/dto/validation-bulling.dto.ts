@@ -6,18 +6,22 @@ import {
   MinLength,
   IsIn,
   IsOptional,
-  IsUUID,
-  IsEmail,
   IsInt,
-  IsPositive,
-  IsDateString,
-  MinDate,
-  IsDate,
-  MaxDate,
 } from 'class-validator';
-export type paymentMethodType = 'COUPON-PAY' | 'PAYPAL-PAY' | 'CARD-PAY';
+export type paymentMethodType =
+  | 'COUPON-PAY'
+  | 'PAYPAL-PAY'
+  | 'CARD-PAY'
+  | 'USED-VOUCHER'
+  | 'VIEW-VOUCHER';
 
-export const paymentMethodArrays = ['COUPON-PAY', 'PAYPAL-PAY', 'CARD-PAY'];
+export const paymentMethodArrays = [
+  'COUPON-PAY',
+  'PAYPAL-PAY',
+  'CARD-PAY',
+  'USED-VOUCHER',
+  'VIEW-VOUCHER',
+];
 
 export type CreateOnBullingVoucherRequest = {
   amount: number;
@@ -28,3 +32,36 @@ export type CreateOnBullingVoucherRequest = {
   organizationId: number;
   userCreatedId: number;
 };
+
+export class CreateStripeBullingDto {
+  @IsNotEmpty()
+  @IsInt()
+  amount: number;
+
+  @IsNotEmpty()
+  @IsString()
+  currency: string;
+
+  @IsOptional()
+  @IsString()
+  fullName: string;
+
+  @IsOptional()
+  @IsString()
+  email: string;
+
+  @IsNotEmpty()
+  infoPaymentMethod: any;
+
+  @IsOptional()
+  user: any;
+}
+
+export class CreateCouponBullingDto {
+  @IsNotEmpty()
+  @IsString()
+  code: string;
+
+  @IsOptional()
+  user: any;
+}

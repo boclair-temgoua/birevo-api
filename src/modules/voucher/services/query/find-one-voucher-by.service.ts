@@ -189,11 +189,12 @@ export class FindOneVoucherByService {
 
     if (option5) {
       const { code, organizationId } = { ...option5 };
-      query = query
-        .andWhere('voucher.code = :code', { code })
-        .andWhere('voucher.organizationId = :organizationId', {
+      query = query.andWhere('voucher.code = :code', { code });
+      if (organizationId) {
+        query = query.andWhere('voucher.organizationId = :organizationId', {
           organizationId,
         });
+      }
     }
 
     if (option6) {

@@ -17,6 +17,7 @@ export const configurations = {
   datasite: {
     name: process.env.NODE_NAME,
     url: process.env.NODE_APP_URL,
+    pricingBilling: Number(process.env.PRICING_BILLING_VOUCHER),
     urlClient: process.env.NODE_CLIENT_URL,
     email: process.env.MAIL_FROM_ADDRESS,
     daysOneMonth: Number(process.env.DAYS_ONE_MONTH_SUBSCRIBE),
@@ -67,6 +68,13 @@ export const configurations = {
    */
   implementations: {
     /**
+     * Birevo marketplace
+     */
+    birevo: {
+      link: process.env.BIREVO_LINK,
+      token: process.env.BIREVO_ACCESS_TOKEN,
+    },
+    /**
      * Stripe
      */
     stripe: {
@@ -77,6 +85,12 @@ export const configurations = {
      */
     amqp: {
       link: process.env.AMQP_LINK,
+    },
+    /**
+     * Ipapi
+     */
+    ipapi: {
+      link: process.env.IPAPI_LINK,
     },
     /**
      * Sentry

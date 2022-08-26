@@ -55,6 +55,14 @@ export class FindOneUserByService {
       .addSelect('user.organizationInUtilizationId', 'organizationId')
       .addSelect(
         /*sql*/ `jsonb_build_object(
+        'name', currency.name,
+        'code', currency.code,
+        'amount', currency.amount,
+        'symbol', currency.symbol
+    ) AS "currency"`,
+      )
+      .addSelect(
+        /*sql*/ `jsonb_build_object(
       'userId', "user"."id",
       'firstName', "profile"."firstName",
       'image', "profile"."image",
@@ -88,6 +96,7 @@ export class FindOneUserByService {
       )
       .where('user.deletedAt IS NULL')
       .leftJoin('user.profile', 'profile')
+      .leftJoin('profile.currency', 'currency')
       .leftJoin('user.organizationInUtilization', 'organization');
 
     if (option1) {

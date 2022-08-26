@@ -13,7 +13,7 @@ export class FindActivityService {
     private driver: Repository<Activity>,
   ) {}
 
-  async findAllVouchers(selections: GetActivitySelections): Promise<any> {
+  async findAllActivities(selections: GetActivitySelections): Promise<any> {
     const { filterQuery, is_paginate, pagination, option1 } = {
       ...selections,
     };
@@ -60,7 +60,7 @@ export class FindActivityService {
 
     if (filterQuery?.q) {
       query = query
-        .andWhere('activity.view ::text ILIKE :searchQuery', {
+        .andWhere('activity.action ::text ILIKE :searchQuery', {
           searchQuery: `%${filterQuery?.q}%`,
         })
         .orWhere('activity.usage ::text ILIKE :searchQuery', {
@@ -75,7 +75,7 @@ export class FindActivityService {
       const [error, results] = await useCatch(
         query
           .orderBy(
-            'voucher.createdAt',
+            'activity.createdAt',
             pagination?.sort ? pagination?.sort : 'DESC',
           )
           .limit(pagination.limit)
