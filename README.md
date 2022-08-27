@@ -29,54 +29,54 @@
 ## Installation
 
 ```bash
-$ npm install
+npm install
 ```
 ## Running the app
 
 ```bash
 # development
-$ npm run start:dev
+npm run start:dev
 
 # production mode
-$ npm run start:prod
+npm run start:prod
 ```
 ## Running the app with docker
 
 ```bash
 # development
-$ docker:dev:rebuild
+docker:dev:rebuild
 
 # production mode
-$ npm run start:prod
+npm run start:prod
 ```
 
 ## Migrations
 
 ```bash
 # Create a migration
-$ npm run migration:create --name=foo
+npm run migration:create --name=foo
 
 # Generate a migration from schema changes
-$ npm run migration:generate --name=bar
+npm run migration:generate --name=bar
 
 # Run migrations and checks for schema changes
-$ npm run migration:run
+npm run migration:run
 
 # Revert migrations
-$ npm run migration:revert
+npm run migration:revert
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+npm run test
 
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e
 
 # test coverage
-$ npm run test:cov
+npm run test:cov
 ```
 
 ## Support
