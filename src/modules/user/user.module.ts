@@ -30,6 +30,9 @@ import { ChangePasswordUser } from './services/use-cases/change-password-user';
 import { UpdateOrganizationToUser } from './services/use-cases/update-organization-to-user';
 import { CreateOrUpdateSubscribeService } from '../subscribe/services/mutations/create-or-update-subscribe.service';
 import { Subscribe } from '../../models/Subscribe';
+import { GetAuthorizationToSubscribe } from '../subscribe/services/use-cases/get-authorization-to-subscribe';
+import { FindOneSubscribeByService } from '../subscribe/services/query/find-one-subscribe-by.service';
+import { FindOneOrganizationByService } from '../organization/services/query/find-one-organization-by.service';
 
 @Module({
   imports: [
@@ -69,6 +72,9 @@ import { Subscribe } from '../../models/Subscribe';
     CreateRegisterUser,
     ConfirmAccountTokenUser,
     UpdateOrganizationToUser,
+    GetAuthorizationToSubscribe,
+    FindOneSubscribeByService,
+    FindOneOrganizationByService,
   ],
 })
 export class UserModule {}

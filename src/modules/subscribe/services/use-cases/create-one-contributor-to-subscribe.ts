@@ -22,22 +22,9 @@ export class CreateOneContributorToSubscribe {
   async execute(options: SubscribeRequestDto): Promise<any> {
     const { userId, organizationId, contributorId, type } = { ...options };
 
-    // Check permission user action
-    const [_errorOr, result] = await useCatch(
-      this.getAuthorizationToSubscribe.execute({
-        organizationId,
-        userId,
-        type,
-      }),
-    );
-    if (_errorOr) {
-      throw new NotFoundException(_errorOr);
-    }
-    if (!result?.subscribeOrganization) throw new UnauthorizedException();
-
     const [__errorOr, isExistedResult] = await useCatch(
       this.getAuthorizationToSubscribe.execute({
-        organizationId: result?.organization?.id,
+        organizationId,
         userId: contributorId,
         type,
       }),
@@ -51,7 +38,7 @@ export class CreateOneContributorToSubscribe {
       const [__error, __result] = await useCatch(
         this.createOrUpdateSubscribeService.createOne({
           subscribableType: type,
-          subscribableId: result?.organization?.id,
+          subscribableId: isExistedResult?.organization?.id,
           organizationId,
           userCreatedId: userId,
           userId: contributorId,

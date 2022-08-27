@@ -13,6 +13,7 @@ import {
   Res,
   Headers,
   ParseBoolPipe,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
@@ -21,7 +22,6 @@ import {
   GetOneVoucherDto,
   VoucherableType,
 } from '../../dto/validation-voucher.dto';
-import { FindOneVoucherByService } from '../../services/query/find-one-voucher-by.service';
 import { GetOnUserVoucher } from '../../services/use-cases/get-on-user-voucher';
 import { FilterQueryDto } from '../../../../infrastructure/utils/filter-query/filter-query.dto';
 import { RequestPaginationDto } from '../../../../infrastructure/utils/pagination/request-pagination.dto';
@@ -45,6 +45,7 @@ export class GetOneOrMultipleInternalVoucherController {
     @Query('type') type: VoucherableType,
   ) {
     const { user } = req;
+
     const [errors, results] = await useCatch(
       this.findVoucherService.findAllVouchers({
         is_paginate,

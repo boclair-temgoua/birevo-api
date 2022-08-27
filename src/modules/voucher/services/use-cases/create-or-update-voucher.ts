@@ -14,7 +14,6 @@ import { FindOneCurrencyByService } from '../../../currency/services/query/find-
 import { CreateOrUpdateVoucherService } from '../mutations/create-or-update-voucher.service';
 import { generateCouponCode } from '../../../../infrastructure/utils/commons/generate-coupon-code';
 import { CreateOrUpdateQrCodeService } from '../../../qr-code/services/mutations/create-or-update-qr-code.service';
-import { GetAuthorizationToSubscribe } from '../../../subscribe/services/use-cases/get-authorization-to-subscribe';
 import { UnauthorizedException } from '@nestjs/common';
 import { CodeVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
@@ -29,7 +28,6 @@ export class CreateOrUpdateVoucher {
     private readonly createOrUpdateQrCodeService: CreateOrUpdateQrCodeService,
     private readonly findOneCurrencyByService: FindOneCurrencyByService,
     private readonly createOrUpdateVoucherService: CreateOrUpdateVoucherService,
-    private readonly getAuthorizationToSubscribe: GetAuthorizationToSubscribe,
     private readonly createOrUpdateActivity: CreateOrUpdateActivity,
   ) {}
 
@@ -55,21 +53,6 @@ export class CreateOrUpdateVoucher {
       ...options,
     };
 
-    // Check permission user action
-    const [_errorOr, result] = await useCatch(
-      this.getAuthorizationToSubscribe.execute({
-        organizationId: user?.applicationToken?.token
-          ? user?.applicationToken?.organizationId
-          : user?.organizationInUtilizationId,
-        userId: user?.id,
-        type: 'ORGANIZATION',
-      }),
-    );
-    if (_errorOr) {
-      throw new NotFoundException(_errorOr);
-    }
-    if (!result?.subscribeOrganization) throw new UnauthorizedException();
-
     const [_errorC, findCurrency] = await useCatch(
       this.findOneCurrencyByService.findOneBy({ option2: { code: currency } }),
     );
@@ -81,7 +64,9 @@ export class CreateOrUpdateVoucher {
       this.findOneVoucherByService.findOneBy({
         option5: {
           code,
-          organizationId: result?.subscribeOrganization?.organizationId,
+          organizationId: user?.applicationToken?.token
+            ? user?.applicationToken?.organizationId
+            : user?.organizationInUtilizationId,
         },
       }),
     );
@@ -112,7 +97,7 @@ export class CreateOrUpdateVoucher {
         percent: Number(percent),
         organizationId: user?.organizationInUtilizationId,
         userCreatedId: user?.id,
-        userId: result?.organization?.userId,
+        userId: user?.organizationInUtilization?.userId,
         applicationId: applicationId
           ? applicationId
           : user?.applicationToken?.applicationId,
