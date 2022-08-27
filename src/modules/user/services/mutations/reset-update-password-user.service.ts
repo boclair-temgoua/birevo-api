@@ -5,7 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateResetPasswordDto } from '../../../reset-password/dto/validation-reset-password.dto';
 import { CreateOrUpdateResetPasswordService } from '../../../reset-password/services/mutations/create-or-update-reset-password.service';
 import { FindOneResetPasswordByService } from '../../../reset-password/services/query/find-one-reset-password-by.service';

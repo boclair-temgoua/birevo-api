@@ -4,10 +4,9 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
 import { CreateOrUpdateActivityDto } from '../../dto/validation-activity.dto';
 import { CreateOrUpdateActivityService } from '../mutations/create-or-update-activity.service';
-
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
 @Injectable()
 export class CreateOrUpdateActivity {
   constructor(

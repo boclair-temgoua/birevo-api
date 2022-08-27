@@ -47,6 +47,18 @@ export class UpdateResetPasswordUserDto {
   passwordConfirm: string;
 }
 
+export class UpdateEmailUserDto {
+  @IsNotEmpty()
+  @MaxLength(200)
+  @IsEmail()
+  @IsString()
+  newEmail: string;
+
+  @IsNotEmpty()
+  @MaxLength(200)
+  @MinLength(8)
+  passwordConfirm: string;
+}
 export class UpdateChangePasswordUserDto {
   @IsNotEmpty()
   @MinLength(8)

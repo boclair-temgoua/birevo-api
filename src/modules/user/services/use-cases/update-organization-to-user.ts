@@ -2,7 +2,7 @@ import { FindOneUserByService } from '../query/find-one-user-by.service';
 import { CreateOrUpdateUserService } from '../mutations/create-or-update-user.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateInfoUserDto } from '../../dto/validation-user.dto';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
 
 @Injectable()
 export class UpdateOrganizationToUser {

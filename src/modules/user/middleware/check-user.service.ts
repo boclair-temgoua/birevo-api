@@ -1,6 +1,6 @@
 import { FindOneUserByService } from '../services/query/find-one-user-by.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { sign } from 'jsonwebtoken';
 import { JwtPayloadType } from '../types';
 import { configurations } from '../../../infrastructure/configurations/index';

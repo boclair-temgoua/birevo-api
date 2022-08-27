@@ -4,7 +4,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import {
   CreateOrUpdateVoucherDto,
   getOneVoucherType,

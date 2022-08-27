@@ -35,7 +35,6 @@ export class AuthUserController {
   constructor(
     private readonly createRegisterUser: CreateRegisterUser,
     private readonly createLoginUser: CreateLoginUser,
-    private readonly changePasswordUser: ChangePasswordUser,
     private readonly confirmAccountTokenUser: ConfirmAccountTokenUser,
     private readonly resetUpdatePasswordUserService: ResetUpdatePasswordUserService,
   ) {}
@@ -114,28 +113,6 @@ export class AuthUserController {
   async confirmAccount(@Res() res, @Query() tokenUserDto: TokenUserDto) {
     const [errors, results] = await useCatch(
       this.confirmAccountTokenUser.execute({ ...tokenUserDto }),
-    );
-    if (errors) {
-      throw new NotFoundException(errors);
-    }
-    return reply({ res, results });
-  }
-
-  /** Change password account*/
-  @Put(`/change-password`)
-  @UseGuards(JwtAuthGuard)
-  async changePassword(
-    @Res() res,
-    @Req() req,
-    @Body() updateChangePasswordUserDto: UpdateChangePasswordUserDto,
-  ) {
-    const { user } = req;
-    const userId = req?.user?.id;
-    const [errors, results] = await useCatch(
-      this.changePasswordUser.execute({
-        ...updateChangePasswordUserDto,
-        userId,
-      }),
     );
     if (errors) {
       throw new NotFoundException(errors);

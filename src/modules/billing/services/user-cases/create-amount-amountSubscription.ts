@@ -4,7 +4,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
 
 import { CreateOrUpdateAmountSubscriptionService } from '../../../amount-subscription/services/mutations/create-or-update-amount-subscription.service';
 import { CreateOrUpdateAmountService } from '../../../amount/services/mutations/create-or-update-amount.service';

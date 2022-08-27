@@ -4,7 +4,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { FindOneVoucherByService } from '../query/find-one-voucher-by.service';
 import { GetOneVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';

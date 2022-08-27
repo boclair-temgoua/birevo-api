@@ -6,7 +6,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { UnauthorizedException } from '@nestjs/common';
 import { UpdateChangePasswordUserDto } from '../../dto/validation-user.dto';
 

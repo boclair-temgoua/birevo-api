@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { FindOneApplicationTokenByService } from '../../application-token/services/query/find-one-application-token-by.service';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { FindOneUserByService } from '../services/query/find-one-user-by.service';
 
 @Injectable()

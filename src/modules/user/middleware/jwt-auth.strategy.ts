@@ -6,7 +6,7 @@ import {
   NotFoundException,
   Injectable,
 } from '@nestjs/common';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { FindOneUserByService } from '../services/query/find-one-user-by.service';
 import { User } from '../../../models/User';
 import { GetAuthorizationToSubscribe } from '../../subscribe/services/use-cases/get-authorization-to-subscribe';

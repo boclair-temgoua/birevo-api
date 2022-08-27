@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import * as amqplib from 'amqplib';
 import { CreateRegisterUserDto } from '../../dto/validation-user.dto';
-import { useCatch } from 'src/infrastructure/utils/use-catch';
+import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateOrganizationService } from '../../../organization/services/mutations/create-or-update-organization.service';
 import { configurations } from '../../../../infrastructure/configurations';
 import { authRegisterJob } from '../../jobs/auth-login-and-register-job';
