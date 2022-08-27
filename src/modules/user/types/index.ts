@@ -23,34 +23,38 @@ export type GetUsersSelections = {
 
 export type GetOneUserSelections = {
   option1?: {
-    userId?: User['id'];
+    userId: User['id'];
   };
   option2?: {
-    email?: User['email'];
+    email: User['email'];
   };
   option3?: {
-    profileId?: User['profileId'];
+    profileId: User['profileId'];
   };
   option4?: {
-    user_uuid?: User['uuid'];
+    user_uuid: User['uuid'];
   };
   option5?: {
-    token?: User['token'];
+    token: User['token'];
+  };
+  option6?: {
+    userId: User['id'];
+    email: User['email'];
   };
 };
 
 export type UpdateUserSelections = {
   option1?: {
-    userId?: User['id'];
+    userId: User['id'];
   };
   option2?: {
-    email?: User['email'];
+    email: User['email'];
   };
   option3?: {
-    profileId?: User['profileId'];
+    profileId: User['profileId'];
   };
   option4?: {
-    user_uuid?: User['uuid'];
+    user_uuid: User['uuid'];
   };
 };
 

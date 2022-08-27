@@ -58,18 +58,24 @@ export class UpdateEmailUserDto {
   @MaxLength(200)
   @MinLength(8)
   passwordConfirm: string;
+
+  @IsOptional()
+  user: any;
 }
 export class UpdateChangePasswordUserDto {
   @IsNotEmpty()
+  @MaxLength(100)
   @MinLength(8)
   @IsString()
   password: string;
 
   @IsString()
+  @MaxLength(100)
   @MinLength(8)
   newPassword: string;
 
   @IsString()
+  @MaxLength(100)
   @MinLength(8)
   @Match('newPassword')
   passwordConfirm: string;

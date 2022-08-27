@@ -13,7 +13,7 @@ export class FindOneUserByService {
   ) {}
 
   async findOneBy(selections: GetOneUserSelections): Promise<User> {
-    const { option1, option2, option5 } = { ...selections };
+    const { option1, option2, option5, option6 } = { ...selections };
     let query = this.driver
       .createQueryBuilder('user')
       .where('user.deletedAt IS NULL')
@@ -36,6 +36,13 @@ export class FindOneUserByService {
     if (option5) {
       const { token } = { ...option5 };
       query = query.andWhere('user.token = :token', { token });
+    }
+
+    if (option6) {
+      const { userId, email } = { ...option6 };
+      query = query
+        .andWhere('user.id = :id', { id: userId })
+        .andWhere('user.email = :email', { email });
     }
 
     const [error, result] = await useCatch(query.getOne());

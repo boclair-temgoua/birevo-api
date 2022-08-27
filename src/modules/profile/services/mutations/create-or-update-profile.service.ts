@@ -20,7 +20,7 @@ export class CreateOrUpdateProfileService {
 
   /** Create one profile to the database. */
   async createOne(options: CreateProfileOptions): Promise<Profile> {
-    const { firstName, currencyId, lastName, image, color } = {
+    const { firstName, currencyId, lastName, image, url } = {
       ...options,
     };
 
@@ -30,6 +30,7 @@ export class CreateOrUpdateProfileService {
     profile.color = getRandomElement(colorsArrays);
     profile.currencyId = currencyId;
     profile.firstName = firstName;
+    profile.url = url;
 
     const query = this.driver.save(profile);
 
@@ -45,7 +46,7 @@ export class CreateOrUpdateProfileService {
     options: UpdateProfileOptions,
   ): Promise<Profile> {
     const { option1 } = { ...selections };
-    const { firstName, currencyId, lastName, image, deletedAt } = {
+    const { firstName, currencyId, lastName, url, image, deletedAt } = {
       ...options,
     };
 
@@ -62,6 +63,7 @@ export class CreateOrUpdateProfileService {
     if (errorFind) throw new NotFoundException(errorFind);
 
     findItem.image = image;
+    findItem.url = url;
     findItem.lastName = lastName;
     findItem.firstName = firstName;
     findItem.currencyId = currencyId;

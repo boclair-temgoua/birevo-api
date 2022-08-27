@@ -25,12 +25,14 @@ import { UpdateOrganizationToUser } from '../../services/use-cases/update-organi
 import { JwtAuthGuard } from '../../middleware/jwt-auth.guard';
 import { UpdateChangePasswordUserDto } from '../../dto/validation-user.dto';
 import { ChangePasswordUser } from '../../services/use-cases/change-password-user';
+import { UpdateInformationToUser } from '../../services/use-cases/update-information-to-user';
 
 @Controller('users')
 export class UpdateContactController {
   constructor(
     private readonly createOrUpdateUserService: CreateOrUpdateUserService,
     private readonly changePasswordUser: ChangePasswordUser,
+    private readonly updateInformationToUser: UpdateInformationToUser,
     private readonly updateOrganizationToUser: UpdateOrganizationToUser,
   ) {}
 
@@ -73,7 +75,7 @@ export class UpdateContactController {
   }
 
   /** Change email account*/
-  @Put(`/change-email`)
+  @Put(`/update-email`)
   @UseGuards(JwtAuthGuard)
   async updateEmailUser(
     @Res() res,
@@ -81,20 +83,20 @@ export class UpdateContactController {
     @Body() updateEmailUserDto: UpdateEmailUserDto,
   ) {
     const { user } = req;
-    // const [errors, result] = await useCatch(
-    //   this.updateOrganizationToUser.updateOrganization({
-    //     organizationId,
-    //     user,
-    //   }),
-    // );
-    // if (errors) {
-    //   throw new NotFoundException(errors);
-    // }
-    return reply({ res, results: 'result' });
+    const [errors, result] = await useCatch(
+      this.updateInformationToUser.updateEmailToUser({
+        ...updateEmailUserDto,
+        user,
+      }),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results: result });
   }
 
   /** Change password account*/
-  @Put(`/change-password`)
+  @Put(`/update-password`)
   @UseGuards(JwtAuthGuard)
   async changePassword(
     @Res() res,

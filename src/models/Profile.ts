@@ -31,6 +31,9 @@ export class Profile extends BaseDeleteEntity {
   @Column({ nullable: true })
   lastName?: string;
 
+  @Column({ nullable: true })
+  url?: string;
+
   @OneToOne(() => User, (user) => user.profile, {
     onDelete: 'CASCADE',
   })

@@ -33,6 +33,7 @@ import { Subscribe } from '../../models/Subscribe';
 import { GetAuthorizationToSubscribe } from '../subscribe/services/use-cases/get-authorization-to-subscribe';
 import { FindOneSubscribeByService } from '../subscribe/services/query/find-one-subscribe-by.service';
 import { FindOneOrganizationByService } from '../organization/services/query/find-one-organization-by.service';
+import { UpdateInformationToUser } from './services/use-cases/update-information-to-user';
 
 @Module({
   imports: [
@@ -74,6 +75,7 @@ import { FindOneOrganizationByService } from '../organization/services/query/fin
     UpdateOrganizationToUser,
     GetAuthorizationToSubscribe,
     FindOneSubscribeByService,
+    UpdateInformationToUser,
     FindOneOrganizationByService,
   ],
 })
