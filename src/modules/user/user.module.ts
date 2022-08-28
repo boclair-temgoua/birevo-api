@@ -19,7 +19,7 @@ import { ResetPassword } from '../../models/ResetPassword';
 import { FindOneResetPasswordByService } from '../reset-password/services/query/find-one-reset-password-by.service';
 import { ResetUpdatePasswordUserService } from './services/mutations/reset-update-password-user.service';
 import { GetOneOrMultipleUsersController } from './controllers/user/get-one-or-multiple-users.controller';
-import { UpdateContactController } from './controllers/user/update-user.controller';
+import { UpdateUserController } from './controllers/user/update-user.controller';
 import { CheckUserService } from './middleware/check-user.service';
 import { JwtAuthStrategy } from './middleware/jwt-auth.strategy';
 import { FindOneApplicationTokenByService } from '../application-token/services/query/find-one-application-token-by.service';
@@ -45,7 +45,7 @@ import { FindOneProfileByService } from '../profile/services/query/find-one-prof
   ],
   controllers: [
     AuthUserController,
-    UpdateContactController,
+    UpdateUserController,
     GetOneOrMultipleUsersController,
   ],
   providers: [

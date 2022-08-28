@@ -3,7 +3,10 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { Organization } from '../../../../models/Organization';
-import { colorsArrays,generateUUID } from '../../../../infrastructure/utils/commons';
+import {
+  colorsArrays,
+  generateUUID,
+} from '../../../../infrastructure/utils/commons';
 import { getRandomElement } from '../../../../infrastructure/utils/array/get-random-element';
 import {
   CreateOrganizationOptions,
@@ -41,7 +44,7 @@ export class CreateOrUpdateOrganizationService {
     selections: UpdateOrganizationSelections,
     options: UpdateOrganizationOptions,
   ): Promise<Organization> {
-    const { option1 } = { ...selections };
+    const { option1, option2 } = { ...selections };
     const { userId, name, deletedAt } = {
       ...options,
     };
@@ -52,6 +55,13 @@ export class CreateOrUpdateOrganizationService {
       const { organizationId } = { ...option1 };
       findQuery = findQuery.where('organization.id = :id', {
         id: organizationId,
+      });
+    }
+
+    if (option2) {
+      const { organization_uuid } = { ...option2 };
+      findQuery = findQuery.where('organization.uuid = :uuid', {
+        uuid: organization_uuid,
       });
     }
 

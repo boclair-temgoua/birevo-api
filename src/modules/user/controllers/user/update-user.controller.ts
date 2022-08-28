@@ -30,7 +30,7 @@ import { CreateOrUpdateProfileDto } from '../../../profile/dto/validation-profil
 import { CreateOrUpdateProfileService } from '../../../profile/services/mutations/create-or-update-profile.service';
 
 @Controller('users')
-export class UpdateContactController {
+export class UpdateUserController {
   constructor(
     private readonly changePasswordUser: ChangePasswordUser,
     private readonly updateInformationToUser: UpdateInformationToUser,

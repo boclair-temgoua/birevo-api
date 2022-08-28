@@ -13,6 +13,9 @@ export type UpdateOrganizationSelections = {
   option1?: {
     organizationId?: Organization['id'];
   };
+  option2?: {
+    organization_uuid?: Organization['uuid'];
+  };
 };
 
 export type CreateOrganizationOptions = Partial<Organization>;
