@@ -70,11 +70,13 @@ export class FindOneUserByService {
       )
       .addSelect(
         /*sql*/ `jsonb_build_object(
+      'id', "profile"."id",
       'userId', "user"."id",
       'firstName', "profile"."firstName",
       'image', "profile"."image",
       'color', "profile"."color",
       'currencyId', "profile"."currencyId",
+      'url', "profile"."url",
       'lastName', "profile"."lastName"
   ) AS "profile"`,
       )

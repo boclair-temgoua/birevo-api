@@ -26,12 +26,15 @@ import { JwtAuthGuard } from '../../middleware/jwt-auth.guard';
 import { UpdateChangePasswordUserDto } from '../../dto/validation-user.dto';
 import { ChangePasswordUser } from '../../services/use-cases/change-password-user';
 import { UpdateInformationToUser } from '../../services/use-cases/update-information-to-user';
+import { CreateOrUpdateProfileDto } from '../../../profile/dto/validation-profile.dto';
+import { CreateOrUpdateProfileService } from '../../../profile/services/mutations/create-or-update-profile.service';
 
 @Controller('users')
 export class UpdateContactController {
   constructor(
     private readonly createOrUpdateUserService: CreateOrUpdateUserService,
     private readonly changePasswordUser: ChangePasswordUser,
+    private readonly createOrUpdateProfileService: CreateOrUpdateProfileService,
     private readonly updateInformationToUser: UpdateInformationToUser,
     private readonly updateOrganizationToUser: UpdateOrganizationToUser,
   ) {}
@@ -98,7 +101,7 @@ export class UpdateContactController {
   /** Change password account*/
   @Put(`/update-password`)
   @UseGuards(JwtAuthGuard)
-  async changePassword(
+  async updatePassword(
     @Res() res,
     @Req() req,
     @Body() updateChangePasswordUserDto: UpdateChangePasswordUserDto,
@@ -115,5 +118,26 @@ export class UpdateContactController {
       throw new NotFoundException(errors);
     }
     return reply({ res, results });
+  }
+
+  /** Update profile account*/
+  @Put(`/update-profile/:profileId`)
+  @UseGuards(JwtAuthGuard)
+  async updateProfile(
+    @Res() res,
+    @Req() req,
+    @Body() createOrUpdateProfileDto: CreateOrUpdateProfileDto,
+    @Param('profileId', ParseIntPipe) profileId: number,
+  ) {
+    const [errors, result] = await useCatch(
+      this.createOrUpdateProfileService.updateOne(
+        { option1: { profileId } },
+        { ...createOrUpdateProfileDto },
+      ),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results: result });
   }
 }

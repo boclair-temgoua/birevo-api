@@ -29,10 +29,13 @@ export class FindUserService {
       .addSelect(
         /*sql*/ `jsonb_build_object(
       'userId', "user"."id",
+      'id', "profile"."id",
+      'userId', "user"."id",
       'firstName', "profile"."firstName",
       'image', "profile"."image",
       'color', "profile"."color",
       'currencyId', "profile"."currencyId",
+      'url', "profile"."url",
       'lastName', "profile"."lastName"
   ) AS "profile"`,
       )
