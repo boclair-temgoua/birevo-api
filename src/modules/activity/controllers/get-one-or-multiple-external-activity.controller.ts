@@ -59,6 +59,6 @@ export class GetOneOrMultipleExternalActivityController {
     if (errors) {
       throw new NotFoundException(errors);
     }
-    return reply({ res, results: results });
+    return reply({ res, results });
   }
 }

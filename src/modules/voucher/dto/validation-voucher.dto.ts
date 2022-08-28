@@ -15,7 +15,7 @@ import {
   IsDate,
   MaxDate,
 } from 'class-validator';
-import { MatchDate } from 'src/infrastructure/utils/commons';
+import { MatchDate } from '../../../infrastructure/utils/commons';
 export type StatusOnline = 'ONLINE' | 'OFFLINE' | 'TEST';
 export type DeliveryType = 'AMOUNT' | 'PERCENT';
 export type StatusVoucher = 'PENDING' | 'ACTIVE' | 'USED' | 'TEST';

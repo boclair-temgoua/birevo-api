@@ -12,10 +12,10 @@ import {
   UseGuards,
   Req,
   Res,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { FindOneUserByService } from '../../services/query/find-one-user-by.service';
 import { CreateOrUpdateUserService } from '../../services/mutations/create-or-update-user.service';
 import {
   UpdateEmailUserDto,
@@ -32,11 +32,11 @@ import { CreateOrUpdateProfileService } from '../../../profile/services/mutation
 @Controller('users')
 export class UpdateContactController {
   constructor(
-    private readonly createOrUpdateUserService: CreateOrUpdateUserService,
     private readonly changePasswordUser: ChangePasswordUser,
-    private readonly createOrUpdateProfileService: CreateOrUpdateProfileService,
     private readonly updateInformationToUser: UpdateInformationToUser,
     private readonly updateOrganizationToUser: UpdateOrganizationToUser,
+    private readonly createOrUpdateUserService: CreateOrUpdateUserService,
+    private readonly createOrUpdateProfileService: CreateOrUpdateProfileService,
   ) {}
 
   @Put(`/update/:user_uuid`)
@@ -133,6 +133,26 @@ export class UpdateContactController {
       this.createOrUpdateProfileService.updateOne(
         { option1: { profileId } },
         { ...createOrUpdateProfileDto },
+      ),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results: result });
+  }
+
+  /** Update profile account*/
+  @Put(`/deactivate-user/:user_uuid`)
+  @UseGuards(JwtAuthGuard)
+  async deactivateProfile(
+    @Res() res,
+    @Body('confirm', ParseBoolPipe) confirm: boolean,
+    @Param('user_uuid', ParseUUIDPipe) user_uuid: string,
+  ) {
+    const [errors, result] = await useCatch(
+      this.createOrUpdateUserService.updateOne(
+        { option4: { user_uuid } },
+        { deletedAt: new Date() },
       ),
     );
     if (errors) {

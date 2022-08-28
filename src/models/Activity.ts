@@ -1,7 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-// import { BaseEntity } from '../providers/typeorm/common/BaseEntity';
-// import { VoucherableType } from '../modules/vouchers/validation/index';
-// import { ActionActivity } from '../modules/activity/validation/index';
 import { Nullable } from '../infrastructure/utils/use-catch';
 import { BaseEntity } from '../infrastructure/databases/common/BaseEntity';
 
@@ -36,6 +33,9 @@ export class Activity extends BaseEntity {
 
   @Column({ nullable: true })
   source?: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  organizationId?: number;
 
   @Column({ type: 'bigint', nullable: true })
   applicationId?: number;
