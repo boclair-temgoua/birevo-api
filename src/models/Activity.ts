@@ -26,13 +26,16 @@ export class Activity extends BaseEntity {
   browser?: string;
 
   @Column({ nullable: true })
-  os?: string;
+  country?: string;
 
   @Column({ nullable: true })
   platform?: string;
 
   @Column({ nullable: true })
-  source?: string;
+  city?: string;
+
+  @Column({ nullable: true })
+  countryCode?: string;
 
   @Column({ type: 'bigint', nullable: true })
   organizationId?: number;

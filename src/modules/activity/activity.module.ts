@@ -8,6 +8,7 @@ import { CreateOrUpdateActivity } from './services/user-cases/create-or-update-a
 import { GetOneOrMultipleExternalActivityController } from './controllers/get-one-or-multiple-external-activity.controller';
 import { FindOneVoucherByService } from '../voucher/services/query/find-one-voucher-by.service';
 import { Voucher } from '../../models/Voucher';
+import { GetOneOrMultipleActivity } from './services/user-cases/get-one-or-multiple-activity';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { Voucher } from '../../models/Voucher';
     FindOneVoucherByService,
     /** Imports providers use-cases */
     CreateOrUpdateActivity,
+    GetOneOrMultipleActivity,
   ],
 })
 export class ActivityModule {}

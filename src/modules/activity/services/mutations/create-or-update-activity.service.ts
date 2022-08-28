@@ -21,9 +21,11 @@ export class CreateOrUpdateActivityService {
       action,
       ipLocation,
       browser,
-      os,
+      country,
       platform,
-      source,
+      countryCode,
+      organizationId,
+      city,
       applicationId,
       userCreatedId,
       view,
@@ -39,10 +41,12 @@ export class CreateOrUpdateActivityService {
     activity.action = action;
     activity.ipLocation = ipLocation;
     activity.platform = platform;
-    activity.source = source;
-    activity.os = os;
+    activity.city = city;
+    activity.countryCode = countryCode;
+    activity.country = country;
     activity.view = view;
     activity.usage = usage;
+    activity.organizationId = organizationId;
     activity.applicationId = applicationId;
     activity.userCreatedId = userCreatedId;
     activity.browser = browser;

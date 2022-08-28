@@ -6,7 +6,9 @@ export type GetActivitySelections = {
     activityAbleType: Activity['activityAbleType'];
     activityAbleId: Activity['activityAbleId'];
   };
-  is_paginate: boolean;
+  option2?: {
+    organizationId: Activity['organizationId'];
+  };
   filterQuery?: any;
   data?: any[];
   pagination?: {

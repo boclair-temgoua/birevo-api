@@ -10,9 +10,8 @@ import { GetOneVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
 import { CreateAmountAmountSubscription } from '../../../billing/services/user-cases/create-amount-amountSubscription';
 import { configurations } from '../../../../infrastructure/configurations/index';
-import { getOneIpLocationApi } from '../../../integrations/ipapi/api/index';
-import { geoIpRequest } from '../../../../infrastructure/utils/commons';
 import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
+import { geoIpRequest } from '../../../../infrastructure/utils/commons/geo-ip-request';
 
 @Injectable()
 export class GetOnUserVoucher {
@@ -46,9 +45,10 @@ export class GetOnUserVoucher {
         this.createOrUpdateActivity.execute({
           activityAbleType: findVoucher?.voucherType,
           activityAbleId: findVoucher?.id,
-          action: 'VIEW',
+          action: 'VOUCHER-VIEW',
           ipLocation,
           browser: userAgent,
+          organizationId: findVoucher?.organizationId,
           applicationId: findVoucher?.applicationId,
           userCreatedId: user?.id,
         }),
@@ -78,14 +78,21 @@ export class GetOnUserVoucher {
   async executeExtern(options: GetOneVoucherDto): Promise<any> {
     const { code, type, ipLocation, user, userAgent } = { ...options };
 
-    const [_errorC, geoLocation] = await useCatch(
-      getOneLocationIpApi({ ipLocation }),
-    );
-    if (_errorC) {
-      throw new NotFoundException(_errorC);
-    }
+    // const [_errorC, geoLocation] = await useCatch(
+    //   getOneLocationIpApi({ ipLocation }),
+    // );
+    // if (_errorC) {
+    //   throw new NotFoundException(_errorC);
+    // }
+
+    // const [_errorC, geoLocation] = await useCatch(geoIpRequest('102.132.16.0'));
+    // if (_errorC) {
+    //   throw new NotFoundException(_errorC);
+    // }
+
+    // geoIpRequest
     // console.log('TgeoLocation ======> ', geoIpRequest('102.128.192.0'));
-    console.log('geoLocation ======> ', geoLocation);
+    // console.log('geoLocation ======> ', geoLocation);
 
     const [_errorV, findVoucher] = await useCatch(
       this.findOneVoucherByService.findOneInfoBy({
@@ -129,9 +136,10 @@ export class GetOnUserVoucher {
         this.createOrUpdateActivity.execute({
           activityAbleType: findVoucher?.voucherType,
           activityAbleId: findVoucher?.id,
-          action: 'VIEW',
+          action: 'VOUCHER-VIEW',
           ipLocation,
           browser: userAgent,
+          organizationId: findVoucher?.organizationId,
           applicationId: findVoucher?.applicationId,
           userCreatedId: user?.id,
         }),

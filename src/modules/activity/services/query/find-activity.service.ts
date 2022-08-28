@@ -14,7 +14,7 @@ export class FindActivityService {
   ) {}
 
   async findAllActivities(selections: GetActivitySelections): Promise<any> {
-    const { filterQuery, is_paginate, pagination, option1 } = {
+    const { filterQuery, pagination, option1, option2 } = {
       ...selections,
     };
 
@@ -24,9 +24,11 @@ export class FindActivityService {
       .addSelect('activity.uuid', 'uuid')
       .addSelect('activity.action', 'action')
       .addSelect('activity.browser', 'browser')
-      .addSelect('activity.os', 'os')
+      .addSelect('activity.country', 'country')
+      .addSelect('activity.city', 'city')
       .addSelect('activity.platform', 'platform')
-      .addSelect('activity.source', 'source')
+      .addSelect('activity.organizationId', 'organizationId')
+      .addSelect('activity.countryCode', 'countryCode')
       .addSelect('activity.ipLocation', 'ipLocation')
       .addSelect('activity.activityAbleType', 'activityAbleType')
       .addSelect('activity.activityAbleId', 'activityAbleId')
@@ -58,6 +60,13 @@ export class FindActivityService {
         });
     }
 
+    if (option2) {
+      const { organizationId } = { ...option2 };
+      query = query.where('activity.organizationId = :organizationId', {
+        organizationId,
+      });
+    }
+
     if (filterQuery?.q) {
       query = query
         .andWhere('activity.action ::text ILIKE :searchQuery', {
@@ -68,33 +77,24 @@ export class FindActivityService {
         });
     }
 
-    if (is_paginate) {
-      const [errorRowCount, rowCount] = await useCatch(query.getCount());
-      if (errorRowCount) throw new NotFoundException(errorRowCount);
+    const [errorRowCount, rowCount] = await useCatch(query.getCount());
+    if (errorRowCount) throw new NotFoundException(errorRowCount);
 
-      const [error, results] = await useCatch(
-        query
-          .orderBy(
-            'activity.createdAt',
-            pagination?.sort ? pagination?.sort : 'DESC',
-          )
-          .limit(pagination.limit)
-          .offset((pagination.page - 1) * pagination.limit)
-          .getRawMany(),
-      );
-      if (error) throw new NotFoundException(error);
-      return withPagination({
-        pagination,
-        rowCount,
-        data: results,
-      });
-    } else {
-      const [errors, results] = await useCatch(
-        query.orderBy('voucher.createdAt', 'DESC').getRawMany(),
-      );
-      if (errors) throw new NotFoundException(errors);
-
-      return results;
-    }
+    const [error, results] = await useCatch(
+      query
+        .orderBy(
+          'activity.createdAt',
+          pagination?.sort ? pagination?.sort : 'DESC',
+        )
+        .limit(pagination.limit)
+        .offset((pagination.page - 1) * pagination.limit)
+        .getRawMany(),
+    );
+    if (error) throw new NotFoundException(error);
+    return withPagination({
+      pagination,
+      rowCount,
+      data: results,
+    });
   }
 }

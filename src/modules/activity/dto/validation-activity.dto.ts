@@ -5,41 +5,42 @@ import {
   IsNotEmpty,
   IsInt,
   IsIn,
+  IsBoolean,
 } from 'class-validator';
 
 export type ActionActivity =
-  | 'VIEW'
-  | 'USED'
-  | 'NEW'
-  | 'LOGIN'
-  | 'REGISTER'
+  | 'VOUCHER-VIEW'
+  | 'VOUCHER-USED'
+  | 'VOUCHER-NEW'
+  | 'USER-LOGIN'
+  | 'USER-REGISTER'
   | 'DELETE';
 
 export const actionActivityArrays = [
-  'VIEW',
-  'USED',
-  'NEW',
-  'LOGIN',
+  'VOUCHER-VIEW',
+  'VOUCHER-USED',
+  'VOUCHER-NEW',
+  'USER-LOGIN',
+  'USER-REGISTER',
   'DELETE',
-  'REGISTER',
 ];
 
 export const getOneActionActivityByNumber = (state: number): ActionActivity => {
   switch (state) {
     case 1:
-      return 'VIEW';
+      return 'VOUCHER-VIEW';
     case 2:
-      return 'USED';
+      return 'VOUCHER-USED';
     case 3:
-      return 'NEW';
+      return 'VOUCHER-NEW';
     case 4:
-      return 'LOGIN';
+      return 'USER-LOGIN';
     case 5:
-      return 'REGISTER';
+      return 'USER-REGISTER';
     case 5:
       return 'DELETE';
     default:
-      return 'VIEW';
+      return 'VOUCHER-VIEW';
   }
 };
 
@@ -67,15 +68,7 @@ export class CreateOrUpdateActivityDto {
 
   @IsNotEmpty()
   @IsString()
-  os?: string;
-
-  @IsNotEmpty()
-  @IsString()
   platform?: string;
-
-  @IsNotEmpty()
-  @IsString()
-  source?: string;
 
   @IsNotEmpty()
   @IsInt()
@@ -83,5 +76,22 @@ export class CreateOrUpdateActivityDto {
 
   @IsNotEmpty()
   @IsInt()
+  organizationId: number;
+
+  @IsNotEmpty()
+  @IsInt()
   userCreatedId?: number;
+}
+
+export class GetMultipleActivityDto {
+  @IsOptional()
+  @IsString()
+  voucher_uuid: string;
+
+  @IsOptional()
+  @IsString()
+  organizationId: string;
+
+  @IsOptional()
+  user: any;
 }

@@ -8,6 +8,7 @@ import {
   Req,
   Res,
   ParseBoolPipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
@@ -16,12 +17,13 @@ import { FilterQueryDto } from '../../../infrastructure/utils/filter-query/filte
 import { RequestPaginationDto } from '../../../infrastructure/utils/pagination/request-pagination.dto';
 import { FindActivityService } from '../services/query/find-activity.service';
 import { FindOneVoucherByService } from '../../voucher/services/query/find-one-voucher-by.service';
+import { GetMultipleActivityDto } from '../dto/validation-activity.dto';
+import { GetOneOrMultipleActivity } from '../services/user-cases/get-one-or-multiple-activity';
 
 @Controller('activities')
 export class GetOneOrMultipleExternalActivityController {
   constructor(
-    private readonly findActivityService: FindActivityService,
-    private readonly findOneVoucherByService: FindOneVoucherByService,
+    private readonly getOneOrMultipleActivity: GetOneOrMultipleActivity,
   ) {}
 
   @Get(`/`)
@@ -31,29 +33,14 @@ export class GetOneOrMultipleExternalActivityController {
     @Req() req,
     @Query() pagination: RequestPaginationDto,
     @Query() filterQuery: FilterQueryDto,
-    @Query('voucher_uuid', ParseUUIDPipe) voucher_uuid: string,
-    @Query('is_paginate', ParseBoolPipe) is_paginate: boolean,
+    @Query() getMultipleActivityDto: GetMultipleActivityDto,
   ) {
-    /** Find one voucher */
-    const [error, voucher] = await useCatch(
-      this.findOneVoucherByService.findOneBy({
-        option1: { uuid: voucher_uuid },
-      }),
-    );
-    if (error) {
-      throw new NotFoundException(error);
-    }
-
-    /** Find activity with voucher */
     const [errors, results] = await useCatch(
-      this.findActivityService.findAllActivities({
-        is_paginate,
-        filterQuery,
-        pagination,
-        option1: {
-          activityAbleType: voucher?.voucherType,
-          activityAbleId: voucher?.id,
-        },
+      this.getOneOrMultipleActivity.execute({
+        ...getMultipleActivityDto,
+        ...pagination,
+        ...filterQuery,
+        user: req.user,
       }),
     );
     if (errors) {

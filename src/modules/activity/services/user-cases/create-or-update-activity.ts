@@ -7,6 +7,8 @@ import {
 import { CreateOrUpdateActivityDto } from '../../dto/validation-activity.dto';
 import { CreateOrUpdateActivityService } from '../mutations/create-or-update-activity.service';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
+import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
+import { geoIpRequest } from '../../../../infrastructure/utils/commons/geo-ip-request';
 @Injectable()
 export class CreateOrUpdateActivity {
   constructor(
@@ -20,25 +22,26 @@ export class CreateOrUpdateActivity {
       action,
       ipLocation,
       browser,
-      os,
       platform,
-      source,
       applicationId,
+      organizationId,
       userCreatedId,
     } = {
       ...options,
     };
 
+    const geoLocation = geoIpRequest(ipLocation);
     const dataSave = {
       activityAbleType,
       activityAbleId,
       action,
       ipLocation,
       browser,
-      os,
+      city: geoLocation?.city,
       platform,
-      source,
+      countryCode: geoLocation?.country,
       applicationId,
+      organizationId,
       userCreatedId,
       view: 1,
     };
