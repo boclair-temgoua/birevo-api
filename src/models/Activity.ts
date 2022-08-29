@@ -32,6 +32,9 @@ export class Activity extends BaseEntity {
   platform?: string;
 
   @Column({ nullable: true })
+  color?: string;
+
+  @Column({ nullable: true })
   city?: string;
 
   @Column({ nullable: true })

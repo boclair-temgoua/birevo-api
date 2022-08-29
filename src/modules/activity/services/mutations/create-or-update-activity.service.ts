@@ -5,6 +5,8 @@ import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { Activity } from '../../../../models/Activity';
 import { generateUUID } from '../../../../infrastructure/utils/commons/generate-uuid';
 import { CreateActivityOptions } from '../../types';
+import { getRandomElement } from '../../../../infrastructure/utils/array/get-random-element';
+import { colorsArrays } from '../../../../infrastructure/utils/commons/get-colors';
 
 @Injectable()
 export class CreateOrUpdateActivityService {
@@ -42,6 +44,7 @@ export class CreateOrUpdateActivityService {
     activity.ipLocation = ipLocation;
     activity.platform = platform;
     activity.city = city;
+    activity.color = getRandomElement(colorsArrays);
     activity.countryCode = countryCode;
     activity.country = country;
     activity.view = view;

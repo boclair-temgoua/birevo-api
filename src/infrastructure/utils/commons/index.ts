@@ -10,5 +10,6 @@ export * from './capitalized-name';
 export * from './match.decorator';
 export * from './geo-ip-request';
 export * from './date.decorator';
+export * from './formate-date-dayjs';
 export * from './check-if-number-or-empty';
 export * from './database-utils';

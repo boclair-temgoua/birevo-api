@@ -25,6 +25,7 @@ export class FindActivityService {
       .addSelect('activity.action', 'action')
       .addSelect('activity.browser', 'browser')
       .addSelect('activity.country', 'country')
+      .addSelect('activity.color', 'color')
       .addSelect('activity.city', 'city')
       .addSelect('activity.platform', 'platform')
       .addSelect('activity.organizationId', 'organizationId')

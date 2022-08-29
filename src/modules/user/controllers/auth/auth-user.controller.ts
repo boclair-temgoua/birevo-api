@@ -15,7 +15,7 @@ import {
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateRegisterUser } from '../../services/use-cases';
-
+import * as amqplib from 'amqplib';
 import { CreateLoginUser } from '../../services/use-cases/create-login-user';
 import { CreateOrUpdateResetPasswordDto } from '../../../reset-password/dto/validation-reset-password.dto';
 import { ResetUpdatePasswordUserService } from '../../services/mutations/reset-update-password-user.service';
@@ -29,6 +29,8 @@ import { ConfirmAccountTokenUser } from '../../services/use-cases/confirm-accoun
 import { ChangePasswordUser } from '../../services/use-cases/change-password-user';
 import { JwtAuthGuard } from '../../middleware/jwt-auth.guard';
 import { UpdateChangePasswordUserDto } from '../../dto/validation-user.dto';
+import { configurations } from '../../../../infrastructure/configurations/index';
+import { authPasswordResetJob } from '../../jobs/auth-login-and-register-job';
 
 @Controller()
 export class AuthUserController {
@@ -78,7 +80,7 @@ export class AuthUserController {
     @Res() res,
     @Body() createOrUpdateResetPasswordDto: CreateOrUpdateResetPasswordDto,
   ) {
-    const [errors, results] = await useCatch(
+    const [errors, result] = await useCatch(
       this.resetUpdatePasswordUserService.createOneResetPassword({
         ...createOrUpdateResetPasswordDto,
       }),
@@ -86,7 +88,18 @@ export class AuthUserController {
     if (errors) {
       throw new NotFoundException(errors);
     }
-    return reply({ res, results });
+    /** Send information to Job */
+    const queue = 'user-password-reset';
+    const connect = await amqplib.connect(
+      configurations.implementations.amqp.link,
+    );
+    const channel = await connect.createChannel();
+    await channel.assertQueue(queue, { durable: false });
+    await channel.sendToQueue(queue, Buffer.from(JSON.stringify(result)));
+    await authPasswordResetJob({ channel, queue });
+    /** End send information to Job */
+
+    return reply({ res, results: result });
   }
 
   /** Update reset password */
