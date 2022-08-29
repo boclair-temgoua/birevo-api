@@ -35,10 +35,13 @@ export class CreateOrUpdateInternalCouponController {
     @Res() res,
     @Req() req,
     @Body() createOrUpdateVoucherDto: CreateOrUpdateVoucherDto,
+    @Headers('User-Agent') userAgent: string,
   ) {
     const [error, result] = await useCatch(
       this.createOrUpdateVoucher.create({
         ...createOrUpdateVoucherDto,
+        ipLocation: getIpRequest(req),
+        userAgent,
         user: req?.user,
         type: 'COUPON',
       }),
@@ -77,10 +80,13 @@ export class CreateOrUpdateInternalCouponController {
     @Res() res,
     @Req() req,
     @Body() createOrUpdateVoucherDto: CreateOrUpdateVoucherDto,
+    @Headers('User-Agent') userAgent: string,
   ) {
     const [error, result] = await useCatch(
       this.createOrUpdateVoucher.create({
         ...createOrUpdateVoucherDto,
+        ipLocation: getIpRequest(req),
+        userAgent,
         user: req?.user,
         type: 'VOUCHER',
       }),

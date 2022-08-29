@@ -12,6 +12,7 @@ export type ActionActivity =
   | 'VOUCHER-VIEW'
   | 'VOUCHER-USED'
   | 'VOUCHER-NEW'
+  | 'VOUCHER-UPDATE'
   | 'USER-LOGIN'
   | 'USER-REGISTER'
   | 'DELETE';
@@ -20,6 +21,7 @@ export const actionActivityArrays = [
   'VOUCHER-VIEW',
   'VOUCHER-USED',
   'VOUCHER-NEW',
+  'VOUCHER-UPDATE',
   'USER-LOGIN',
   'USER-REGISTER',
   'DELETE',
@@ -37,7 +39,9 @@ export const getOneActionActivityByNumber = (state: number): ActionActivity => {
       return 'USER-LOGIN';
     case 5:
       return 'USER-REGISTER';
-    case 5:
+    case 6:
+      return 'VOUCHER-UPDATE';
+    case 7:
       return 'DELETE';
     default:
       return 'VOUCHER-VIEW';

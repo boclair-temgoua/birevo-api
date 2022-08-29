@@ -7,8 +7,7 @@ import {
   IsInt,
   IsOptional,
 } from 'class-validator';
-import { Match } from '../../../infrastructure/utils/commons';
-
+import { Match } from '../../../infrastructure/utils/decorators';
 export class UpdateInfoUserDto {
   @IsNotEmpty()
   @IsString()

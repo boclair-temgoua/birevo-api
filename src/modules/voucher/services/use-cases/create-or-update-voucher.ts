@@ -43,6 +43,8 @@ export class CreateOrUpdateVoucher {
       type,
       code,
       voucherId,
+      ipLocation,
+      userAgent,
       percent,
       startedAt,
       expiredAt,
@@ -116,6 +118,23 @@ export class CreateOrUpdateVoucher {
     );
     if (_errorQr) {
       throw new NotFoundException(_errorQr);
+    }
+
+    /** Here create Activity */
+    const [_errorAct, _activity] = await useCatch(
+      this.createOrUpdateActivity.execute({
+        activityAbleType: coupon?.voucherType,
+        activityAbleId: coupon?.id,
+        action: 'VOUCHER-NEW',
+        ipLocation,
+        browser: userAgent,
+        organizationId: coupon?.organizationId,
+        applicationId: coupon?.applicationId,
+        userCreatedId: user?.id,
+      }),
+    );
+    if (_errorAct) {
+      throw new NotFoundException(_errorAct);
     }
     return coupon;
   }

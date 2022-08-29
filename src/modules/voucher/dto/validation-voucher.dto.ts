@@ -15,7 +15,7 @@ import {
   IsDate,
   MaxDate,
 } from 'class-validator';
-import { MatchDate } from '../../../infrastructure/utils/commons';
+import { MatchDate } from '../../../infrastructure/utils/decorators';
 export type StatusOnline = 'ONLINE' | 'OFFLINE' | 'TEST';
 export type DeliveryType = 'AMOUNT' | 'PERCENT';
 export type StatusVoucher = 'PENDING' | 'ACTIVE' | 'USED' | 'TEST';
@@ -102,20 +102,17 @@ export class CreateOrUpdateVoucherDto {
   code: string;
 
   @IsOptional()
-  @IsString()
-  amount: string;
+  @IsInt()
+  amount: number;
 
   @IsOptional()
   @IsString()
   description: string;
 
-  @IsNotEmpty()
-  @IsString()
   @IsIn(deliveryTypeArrays)
   deliveryType: NonNullable<DeliveryType>;
 
   @IsOptional()
-  @IsString()
   @IsIn(voucherableTypeArrays)
   type?: NonNullable<VoucherableType>;
 
@@ -124,8 +121,8 @@ export class CreateOrUpdateVoucherDto {
   voucherId?: number;
 
   @IsOptional()
-  @IsString()
-  percent?: string;
+  @IsInt()
+  percent?: number;
 
   @IsOptional()
   @IsInt()
@@ -138,6 +135,14 @@ export class CreateOrUpdateVoucherDto {
   @IsNotEmpty()
   @MatchDate('startedAt')
   expiredAt: Date;
+
+  @IsOptional()
+  @IsString()
+  ipLocation: string;
+
+  @IsOptional()
+  @IsString()
+  userAgent: string;
 
   @IsOptional()
   user: any;
