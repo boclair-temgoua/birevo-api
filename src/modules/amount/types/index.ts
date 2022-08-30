@@ -4,6 +4,7 @@ import { SortType } from '../../../infrastructure/utils/pagination/request-pagin
 export type GetAmountSelections = {
   option1?: {
     userId: Amount['userId'];
+    organizationId: Amount['organizationId'];
   };
   option2?: {
     organizationId: Amount['organizationId'];

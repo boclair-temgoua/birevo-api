@@ -27,6 +27,7 @@ export type CreateOnBullingVoucherRequest = {
   amount: number;
   amountCoupon?: number;
   currency: string;
+  type?: 'PAYMENT';
   paymentMethod?: paymentMethodType;
   userId: number;
   organizationId: number;

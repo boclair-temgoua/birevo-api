@@ -15,6 +15,9 @@ export class Amount extends BaseEntity {
   currency: string;
 
   @Column({ nullable: true })
+  type: string;
+
+  @Column({ nullable: true })
   paymentMethod: string;
 
   @Column({ type: 'bigint', nullable: true })

@@ -6,8 +6,6 @@ import {
 } from '@nestjs/common';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 
-import { CreateOrUpdateAmountSubscriptionService } from '../../../amount-subscription/services/mutations/create-or-update-amount-subscription.service';
-import { CreateOrUpdateAmountService } from '../../../amount/services/mutations/create-or-update-amount.service';
 import {
   CreateStripeBullingDto,
   CreateCouponBullingDto,
@@ -16,7 +14,6 @@ import { CreateAmountAmountSubscription } from './create-amount-amountSubscripti
 import { configurations } from '../../../../infrastructure/configurations/index';
 import Stripe from 'stripe';
 import { FindOneVoucherByService } from '../../../voucher/services/query/find-one-voucher-by.service';
-import { isEmpty } from '../../../../infrastructure/utils/commons/is-empty';
 import {
   getOneVoucherApi,
   useOneVoucherApi,
@@ -63,6 +60,7 @@ export class CreateMethodBulling {
         this.createAmountAmountSubscription.execute({
           amount: charge?.amount / 100,
           currency: currency,
+          type: 'PAYMENT',
           paymentMethod: 'CARD-PAY',
           userId: user?.organizationInUtilization?.userId,
           organizationId: user?.organizationInUtilizationId,
@@ -86,29 +84,33 @@ export class CreateMethodBulling {
     if (_errorC) {
       throw new NotFoundException(_errorC);
     }
-
-    if (coupon?.amount !== null) {
-      const [__errorC, useCoupon] = await useCatch(
-        useOneVoucherApi({ code: coupon?.code }),
+    if (coupon?.currency === null) {
+      throw new HttpException(
+        `Invalid coupon please try again`,
+        HttpStatus.NOT_FOUND,
       );
-      if (__errorC) {
-        throw new NotFoundException(__errorC);
-      }
-      const [_errorBull, bulling] = await useCatch(
-        this.createAmountAmountSubscription.execute({
-          amount: coupon?.amount,
-          currency: coupon?.currency?.code,
-          paymentMethod: 'COUPON-PAY',
-          userId: user?.organizationInUtilization?.userId,
-          organizationId: user?.organizationInUtilizationId,
-          userCreatedId: user?.id,
-        }),
-      );
-      if (_errorBull) {
-        throw new NotFoundException(_errorBull);
-      }
     }
 
+    const [__errorC, useCoupon] = await useCatch(
+      useOneVoucherApi({ code: coupon?.code }),
+    );
+    if (__errorC) {
+      throw new NotFoundException(__errorC);
+    }
+    const [_errorBull, bulling] = await useCatch(
+      this.createAmountAmountSubscription.execute({
+        amount: coupon?.amount,
+        type: 'PAYMENT',
+        currency: coupon?.currency?.code,
+        paymentMethod: 'COUPON-PAY',
+        userId: user?.organizationInUtilization?.userId,
+        organizationId: user?.organizationInUtilizationId,
+        userCreatedId: user?.id,
+      }),
+    );
+    if (_errorBull) {
+      throw new NotFoundException(_errorBull);
+    }
     return coupon;
   }
 }

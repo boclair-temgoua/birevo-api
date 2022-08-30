@@ -18,6 +18,7 @@ export class CreateOrUpdateAmountService {
       userId,
       amount,
       currency,
+      type,
       organizationId,
       userCreatedId,
       paymentMethod,
@@ -26,6 +27,7 @@ export class CreateOrUpdateAmountService {
     const amountSave = new Amount();
     amountSave.amount = amount;
     amountSave.currency = currency;
+    amountSave.type = type;
     amountSave.userId = userId;
     amountSave.paymentMethod = paymentMethod;
     amountSave.organizationId = organizationId;

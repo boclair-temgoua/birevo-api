@@ -9,13 +9,15 @@ import { CreateContactController } from './controllers/create-bulling.controller
 import { CreateMethodBulling } from './services/user-cases/create-method-bulling';
 import { FindOneVoucherByService } from '../voucher/services/query/find-one-voucher-by.service';
 import { Voucher } from '../../models/Voucher';
+import { GetOneOrMultipleBillingController } from './controllers/get-one-or-multiple-billing.controller';
+import { FindAmountService } from '../amount/services/query/find-amount.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Amount]),
     TypeOrmModule.forFeature([Voucher]),
     TypeOrmModule.forFeature([AmountSubscription]),
   ],
-  controllers: [CreateContactController],
+  controllers: [CreateContactController, GetOneOrMultipleBillingController],
   providers: [
     /** Imports providers mutations */
     CreateOrUpdateAmountSubscriptionService,
@@ -24,6 +26,7 @@ import { Voucher } from '../../models/Voucher';
 
     /** Imports providers use-cases */
     CreateMethodBulling,
+    FindAmountService,
     CreateAmountAmountSubscription,
   ],
 })

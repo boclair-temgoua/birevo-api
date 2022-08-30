@@ -13,7 +13,7 @@ export class FindAmountService {
     private driver: Repository<Amount>,
   ) {}
 
-  async findAllApplications(
+  async findAllAmounts(
     selections: GetAmountSelections,
   ): Promise<GetAmountSelections> {
     const { pagination, option1, option2 } = { ...selections };
@@ -21,8 +21,13 @@ export class FindAmountService {
     let query = this.driver.createQueryBuilder('amount');
 
     if (option1) {
-      const { userId } = { ...option1 };
-      query = query.where('amount.userId = :userId', { userId });
+      const { userId, organizationId } = { ...option1 };
+      query = query
+        .where("amount.type IN ('PAYMENT','INVOICE')")
+        .andWhere('amount.userId = :userId', { userId })
+        .andWhere('amount.organizationId = :organizationId', {
+          organizationId,
+        });
     }
 
     if (option2) {

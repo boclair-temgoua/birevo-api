@@ -5,7 +5,7 @@ import { FindOneActivityByService } from './services/query/find-one-activity-by.
 import { FindActivityService } from './services/query/find-activity.service';
 import { CreateOrUpdateActivityService } from './services/mutations/create-or-update-activity.service';
 import { CreateOrUpdateActivity } from './services/user-cases/create-or-update-activity';
-import { GetOneOrMultipleExternalActivityController } from './controllers/get-one-or-multiple-external-activity.controller';
+import { GetOneOrMultipleActivityController } from './controllers/get-one-or-multiple-activity.controller';
 import { FindOneVoucherByService } from '../voucher/services/query/find-one-voucher-by.service';
 import { Voucher } from '../../models/Voucher';
 import { GetOneOrMultipleActivity } from './services/user-cases/get-one-or-multiple-activity';
@@ -15,7 +15,7 @@ import { GetOneOrMultipleActivity } from './services/user-cases/get-one-or-multi
     TypeOrmModule.forFeature([Activity]),
     TypeOrmModule.forFeature([Voucher]),
   ],
-  controllers: [GetOneOrMultipleExternalActivityController],
+  controllers: [GetOneOrMultipleActivityController],
   providers: [
     /** Imports providers query */
     FindActivityService,

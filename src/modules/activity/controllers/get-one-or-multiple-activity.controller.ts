@@ -21,7 +21,7 @@ import { GetMultipleActivityDto } from '../dto/validation-activity.dto';
 import { GetOneOrMultipleActivity } from '../services/user-cases/get-one-or-multiple-activity';
 
 @Controller('activities')
-export class GetOneOrMultipleExternalActivityController {
+export class GetOneOrMultipleActivityController {
   constructor(
     private readonly getOneOrMultipleActivity: GetOneOrMultipleActivity,
   ) {}
