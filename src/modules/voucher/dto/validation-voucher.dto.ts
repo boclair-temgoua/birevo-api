@@ -166,6 +166,10 @@ export class GetOneVoucherDto {
   voucher_uuid: string;
 
   @IsOptional()
+  @IsInt()
+  organizationId: number;
+
+  @IsOptional()
   @IsString()
   userAgent: string;
 

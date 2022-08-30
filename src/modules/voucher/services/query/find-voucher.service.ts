@@ -82,9 +82,11 @@ export class FindVoucherService {
           'usage',  CAST(SUM("ac"."usage") AS INT)
           )
           FROM "activity" "ac"
+          LEFT JOIN "organization" "org" ON "ac"."organizationId" = "org"."id"
           WHERE "ac"."activityAbleType" = "voucher"."voucherType"
           AND "ac"."activityAbleId" = "voucher"."id"
-          GROUP BY "ac"."activityAbleId", "ac"."activityAbleType"
+          AND "ac"."organizationId" = "voucher"."organizationId"
+          GROUP BY "ac"."activityAbleId", "ac"."activityAbleType", "org"."id"
           ) AS "activity"`,
       )
       .addSelect(

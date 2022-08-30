@@ -48,6 +48,17 @@ export class FindActivityService {
           WHERE "activity"."userCreatedId" = "us"."id"
           ) AS "profileOwner"`,
       )
+      .addSelect(
+        /*sql*/ `(
+          SELECT jsonb_build_object(
+          'uuid', "app"."uuid",
+          'name', "app"."name",
+          'color', "app"."color"
+          )
+          FROM "application" "app"
+          WHERE "activity"."applicationId" = "app"."id"
+          ) AS "application"`,
+      )
       .addSelect('activity.createdAt', 'createdAt');
 
     if (option1) {

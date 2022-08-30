@@ -28,15 +28,19 @@ import { getIpRequest } from '../../../../infrastructure/utils/commons/get-ip-re
 export class CreateOrUpdateExternalVoucherController {
   constructor(private readonly createOrUpdateVoucher: CreateOrUpdateVoucher) {}
 
+  /** Create coupon */
   @Post(`/coupons/create`)
   async createOneCoupon(
     @Res() res,
     @Req() req,
     @Body() createOrUpdateVoucherDto: CreateOrUpdateVoucherDto,
+    @Headers('User-Agent') userAgent: string,
   ) {
     const [error, result] = await useCatch(
       this.createOrUpdateVoucher.create({
         ...createOrUpdateVoucherDto,
+        ipLocation: getIpRequest(req),
+        userAgent,
         user: req?.user,
         type: 'COUPON',
       }),
@@ -47,15 +51,19 @@ export class CreateOrUpdateExternalVoucherController {
     return reply({ res, results: result });
   }
 
+  /** Update coupon */
   @Post(`/vouchers/create`)
   async createOneVoucher(
     @Res() res,
     @Req() req,
     @Body() createOrUpdateVoucherDto: CreateOrUpdateVoucherDto,
+    @Headers('User-Agent') userAgent: string,
   ) {
     const [error, result] = await useCatch(
       this.createOrUpdateVoucher.create({
         ...createOrUpdateVoucherDto,
+        ipLocation: getIpRequest(req),
+        userAgent,
         user: req?.user,
         type: 'VOUCHER',
       }),
@@ -66,6 +74,7 @@ export class CreateOrUpdateExternalVoucherController {
     return reply({ res, results: result });
   }
 
+  /** Update coupon */
   @Put(`/coupons/use/:code`)
   async useOneCoupon(
     @Res() res,

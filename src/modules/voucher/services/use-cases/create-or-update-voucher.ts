@@ -130,7 +130,7 @@ export class CreateOrUpdateVoucher {
         browser: userAgent,
         organizationId: coupon?.organizationId,
         applicationId: coupon?.applicationId,
-        userCreatedId: user?.id,
+        userCreatedId: coupon?.userCreatedId,
       }),
     );
     if (_errorAct) {
@@ -166,17 +166,16 @@ export class CreateOrUpdateVoucher {
     /** Ici je met a jour le coupon dans la base de donner */
     if (findVoucher?.voucherType === 'COUPON') {
       /** Ici je cree la transaction pour le payment de la requete */
-      {
-        /** Start */
-      }
+
+      /** Start */
       const [_errorBull, bulling] = await useCatch(
         this.createAmountAmountSubscription.execute({
           amount: configurations.datasite.pricingBilling,
           currency: 'EUR',
-          userId: user?.applicationToken?.userId,
+          userId: findVoucher?.userId,
           paymentMethod: 'USED-VOUCHER',
-          organizationId: user?.applicationToken?.organizationId,
-          userCreatedId: user?.applicationToken?.userId,
+          organizationId: findVoucher?.organizationId,
+          userCreatedId: user?.id,
         }),
       );
       if (_errorBull) {

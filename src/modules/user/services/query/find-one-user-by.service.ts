@@ -59,7 +59,10 @@ export class FindOneUserByService {
       .addSelect('user.id', 'id')
       .addSelect('user.email', 'email')
       .addSelect('user.profileId', 'profileId')
-      .addSelect('user.organizationInUtilizationId', 'organizationId')
+      .addSelect(
+        'user.organizationInUtilizationId',
+        'organizationInUtilizationId',
+      )
       .addSelect(
         /*sql*/ `jsonb_build_object(
         'name', currency.name,

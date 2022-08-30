@@ -23,7 +23,10 @@ export class FindUserService {
       .addSelect('user.id', 'id')
       .addSelect('user.email', 'email')
       .addSelect('user.profileId', 'profileId')
-      .addSelect('user.organizationInUtilizationId', 'organizationId')
+      .addSelect(
+        'user.organizationInUtilizationId',
+        'organizationInUtilizationId',
+      )
       .addSelect('user.username', 'username')
       .addSelect('user.confirmedAt', 'confirmedAt')
       .addSelect(

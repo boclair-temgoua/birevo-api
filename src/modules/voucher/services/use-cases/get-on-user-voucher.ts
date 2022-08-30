@@ -78,22 +78,6 @@ export class GetOnUserVoucher {
   async executeExtern(options: GetOneVoucherDto): Promise<any> {
     const { code, type, ipLocation, user, userAgent } = { ...options };
 
-    // const [_errorC, geoLocation] = await useCatch(
-    //   getOneLocationIpApi({ ipLocation }),
-    // );
-    // if (_errorC) {
-    //   throw new NotFoundException(_errorC);
-    // }
-
-    // const [_errorC, geoLocation] = await useCatch(geoIpRequest('102.132.16.0'));
-    // if (_errorC) {
-    //   throw new NotFoundException(_errorC);
-    // }
-
-    // geoIpRequest
-    // console.log('TgeoLocation ======> ', geoIpRequest('102.128.192.0'));
-    // console.log('geoLocation ======> ', geoLocation);
-
     const [_errorV, findVoucher] = await useCatch(
       this.findOneVoucherByService.findOneInfoBy({
         option3: {

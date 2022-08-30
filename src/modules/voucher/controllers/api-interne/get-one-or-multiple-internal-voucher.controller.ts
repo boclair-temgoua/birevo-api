@@ -62,6 +62,7 @@ export class GetOneOrMultipleInternalVoucherController {
   }
 
   @Get(`/show`)
+  @UseGuards(JwtAuthGuard)
   async getOneByUuidOrrCode(
     @Res() res,
     @Req() req,
@@ -72,6 +73,7 @@ export class GetOneOrMultipleInternalVoucherController {
       this.getOnUserVoucher.executeIntern({
         ...getOneVoucherDto,
         ipLocation: getIpRequest(req),
+        user: req?.user,
         userAgent,
       }),
     );
