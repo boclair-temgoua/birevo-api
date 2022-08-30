@@ -37,10 +37,10 @@ export class FindVoucherService {
       .addSelect('voucher.applicationId', 'applicationId')
       .addSelect('voucher.usedAt', 'usedAt')
       .addSelect('voucher.createdAt', 'createdAt')
+      .addSelect('voucher.currencyId', 'currencyId')
       .addSelect('voucher.userCreatedId', 'userCreatedId')
       .addSelect('voucher.organizationId', 'organizationId')
       .addSelect('voucher.description', 'description')
-      .addSelect('currency.code', 'currency')
       .addSelect('voucher.userTransactionId', 'userTransactionId')
       .addSelect('voucher.userId', 'userId')
       .addSelect(
@@ -58,7 +58,7 @@ export class FindVoucherService {
               'name', "currency"."name",
               'symbol', "currency"."symbol",
               'amount', "currency"."amount"
-          ) AS "currencyItem"`,
+          ) AS "currency"`,
       )
       .addSelect(
         /*sql*/ `(

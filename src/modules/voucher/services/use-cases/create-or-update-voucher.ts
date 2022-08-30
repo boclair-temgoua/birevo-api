@@ -35,7 +35,6 @@ export class CreateOrUpdateVoucher {
   async create(options: CreateOrUpdateVoucherDto): Promise<any> {
     const {
       name,
-      currency,
       status,
       email,
       amount,
@@ -43,6 +42,7 @@ export class CreateOrUpdateVoucher {
       type,
       code,
       voucherId,
+      currencyId,
       ipLocation,
       userAgent,
       percent,
@@ -54,13 +54,6 @@ export class CreateOrUpdateVoucher {
     } = {
       ...options,
     };
-
-    const [_errorC, findCurrency] = await useCatch(
-      this.findOneCurrencyByService.findOneBy({ option2: { code: currency } }),
-    );
-    if (_errorC) {
-      throw new NotFoundException(_errorC);
-    }
 
     const [_errorV, findVoucher] = await useCatch(
       this.findOneVoucherByService.findOneBy({
@@ -86,7 +79,7 @@ export class CreateOrUpdateVoucher {
       this.createOrUpdateVoucherService.createOne({
         name,
         amount: Number(amount),
-        currencyId: findCurrency?.id,
+        currencyId: Number(currencyId),
         voucherCategoryId: getOneVoucherType(type),
         voucherType: type,
         code: code ? code : generateCouponCode(16),

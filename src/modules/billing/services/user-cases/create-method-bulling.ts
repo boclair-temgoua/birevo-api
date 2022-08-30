@@ -91,7 +91,8 @@ export class CreateMethodBulling {
       );
     }
 
-    const [__errorC, useCoupon] = await useCatch(
+    /** Api Use coupon */
+    const [__errorC, _useCoupon] = await useCatch(
       useOneVoucherApi({ code: coupon?.code }),
     );
     if (__errorC) {
@@ -103,6 +104,7 @@ export class CreateMethodBulling {
         type: 'PAYMENT',
         currency: coupon?.currency?.code,
         paymentMethod: 'COUPON-PAY',
+        amountCoupon: coupon?.currency?.amount,
         userId: user?.organizationInUtilization?.userId,
         organizationId: user?.organizationInUtilizationId,
         userCreatedId: user?.id,

@@ -86,10 +86,6 @@ export class CreateOrUpdateVoucherDto {
 
   @IsOptional()
   @IsString()
-  currency: string;
-
-  @IsOptional()
-  @IsString()
   @IsIn(statusVoucherArrays)
   status: StatusVoucher;
 
@@ -119,6 +115,10 @@ export class CreateOrUpdateVoucherDto {
   @IsOptional()
   @IsInt()
   voucherId?: number;
+
+  @IsOptional()
+  @IsString()
+  currencyId?: string;
 
   @IsOptional()
   @IsInt()
