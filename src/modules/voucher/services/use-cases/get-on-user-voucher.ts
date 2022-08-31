@@ -12,6 +12,7 @@ import { CreateAmountAmountSubscription } from '../../../billing/services/user-c
 import { configurations } from '../../../../infrastructure/configurations/index';
 import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
 import { geoIpRequest } from '../../../../infrastructure/utils/commons/geo-ip-request';
+import { getOneIpLocationApi } from '../../../integrations/ipapi/api/index';
 
 @Injectable()
 export class GetOnUserVoucher {

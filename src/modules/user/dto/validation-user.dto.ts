@@ -98,7 +98,7 @@ export class CreateLoginUserDto {
 
   @IsOptional()
   @IsString()
-  ip: string;
+  ipLocation: string;
 }
 
 export class CreateRegisterUserDto {
@@ -117,6 +117,10 @@ export class CreateRegisterUserDto {
   @MaxLength(100)
   @IsEmail()
   email: string;
+
+  @IsOptional()
+  @IsString()
+  ipLocation: string;
 
   @IsNotEmpty()
   @MinLength(8)

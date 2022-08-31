@@ -87,6 +87,7 @@ export class FindOneVoucherByService {
         /*sql*/ `jsonb_build_object(
               'code', "currency"."code",
               'name', "currency"."name",
+              'symbol', "currency"."symbol",
               'amount', "currency"."amount"
           ) AS "currency"`,
       )

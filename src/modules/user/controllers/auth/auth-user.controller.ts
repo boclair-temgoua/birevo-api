@@ -26,9 +26,6 @@ import {
   TokenUserDto,
 } from '../../dto/validation-user.dto';
 import { ConfirmAccountTokenUser } from '../../services/use-cases/confirm-account-token-user';
-import { ChangePasswordUser } from '../../services/use-cases/change-password-user';
-import { JwtAuthGuard } from '../../middleware/jwt-auth.guard';
-import { UpdateChangePasswordUserDto } from '../../dto/validation-user.dto';
 import { configurations } from '../../../../infrastructure/configurations/index';
 import { authPasswordResetJob } from '../../jobs/auth-login-and-register-job';
 
@@ -45,11 +42,13 @@ export class AuthUserController {
   @Post(`/register`)
   async createOneRegister(
     @Res() res,
+    @Ip() ipLocation: string,
     @Body() createRegisterUserDto: CreateRegisterUserDto,
   ) {
     const [errors, results] = await useCatch(
       this.createRegisterUser.execute({
         ...createRegisterUserDto,
+        ipLocation,
       }),
     );
     if (errors) {
@@ -62,11 +61,11 @@ export class AuthUserController {
   @Post(`/login`)
   async createOneLogin(
     @Res() res,
-    @Ip() ip: string,
+    @Ip() ipLocation: string,
     @Body() createLoginUserDto: CreateLoginUserDto,
   ) {
     const [errors, results] = await useCatch(
-      this.createLoginUser.execute({ ...createLoginUserDto, ip }),
+      this.createLoginUser.execute({ ...createLoginUserDto, ipLocation }),
     );
     if (errors) {
       throw new NotFoundException(errors);

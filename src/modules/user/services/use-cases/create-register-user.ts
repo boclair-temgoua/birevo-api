@@ -14,11 +14,15 @@ import { CreateOrUpdateOrganizationService } from '../../../organization/service
 import { configurations } from '../../../../infrastructure/configurations';
 import { authRegisterJob } from '../../jobs/auth-login-and-register-job';
 import { CreateOrUpdateSubscribeService } from '../../../subscribe/services/mutations/create-or-update-subscribe.service';
+import { getOneIpLocationApi } from '../../../integrations/ipapi/api/index';
+import { FindOneCurrencyByService } from '../../../currency/services/query/find-one-currency-by.service';
+import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
 
 @Injectable()
 export class CreateRegisterUser {
   constructor(
     private readonly findOneUserByService: FindOneUserByService,
+    private readonly findOneCurrencyByService: FindOneCurrencyByService,
     private readonly createOrUpdateUserService: CreateOrUpdateUserService,
     private readonly createOrUpdateProfileService: CreateOrUpdateProfileService,
     private readonly createOrUpdateSubscribeService: CreateOrUpdateSubscribeService,
@@ -27,7 +31,18 @@ export class CreateRegisterUser {
 
   /** Create one register to the database. */
   async execute(options: CreateRegisterUserDto): Promise<any> {
-    const { email, password, lastName, firstName } = { ...options };
+    const { email, password, lastName, firstName, ipLocation } = { ...options };
+
+    /** Find currency */
+    const findIpLocation = await getOneLocationIpApi({ ipLocation });
+    const [_errorC, currency] = await useCatch(
+      this.findOneCurrencyByService.findOneBy({
+        option2: { code: findIpLocation?.currency },
+      }),
+    );
+    if (_errorC) {
+      throw new NotFoundException(_errorC);
+    }
 
     const [_error, user] = await useCatch(
       this.findOneUserByService.findOneBy({ option2: { email } }),
@@ -46,6 +61,7 @@ export class CreateRegisterUser {
       this.createOrUpdateProfileService.createOne({
         firstName,
         lastName,
+        currencyId: currency?.id || 1,
       }),
     );
     if (errorP) {

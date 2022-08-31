@@ -139,9 +139,13 @@ export class FindVoucherService {
         new Brackets((qb) => {
           qb.where('voucher.code ::text ILIKE :searchQuery', {
             searchQuery: `%${filterQuery?.q}%`,
-          }).orWhere('voucher.amount ::text ILIKE :searchQuery', {
-            searchQuery: `%${filterQuery?.q}%`,
-          });
+          })
+            .orWhere('voucher.status ::text ILIKE :searchQuery', {
+              searchQuery: `%${filterQuery?.q}%`,
+            })
+            .orWhere('voucher.amount ::text ILIKE :searchQuery', {
+              searchQuery: `%${filterQuery?.q}%`,
+            });
         }),
       );
     }

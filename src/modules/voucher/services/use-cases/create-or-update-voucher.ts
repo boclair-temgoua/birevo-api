@@ -14,7 +14,6 @@ import { FindOneCurrencyByService } from '../../../currency/services/query/find-
 import { CreateOrUpdateVoucherService } from '../mutations/create-or-update-voucher.service';
 import { generateCouponCode } from '../../../../infrastructure/utils/commons/generate-coupon-code';
 import { CreateOrUpdateQrCodeService } from '../../../qr-code/services/mutations/create-or-update-qr-code.service';
-import { UnauthorizedException } from '@nestjs/common';
 import { CodeVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
 import { CreateAmountAmountSubscription } from '../../../billing/services/user-cases/create-amount-amountSubscription';
@@ -93,9 +92,7 @@ export class CreateOrUpdateVoucher {
         organizationId: user?.organizationInUtilizationId,
         userCreatedId: user?.id,
         userId: user?.organizationInUtilization?.userId,
-        applicationId: applicationId
-          ? applicationId
-          : user?.applicationToken?.applicationId,
+        applicationId: applicationId || user?.applicationToken?.applicationId,
       }),
     );
     if (errorSave) {
@@ -141,15 +138,16 @@ export class CreateOrUpdateVoucher {
         option3: {
           code,
           type: 'COUPON',
-          organizationId: user?.applicationToken?.token
-            ? user?.applicationToken?.organizationId
-            : user?.organizationInUtilizationId,
+          organizationId:
+            user?.applicationToken?.organizationId ||
+            user?.organizationInUtilizationId,
         },
       }),
     );
     if (_errorV) {
       throw new NotFoundException(_errorV);
     }
+    console.log(`findVoucher ====>`, findVoucher);
 
     if (!findVoucher)
       throw new HttpException(
@@ -221,9 +219,9 @@ export class CreateOrUpdateVoucher {
       this.findOneVoucherByService.findOneInfoBy({
         option5: {
           code,
-          organizationId: user?.applicationToken?.token
-            ? user?.applicationToken?.organizationId
-            : user?.organizationInUtilizationId,
+          organizationId:
+            user?.applicationToken?.organizationId ||
+            user?.organizationInUtilizationId,
         },
       }),
     );

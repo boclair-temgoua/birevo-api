@@ -33,11 +33,14 @@ import { FindOneSubscribeByService } from '../subscribe/services/query/find-one-
 import { FindOneOrganizationByService } from '../organization/services/query/find-one-organization-by.service';
 import { UpdateInformationToUser } from './services/use-cases/update-information-to-user';
 import { FindOneProfileByService } from '../profile/services/query/find-one-profile-by.service';
+import { FindOneCurrencyByService } from '../currency/services/query/find-one-currency-by.service';
+import { Currency } from '../../models/Currency';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     TypeOrmModule.forFeature([Profile]),
+    TypeOrmModule.forFeature([Currency]),
     TypeOrmModule.forFeature([Organization]),
     TypeOrmModule.forFeature([ResetPassword]),
     TypeOrmModule.forFeature([Subscribe]),
@@ -53,6 +56,7 @@ import { FindOneProfileByService } from '../profile/services/query/find-one-prof
     JwtAuthStrategy,
     FindUserService,
     FindOneUserByService,
+    FindOneCurrencyByService,
     FindOneApplicationTokenByService,
 
     /** Imports providers mutations */
