@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "engines": {
-    "node": "16.14.0"
+    "node": "16.14.1"
   },
   "scripts": {
     "prepare": "husky install",
