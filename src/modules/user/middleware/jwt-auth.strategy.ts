@@ -33,6 +33,7 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy) {
     }
     if (!user) throw new UnauthorizedException('User invalid');
 
+    /** Check permission subscribe */
     const [_errorOr, result] = await useCatch(
       this.getAuthorizationToSubscribe.execute({
         organizationId: user?.organizationInUtilizationId,

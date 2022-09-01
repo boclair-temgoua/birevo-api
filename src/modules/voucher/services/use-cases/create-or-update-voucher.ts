@@ -58,9 +58,9 @@ export class CreateOrUpdateVoucher {
       this.findOneVoucherByService.findOneBy({
         option5: {
           code,
-          organizationId: user?.applicationToken?.token
-            ? user?.applicationToken?.organizationId
-            : user?.organizationInUtilizationId,
+          organizationId:
+            user?.applicationToken?.organizationId ||
+            user?.organizationInUtilizationId,
         },
       }),
     );
