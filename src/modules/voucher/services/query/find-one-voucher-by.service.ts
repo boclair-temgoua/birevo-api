@@ -76,6 +76,15 @@ export class FindOneVoucherByService {
       .addSelect('voucher.userId', 'userId')
       .addSelect(
         /*sql*/ `
+      CASE WHEN ("voucher"."startedAt" >= now()::date) THEN false 
+          WHEN ("voucher"."startedAt" < now()::date) THEN true
+          ELSE false
+          END
+        `,
+        'isStarted',
+      )
+      .addSelect(
+        /*sql*/ `
       CASE WHEN ("voucher"."expiredAt" >= now()::date) THEN false 
           WHEN ("voucher"."expiredAt" < now()::date) THEN true
           ELSE false
