@@ -14,8 +14,12 @@ import {
   MinDate,
   IsDate,
   MaxDate,
+  Min,
 } from 'class-validator';
-import { MatchDate } from '../../../infrastructure/utils/decorators';
+import {
+  MatchDate,
+  MatchIsEmpty,
+} from '../../../infrastructure/utils/decorators';
 export type StatusOnline = 'ONLINE' | 'OFFLINE' | 'TEST';
 export type DeliveryType = 'AMOUNT' | 'PERCENT';
 export type StatusVoucher = 'PENDING' | 'ACTIVE' | 'USED' | 'TEST';
@@ -98,10 +102,6 @@ export class CreateOrUpdateVoucherDto {
   code: string;
 
   @IsOptional()
-  @IsInt()
-  amount: number;
-
-  @IsOptional()
   @IsString()
   description: string;
 
@@ -117,7 +117,14 @@ export class CreateOrUpdateVoucherDto {
   voucherId?: number;
 
   @IsOptional()
+  @IsInt()
+  @Min(1)
+  @MatchIsEmpty('currencyId')
+  amount: number;
+
+  @IsOptional()
   @IsString()
+  @MatchIsEmpty('amount')
   currencyId?: string;
 
   @IsOptional()
