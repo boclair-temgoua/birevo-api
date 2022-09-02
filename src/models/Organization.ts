@@ -14,6 +14,7 @@ import { Color } from '../infrastructure/utils/commons/get-colors';
 import { AmountUsage } from './AmountUsage';
 import { Subscribe } from './Subscribe';
 import { AmountBalance } from './AmountBalance';
+import { UserAddress } from './UserAddress';
 
 @Entity('organization')
 export class Organization extends BaseDeleteEntity {
@@ -44,6 +45,9 @@ export class Organization extends BaseDeleteEntity {
 
   @OneToMany(() => AmountBalance, (amountBalance) => amountBalance.organization)
   amountBalances?: AmountBalance[];
+
+  @OneToMany(() => UserAddress, (userAddress) => userAddress.organization)
+  userAddress?: UserAddress[];
 
   @ManyToOne(() => User, (user) => user.organizations, { onDelete: 'CASCADE' })
   @JoinColumn()

@@ -27,6 +27,7 @@ export class CreateAmountAmountBalance {
       type,
       paymentMethod,
       userId,
+      description,
       organizationId,
       userCreatedId,
     } = {
@@ -40,6 +41,7 @@ export class CreateAmountAmountBalance {
         paymentMethod,
         userId,
         type,
+        description,
         organizationId,
         userCreatedId,
       }),

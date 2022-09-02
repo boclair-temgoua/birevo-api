@@ -62,6 +62,15 @@ export class FindVoucherService {
         'isExpired',
       )
       .addSelect(
+        /*sql*/ `
+      CASE WHEN ("voucher"."expiredAt" >= now()::date) THEN 'valid' 
+          WHEN ("voucher"."expiredAt" < now()::date) THEN 'expired'
+          ELSE 'valid'
+          END
+        `,
+        'statusExpired',
+      )
+      .addSelect(
         /*sql*/ `jsonb_build_object(
               'code', "currency"."code",
               'name', "currency"."name",

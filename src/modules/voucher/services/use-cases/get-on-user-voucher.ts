@@ -103,6 +103,7 @@ export class GetOnUserVoucher {
           amount: configurations.datasite.pricingBilling,
           currency: 'EUR',
           paymentMethod: 'VIEW-VOUCHER',
+          description: 'View voucher',
           userId: user?.applicationToken?.userId,
           organizationId: user?.applicationToken?.organizationId,
           userCreatedId: user?.applicationToken?.userId,

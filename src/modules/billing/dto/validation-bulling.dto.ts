@@ -30,6 +30,7 @@ export type CreateOnBullingVoucherRequest = {
   type?: 'PAYMENT' | 'BALANCE';
   paymentMethod?: paymentMethodType;
   userId: number;
+  description: string;
   organizationId: number;
   userCreatedId: number;
 };

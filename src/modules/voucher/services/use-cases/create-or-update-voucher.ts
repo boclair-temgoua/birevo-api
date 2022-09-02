@@ -166,6 +166,7 @@ export class CreateOrUpdateVoucher {
           currency: 'EUR',
           userId: findVoucher?.userId,
           paymentMethod: 'USED-VOUCHER',
+          description: 'Use voucher',
           organizationId: findVoucher?.organizationId,
           userCreatedId: user?.id,
         }),

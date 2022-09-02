@@ -19,6 +19,7 @@ export class CreateOrUpdateAmountService {
       amount,
       currency,
       type,
+      description,
       organizationId,
       userCreatedId,
       paymentMethod,
@@ -29,6 +30,7 @@ export class CreateOrUpdateAmountService {
     amountSave.currency = currency;
     amountSave.type = type;
     amountSave.userId = userId;
+    amountSave.description = description;
     amountSave.paymentMethod = paymentMethod;
     amountSave.organizationId = organizationId;
     amountSave.userCreatedId = userCreatedId;

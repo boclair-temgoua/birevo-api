@@ -1,15 +1,10 @@
 import { FindAmountUsageService } from '../../../amount-usage/services/query/find-amount-usage.service';
-import {
-  Injectable,
-  NotFoundException,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { CreateOnAmountBalanceDto } from '../../dto/validation-amount-balance.dto';
-import { Cron, Interval } from '@nestjs/schedule';
 import { CreateOrUpdateAmountBalanceService } from '../mutations/create-or-update-amount-balance.service';
 import { CreateOrUpdateAmountService } from '../../../amount/services/mutations/create-or-update-amount.service';
+import { Cron, Interval } from '@nestjs/schedule';
+import { formateDateMountYear } from '../../../../infrastructure/utils/commons/formate-date-dayjs';
 
 @Injectable()
 export class CreateAmountAmountBalance {
@@ -20,9 +15,9 @@ export class CreateAmountAmountBalance {
   ) {}
 
   /** Confirm account token to the database. */
-  // @Cron('1 * * * * *')
+  // @Cron('5 * * * * *')
   // @Interval(10000)
-  async execute(options: CreateOnAmountBalanceDto): Promise<any> {
+  async executeJobSaveBalance(): Promise<any> {
     const [errorSaveAmount, amountUsages] = await useCatch(
       this.findAmountUsageService.findAll({}),
     );
@@ -41,6 +36,7 @@ export class CreateAmountAmountBalance {
             userId: item?.userId,
             currency: 'EUR',
             type: 'BALANCE',
+            description: `Balance for ${formateDateMountYear(item?.lastMonth)}`,
             organizationId: item?.organizationId,
           }),
         );
@@ -54,7 +50,7 @@ export class CreateAmountAmountBalance {
             amountId: amount?.id,
             userId: item?.userId,
             amountBalance: item?.amountUsage,
-            monthAmountBalanceAt: item?.currentMonth,
+            monthAmountBalanceAt: item?.lastMonth,
             organizationId: item?.organizationId,
           }),
         );

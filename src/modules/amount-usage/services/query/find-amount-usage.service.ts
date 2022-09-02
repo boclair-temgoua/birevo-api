@@ -20,7 +20,7 @@ export class FindAmountUsageService {
       .select('amu.organizationId', 'organizationId')
       .addSelect('amu.userId', 'userId')
       .addSelect('amu.count', 'count')
-      .addSelect("DATE_TRUNC('month', amu.createdAt)", 'currentMonth')
+      .addSelect("DATE_TRUNC('month', amu.createdAt)", 'lastMonth')
       .addSelect('CAST(SUM("amu"."amountUsage") AS DECIMAL)', 'amountUsage')
       .where(
         "amu.createdAt BETWEEN DATE_TRUNC('month', NOW()) - INTERVAL '1 month' AND DATE_TRUNC('month', NOW())",

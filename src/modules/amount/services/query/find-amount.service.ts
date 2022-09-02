@@ -23,7 +23,7 @@ export class FindAmountService {
     if (option1) {
       const { userId, organizationId } = { ...option1 };
       query = query
-        .where("amount.type IN ('PAYMENT','INVOICE')")
+        .where("amount.type IN ('PAYMENT','INVOICE','BALANCE')")
         .andWhere('amount.userId = :userId', { userId })
         .andWhere('amount.organizationId = :organizationId', {
           organizationId,

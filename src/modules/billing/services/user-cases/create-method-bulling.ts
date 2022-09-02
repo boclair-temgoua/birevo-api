@@ -62,6 +62,7 @@ export class CreateMethodBulling {
           currency: currency,
           type: 'PAYMENT',
           paymentMethod: 'CARD-PAY',
+          description: `Cart`,
           userId: user?.organizationInUtilization?.userId,
           organizationId: user?.organizationInUtilizationId,
           userCreatedId: user?.id,
@@ -84,7 +85,7 @@ export class CreateMethodBulling {
     if (_errorC) {
       throw new NotFoundException(_errorC);
     }
-    if (coupon?.currency === null) {
+    if (coupon?.currency === null || coupon?.isExpired) {
       throw new HttpException(
         `Invalid coupon please try again`,
         HttpStatus.NOT_FOUND,
@@ -104,6 +105,7 @@ export class CreateMethodBulling {
         type: 'PAYMENT',
         currency: coupon?.currency?.code,
         paymentMethod: 'COUPON-PAY',
+        description: `Coupon ${coupon?.organization?.name}`,
         amountCoupon: coupon?.currency?.amount,
         userId: user?.organizationInUtilization?.userId,
         organizationId: user?.organizationInUtilizationId,
