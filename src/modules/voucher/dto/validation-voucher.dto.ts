@@ -106,6 +106,7 @@ export class CreateOrUpdateVoucherDto {
   description: string;
 
   @IsIn(deliveryTypeArrays)
+  // @MatchIsEmpty('deliveryType')
   deliveryType: NonNullable<DeliveryType>;
 
   @IsOptional()
@@ -119,12 +120,12 @@ export class CreateOrUpdateVoucherDto {
   @IsOptional()
   @IsInt()
   @Min(1)
-  @MatchIsEmpty('currencyId')
+  // @MatchIsEmpty('currencyId')
   amount: number;
 
   @IsOptional()
   @IsString()
-  @MatchIsEmpty('amount')
+  // @MatchIsEmpty('amount')
   currencyId?: string;
 
   @IsOptional()

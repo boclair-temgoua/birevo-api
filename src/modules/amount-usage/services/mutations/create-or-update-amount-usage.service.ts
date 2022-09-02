@@ -2,29 +2,27 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { CreateAmountSubscriptionOptions } from '../../types/index';
-import { AmountSubscription } from '../../../../models/AmountSubscription';
+import { CreateAmountUsageOptions } from '../../types/index';
+import { AmountUsage } from '../../../../models/AmountUsage';
 
 @Injectable()
-export class CreateOrUpdateAmountSubscriptionService {
+export class CreateOrUpdateAmountUsageService {
   constructor(
-    @InjectRepository(AmountSubscription)
-    private driver: Repository<AmountSubscription>,
+    @InjectRepository(AmountUsage)
+    private driver: Repository<AmountUsage>,
   ) {}
 
   /** Create one ApplicationToken to the database. */
-  async createOne(
-    options: CreateAmountSubscriptionOptions,
-  ): Promise<AmountSubscription> {
-    const { userId, amountId, organizationId, amountSubscription } = {
+  async createOne(options: CreateAmountUsageOptions): Promise<AmountUsage> {
+    const { userId, amountId, organizationId, amountUsage } = {
       ...options,
     };
 
-    const asbSave = new AmountSubscription();
+    const asbSave = new AmountUsage();
     asbSave.amountId = amountId;
     asbSave.userId = userId;
     asbSave.organizationId = organizationId;
-    asbSave.amountSubscription = amountSubscription;
+    asbSave.amountUsage = amountUsage;
 
     const query = this.driver.save(asbSave);
 

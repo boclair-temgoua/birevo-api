@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MailerModule } from '@nestjs-modules/mailer';
+import { ScheduleModule } from '@nestjs/schedule';
 import {
   AppDataSource,
   AppSeedDataSource,
@@ -17,15 +17,17 @@ import { SubscribeModule } from './modules/subscribe/subscribe.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { VoucherModule } from './modules/voucher/voucher.module';
 import { AmountModule } from './modules/amount/amount.module';
-import { AmountSubscriptionModule } from './modules/amount-subscription/amount-subscription.module';
+import { AmountUsageModule } from './modules/amount-usage/amount-usage.module';
 import { BillingModule } from './modules/billing/billing.module';
 import { ActivityModule } from './modules/activity/activity.module';
+import { AmountBalanceModule } from './modules/amount-balance/amount-balance.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(AppDataSource.options),
     TypeOrmModule.forRoot(AppSeedDataSource.options),
+    ScheduleModule.forRoot(),
     ContactModule,
     ProfileModule,
     CurrencyModule,
@@ -39,7 +41,8 @@ import { ActivityModule } from './modules/activity/activity.module';
     AmountModule,
     BillingModule,
     ActivityModule,
-    AmountSubscriptionModule,
+    AmountUsageModule,
+    AmountBalanceModule,
   ],
 })
 export class AppModule {}

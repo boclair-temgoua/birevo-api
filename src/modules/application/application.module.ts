@@ -17,10 +17,7 @@ import { CreateOrUpdateApplicationTokenService } from '../application-token/serv
 import { FindApplicationTokenService } from '../application-token/services/query/find-application-token.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Application]),
-    TypeOrmModule.forFeature([ApplicationToken]),
-  ],
+  imports: [TypeOrmModule.forFeature([Application, ApplicationToken])],
   controllers: [
     CreateOrUpdateApplicationController,
     GetOneOrMultipleApplicationController,

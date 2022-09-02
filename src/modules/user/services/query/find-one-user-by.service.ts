@@ -86,16 +86,33 @@ export class FindOneUserByService {
       .addSelect(
         /*sql*/ `(
         SELECT jsonb_build_object(
-        'total', CAST(SUM("ams"."amountSubscription") AS DECIMAL)
+        'total', CAST(SUM("amu"."amountUsage") AS DECIMAL),
+        'currentMonth', DATE_TRUNC('month', "amu"."createdAt")
         )
-        FROM "amount_subscription" "ams"
-        INNER JOIN "amount" "am" ON "ams"."amountId" = "am"."id"
-        WHERE "ams"."organizationId" = "am"."organizationId"
-        AND "ams"."userId" = "am"."userId"
-        AND "user"."organizationInUtilizationId" = "ams"."organizationId"
+        FROM "amount_usage" "amu"
+        INNER JOIN "amount" "am" ON "amu"."amountId" = "am"."id"
+        WHERE "amu"."organizationId" = "am"."organizationId"
+        AND "amu"."userId" = "am"."userId"
+        AND "user"."organizationInUtilizationId" = "amu"."organizationId"
         AND "user"."organizationInUtilizationId" = "am"."organizationId"
-        GROUP BY "ams"."organizationId", "ams"."userId", "am"."userId", "user"."organizationInUtilizationId"
+        AND DATE_TRUNC('month', "amu"."createdAt") = DATE_TRUNC('month', NOW())
+        GROUP BY "amu"."organizationId", "amu"."userId", "am"."userId",
+        "user"."organizationInUtilizationId", DATE_TRUNC('month', "amu"."createdAt")
         ) AS "billing"`,
+      )
+      .addSelect(
+        /*sql*/ `(
+        SELECT jsonb_build_object(
+        'total', CAST(SUM("amb"."amountBalance") AS DECIMAL)
+        )
+        FROM "amount_balance" "amb"
+        INNER JOIN "amount" "am" ON "amb"."amountId" = "am"."id"
+        WHERE "amb"."organizationId" = "am"."organizationId"
+        AND "amb"."userId" = "am"."userId"
+        AND "user"."organizationInUtilizationId" = "amb"."organizationId"
+        AND "user"."organizationInUtilizationId" = "am"."organizationId"
+        GROUP BY "amb"."organizationId", "amb"."userId", "am"."userId", "user"."organizationInUtilizationId"
+        ) AS "balance"`,
       )
       .addSelect(
         /*sql*/ `jsonb_build_object(

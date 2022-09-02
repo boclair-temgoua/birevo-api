@@ -16,13 +16,13 @@ import { generateCouponCode } from '../../../../infrastructure/utils/commons/gen
 import { CreateOrUpdateQrCodeService } from '../../../qr-code/services/mutations/create-or-update-qr-code.service';
 import { CodeVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
-import { CreateAmountAmountSubscription } from '../../../billing/services/user-cases/create-amount-amountSubscription';
+import { CreateAmountAmountUsage } from '../../../billing/services/user-cases/create-amount-amount-usage';
 import { configurations } from '../../../../infrastructure/configurations/index';
 
 @Injectable()
 export class CreateOrUpdateVoucher {
   constructor(
-    private readonly createAmountAmountSubscription: CreateAmountAmountSubscription,
+    private readonly createAmountAmountUsage: CreateAmountAmountUsage,
     private readonly findOneVoucherByService: FindOneVoucherByService,
     private readonly createOrUpdateQrCodeService: CreateOrUpdateQrCodeService,
     private readonly findOneCurrencyByService: FindOneCurrencyByService,
@@ -161,7 +161,7 @@ export class CreateOrUpdateVoucher {
 
       /** Start */
       const [_errorBull, bulling] = await useCatch(
-        this.createAmountAmountSubscription.execute({
+        this.createAmountAmountUsage.execute({
           amount: configurations.datasite.pricingBilling,
           currency: 'EUR',
           userId: findVoucher?.userId,

@@ -24,10 +24,7 @@ import { FindOneOrganizationByService } from '../organization/services/query/fin
 @Module({
   imports: [
     HttpModule,
-    TypeOrmModule.forFeature([User]),
-    TypeOrmModule.forFeature([Subscribe]),
-    TypeOrmModule.forFeature([Organization]),
-    TypeOrmModule.forFeature([ApplicationToken]),
+    TypeOrmModule.forFeature([User, Subscribe, Organization, ApplicationToken]),
   ],
   controllers: [
     GetOneOrMultipleSubscribeController,

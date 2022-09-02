@@ -11,10 +11,7 @@ import { Voucher } from '../../models/Voucher';
 import { GetOneOrMultipleActivity } from './services/user-cases/get-one-or-multiple-activity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Activity]),
-    TypeOrmModule.forFeature([Voucher]),
-  ],
+  imports: [TypeOrmModule.forFeature([Activity, Voucher])],
   controllers: [GetOneOrMultipleActivityController],
   providers: [
     /** Imports providers query */

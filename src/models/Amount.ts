@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
 
-import { AmountSubscription } from './AmountSubscription';
+import { AmountUsage } from './AmountUsage';
 import { BaseEntity } from '../infrastructure/databases/common/BaseEntity';
 
 @Entity('amount')
@@ -29,12 +29,8 @@ export class Amount extends BaseEntity {
   @Column({ type: 'bigint', nullable: true })
   userCreatedId: number;
 
-  @OneToOne(
-    () => AmountSubscription,
-    (amountSubscription) => amountSubscription.amount,
-    {
-      onDelete: 'CASCADE',
-    },
-  )
-  amountSubscription?: AmountSubscription;
+  @OneToOne(() => AmountUsage, (amountUsage) => amountUsage.amount, {
+    onDelete: 'CASCADE',
+  })
+  amountUsage?: AmountUsage;
 }

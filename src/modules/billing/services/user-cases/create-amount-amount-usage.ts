@@ -6,14 +6,14 @@ import {
 } from '@nestjs/common';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 
-import { CreateOrUpdateAmountSubscriptionService } from '../../../amount-subscription/services/mutations/create-or-update-amount-subscription.service';
+import { CreateOrUpdateAmountUsageService } from '../../../amount-usage/services/mutations/create-or-update-amount-usage.service';
 import { CreateOrUpdateAmountService } from '../../../amount/services/mutations/create-or-update-amount.service';
 import { CreateOnBullingVoucherRequest } from '../../dto/validation-bulling.dto';
 
 @Injectable()
-export class CreateAmountAmountSubscription {
+export class CreateAmountAmountUsage {
   constructor(
-    private readonly createOrUpdateAmountSubscriptionService: CreateOrUpdateAmountSubscriptionService,
+    private readonly createOrUpdateAmountUsageService: CreateOrUpdateAmountUsageService,
     private readonly createOrUpdateAmountService: CreateOrUpdateAmountService,
   ) {}
 
@@ -48,11 +48,11 @@ export class CreateAmountAmountSubscription {
     }
 
     const [errorSaveAmountSub, amountSubSave] = await useCatch(
-      this.createOrUpdateAmountSubscriptionService.createOne({
+      this.createOrUpdateAmountUsageService.createOne({
         amountId: amountSave?.id,
         userId: amountSave?.userId,
         organizationId: amountSave?.organizationId,
-        amountSubscription: amountCoupon
+        amountUsage: amountCoupon
           ? amountSave?.amount / amountCoupon
           : amountSave?.amount,
       }),

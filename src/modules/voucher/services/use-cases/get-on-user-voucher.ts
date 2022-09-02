@@ -8,7 +8,7 @@ import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { FindOneVoucherByService } from '../query/find-one-voucher-by.service';
 import { GetOneVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
-import { CreateAmountAmountSubscription } from '../../../billing/services/user-cases/create-amount-amountSubscription';
+import { CreateAmountAmountUsage } from '../../../billing/services/user-cases/create-amount-amount-usage';
 import { configurations } from '../../../../infrastructure/configurations/index';
 import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
 import { geoIpRequest } from '../../../../infrastructure/utils/commons/geo-ip-request';
@@ -19,7 +19,7 @@ export class GetOnUserVoucher {
   constructor(
     private readonly findOneVoucherByService: FindOneVoucherByService,
     private readonly createOrUpdateActivity: CreateOrUpdateActivity,
-    private readonly createAmountAmountSubscription: CreateAmountAmountSubscription,
+    private readonly createAmountAmountUsage: CreateAmountAmountUsage,
   ) {}
 
   /** Confirm account token to the database. */
@@ -102,7 +102,7 @@ export class GetOnUserVoucher {
 
       /** Start */
       const [_errorBull, bulling] = await useCatch(
-        this.createAmountAmountSubscription.execute({
+        this.createAmountAmountUsage.execute({
           amount: configurations.datasite.pricingBilling,
           currency: 'EUR',
           paymentMethod: 'VIEW-VOUCHER',

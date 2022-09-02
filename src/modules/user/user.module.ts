@@ -38,13 +38,15 @@ import { Currency } from '../../models/Currency';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
-    TypeOrmModule.forFeature([Profile]),
-    TypeOrmModule.forFeature([Currency]),
-    TypeOrmModule.forFeature([Organization]),
-    TypeOrmModule.forFeature([ResetPassword]),
-    TypeOrmModule.forFeature([Subscribe]),
-    TypeOrmModule.forFeature([ApplicationToken]),
+    TypeOrmModule.forFeature([
+      User,
+      Profile,
+      Currency,
+      Organization,
+      ResetPassword,
+      Subscribe,
+      ApplicationToken,
+    ]),
   ],
   controllers: [
     AuthUserController,

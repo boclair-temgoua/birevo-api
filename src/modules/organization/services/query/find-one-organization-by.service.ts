@@ -40,20 +40,6 @@ export class FindOneOrganizationByService {
       .addSelect('organization.userId', 'userId')
       .addSelect(
         /*sql*/ `(
-        SELECT jsonb_build_object(
-        'total', CAST(SUM("ams"."amountSubscription") AS DECIMAL)
-        )
-        FROM "amount_subscription" "ams"
-        INNER JOIN "amount" "am" ON "ams"."amountId" = "am"."id"
-        WHERE "ams"."organizationId" = "am"."organizationId"
-        AND "ams"."userId" = "am"."userId"
-        AND "ams"."organizationId" = "organization"."id"
-        AND "am"."organizationId" = "organization"."id"
-        GROUP BY "ams"."organizationId", "ams"."userId", "am"."userId", "organization"."id"
-        ) AS "billing"`,
-      )
-      .addSelect(
-        /*sql*/ `(
       SELECT
           CAST(COUNT(DISTINCT sr) AS INT)
       FROM "subscribe" "sr"
