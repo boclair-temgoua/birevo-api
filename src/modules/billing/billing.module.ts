@@ -10,20 +10,25 @@ import { FindOneVoucherByService } from '../voucher/services/query/find-one-vouc
 import { Voucher } from '../../models/Voucher';
 import { GetOneOrMultipleBillingController } from './controllers/get-one-or-multiple-billing.controller';
 import { FindAmountService } from '../amount/services/query/find-amount.service';
-import { CreateAmountAmountUsage } from './services/user-cases/create-amount-amount-usage';
+import { CreateAmountAmountBalance } from './services/user-cases/create-amount-amount-balance';
+import { AmountBalance } from '../../models/AmountBalance';
+import { CreateOrUpdateAmountBalanceService } from '../amount-balance/services/mutations/create-or-update-amount-balance.service';
 @Module({
-  imports: [TypeOrmModule.forFeature([Amount, Voucher, AmountUsage])],
+  imports: [
+    TypeOrmModule.forFeature([Amount, Voucher, AmountUsage, AmountBalance]),
+  ],
   controllers: [CreateContactController, GetOneOrMultipleBillingController],
   providers: [
     /** Imports providers mutations */
     CreateOrUpdateAmountUsageService,
     CreateOrUpdateAmountService,
     FindOneVoucherByService,
+    CreateOrUpdateAmountBalanceService,
 
     /** Imports providers use-cases */
     CreateMethodBulling,
     FindAmountService,
-    CreateAmountAmountUsage,
+    CreateAmountAmountBalance,
   ],
 })
 export class BillingModule {}

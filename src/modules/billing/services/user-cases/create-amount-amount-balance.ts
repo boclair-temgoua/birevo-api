@@ -9,11 +9,12 @@ import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateAmountUsageService } from '../../../amount-usage/services/mutations/create-or-update-amount-usage.service';
 import { CreateOrUpdateAmountService } from '../../../amount/services/mutations/create-or-update-amount.service';
 import { CreateOnBullingVoucherRequest } from '../../dto/validation-bulling.dto';
+import { CreateOrUpdateAmountBalanceService } from '../../../amount-balance/services/mutations/create-or-update-amount-balance.service';
 
 @Injectable()
-export class CreateAmountAmountUsage {
+export class CreateAmountAmountBalance {
   constructor(
-    private readonly createOrUpdateAmountUsageService: CreateOrUpdateAmountUsageService,
+    private readonly createOrUpdateAmountBalanceService: CreateOrUpdateAmountBalanceService,
     private readonly createOrUpdateAmountService: CreateOrUpdateAmountService,
   ) {}
 
@@ -48,11 +49,11 @@ export class CreateAmountAmountUsage {
     }
 
     const [errorSaveAmountSub, amountBalSave] = await useCatch(
-      this.createOrUpdateAmountUsageService.createOne({
+      this.createOrUpdateAmountBalanceService.createOne({
         amountId: amountSave?.id,
         userId: amountSave?.userId,
         organizationId: amountSave?.organizationId,
-        amountUsage: amountCoupon
+        amountBalance: amountCoupon
           ? amountSave?.amount / amountCoupon
           : amountSave?.amount,
       }),

@@ -30,11 +30,11 @@ import { GetOneOrMultipleExternalVoucherController } from './controllers/api-ext
 import { Activity } from '../../models/Activity';
 import { CreateOrUpdateActivity } from '../activity/services/user-cases/create-or-update-activity';
 import { CreateOrUpdateActivityService } from '../activity/services/mutations/create-or-update-activity.service';
-import { CreateAmountAmountUsage } from '../billing/services/user-cases/create-amount-amount-usage';
 import { Amount } from '../../models/Amount';
 import { AmountUsage } from '../../models/AmountUsage';
 import { CreateOrUpdateAmountUsageService } from '../amount-usage/services/mutations/create-or-update-amount-usage.service';
 import { CreateOrUpdateAmountService } from '../amount/services/mutations/create-or-update-amount.service';
+import { CreateAmountAmountUsage } from '../billing/services/user-cases/create-amount-amount-usage';
 
 @Module({
   imports: [

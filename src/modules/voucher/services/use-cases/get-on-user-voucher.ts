@@ -8,11 +8,8 @@ import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { FindOneVoucherByService } from '../query/find-one-voucher-by.service';
 import { GetOneVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
-import { CreateAmountAmountUsage } from '../../../billing/services/user-cases/create-amount-amount-usage';
 import { configurations } from '../../../../infrastructure/configurations/index';
-import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
-import { geoIpRequest } from '../../../../infrastructure/utils/commons/geo-ip-request';
-import { getOneIpLocationApi } from '../../../integrations/ipapi/api/index';
+import { CreateAmountAmountUsage } from '../../../billing/services/user-cases/create-amount-amount-usage';
 
 @Injectable()
 export class GetOnUserVoucher {

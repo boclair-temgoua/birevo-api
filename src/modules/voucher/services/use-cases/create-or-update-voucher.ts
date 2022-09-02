@@ -16,8 +16,8 @@ import { generateCouponCode } from '../../../../infrastructure/utils/commons/gen
 import { CreateOrUpdateQrCodeService } from '../../../qr-code/services/mutations/create-or-update-qr-code.service';
 import { CodeVoucherDto } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
-import { CreateAmountAmountUsage } from '../../../billing/services/user-cases/create-amount-amount-usage';
 import { configurations } from '../../../../infrastructure/configurations/index';
+import { CreateAmountAmountUsage } from '../../../billing/services/user-cases/create-amount-amount-usage';
 
 @Injectable()
 export class CreateOrUpdateVoucher {

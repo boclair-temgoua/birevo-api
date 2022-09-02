@@ -17,7 +17,7 @@ import {
   getOneVoucherApi,
   useOneVoucherApi,
 } from '../../../integrations/birevo/api/index';
-import { CreateAmountAmountUsage } from './create-amount-amount-usage';
+import { CreateAmountAmountBalance } from './create-amount-amount-balance';
 
 const stripe = new Stripe(String(configurations.implementations.stripe.key), {
   apiVersion: '2022-08-01',
@@ -27,7 +27,7 @@ const stripe = new Stripe(String(configurations.implementations.stripe.key), {
 export class CreateMethodBulling {
   constructor(
     private readonly findOneVoucherByService: FindOneVoucherByService,
-    private readonly createAmountAmountUsage: CreateAmountAmountUsage,
+    private readonly createAmountAmountBalance: CreateAmountAmountBalance,
   ) {}
 
   async stripeMethod(options: CreateStripeBullingDto): Promise<any> {
@@ -57,7 +57,7 @@ export class CreateMethodBulling {
 
     if (charge) {
       const [_errorBull, bulling] = await useCatch(
-        this.createAmountAmountUsage.execute({
+        this.createAmountAmountBalance.execute({
           amount: charge?.amount / 100,
           currency: currency,
           type: 'PAYMENT',
@@ -99,7 +99,7 @@ export class CreateMethodBulling {
       throw new NotFoundException(__errorC);
     }
     const [_errorBull, bulling] = await useCatch(
-      this.createAmountAmountUsage.execute({
+      this.createAmountAmountBalance.execute({
         amount: coupon?.amount,
         type: 'PAYMENT',
         currency: coupon?.currency?.code,

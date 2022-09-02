@@ -15,7 +15,7 @@ export class Amount extends BaseEntity {
   currency: string;
 
   @Column({ nullable: true })
-  type: string;
+  type: 'PAYMENT' | 'BALANCE';
 
   @Column({ nullable: true })
   paymentMethod: string;

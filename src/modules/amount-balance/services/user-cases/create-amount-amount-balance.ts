@@ -31,6 +31,7 @@ export class CreateAmountAmountBalance {
     }
 
     /** Amount balance */
+    console.log('\x1b[33m%s\x1b[0m', '**** Stated Job create balance ****');
     Promise.all([
       amountUsages.map(async (item) => {
         /** Save Amount */
@@ -60,10 +61,10 @@ export class CreateAmountAmountBalance {
         if (errorSaveAmountBa) {
           throw new NotFoundException(errorSaveAmountBa);
         }
+        console.log(`amountBalSave ====>`, amountBalSave);
       }),
     ]);
-
-    console.log(`amountUsages ====>`, amountUsages);
+    console.log('\x1b[32m%s\x1b[0m', '**** End Job create balance ****');
 
     return 'amountSubSave';
   }
