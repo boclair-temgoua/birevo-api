@@ -56,6 +56,14 @@ export class CreateStripeBullingDto {
   infoPaymentMethod: any;
 
   @IsOptional()
+  @IsString()
+  userAgent: string;
+
+  @IsOptional()
+  @IsString()
+  ipLocation: string;
+
+  @IsOptional()
   user: any;
 }
 
@@ -73,12 +81,28 @@ export class CreatePayPalBullingDto {
   email: string;
 
   @IsOptional()
+  @IsString()
+  userAgent: string;
+
+  @IsOptional()
+  @IsString()
+  ipLocation: string;
+
+  @IsOptional()
   user: any;
 }
 export class CreateCouponBullingDto {
   @IsNotEmpty()
   @IsString()
   code: string;
+
+  @IsOptional()
+  @IsString()
+  userAgent: string;
+
+  @IsOptional()
+  @IsString()
+  ipLocation: string;
 
   @IsOptional()
   user: any;

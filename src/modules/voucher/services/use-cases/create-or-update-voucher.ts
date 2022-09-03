@@ -88,7 +88,7 @@ export class CreateOrUpdateVoucher {
         startedAt,
         expiredAt,
         status,
-        percent: Number(percent),
+        percent: percent,
         organizationId: user?.organizationInUtilizationId,
         userCreatedId: user?.id,
         userId: user?.organizationInUtilization?.userId,

@@ -13,9 +13,18 @@ import { FindAmountService } from '../amount/services/query/find-amount.service'
 import { CreateAmountAmountBalance } from './services/user-cases/create-amount-amount-balance';
 import { AmountBalance } from '../../models/AmountBalance';
 import { CreateOrUpdateAmountBalanceService } from '../amount-balance/services/mutations/create-or-update-amount-balance.service';
+import { CreateOrUpdateActivity } from '../activity/services/user-cases/create-or-update-activity';
+import { Activity } from '../../models/Activity';
+import { CreateOrUpdateActivityService } from '../activity/services/mutations/create-or-update-activity.service';
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Amount, Voucher, AmountUsage, AmountBalance]),
+    TypeOrmModule.forFeature([
+      Amount,
+      Voucher,
+      AmountUsage,
+      AmountBalance,
+      Activity,
+    ]),
   ],
   controllers: [CreateContactController, GetOneOrMultipleBillingController],
   providers: [
@@ -23,11 +32,13 @@ import { CreateOrUpdateAmountBalanceService } from '../amount-balance/services/m
     CreateOrUpdateAmountUsageService,
     CreateOrUpdateAmountService,
     FindOneVoucherByService,
+    FindAmountService,
+    CreateOrUpdateActivityService,
     CreateOrUpdateAmountBalanceService,
 
     /** Imports providers use-cases */
     CreateMethodBulling,
-    FindAmountService,
+    CreateOrUpdateActivity,
     CreateAmountAmountBalance,
   ],
 })

@@ -59,7 +59,7 @@ export class CreateOrUpdateVoucherService {
       voucher.amount = checkIfNumberOrEmpty(amount) ? amount : null;
     }
     if (deliveryType === 'PERCENT') {
-      voucher.percent = checkIfNumberOrEmpty(percent) ? percent : null;
+      voucher.percent = percent;
     }
 
     voucher.code = code;

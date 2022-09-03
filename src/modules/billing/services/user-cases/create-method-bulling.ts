@@ -13,12 +13,12 @@ import {
 } from '../../dto/validation-bulling.dto';
 import { configurations } from '../../../../infrastructure/configurations/index';
 import Stripe from 'stripe';
-import { FindOneVoucherByService } from '../../../voucher/services/query/find-one-voucher-by.service';
 import {
   getOneVoucherApi,
   useOneVoucherApi,
 } from '../../../integrations/birevo/api/index';
 import { CreateAmountAmountBalance } from './create-amount-amount-balance';
+import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
 
 const stripe = new Stripe(String(configurations.implementations.stripe.key), {
   apiVersion: '2022-08-01',
@@ -27,13 +27,22 @@ const stripe = new Stripe(String(configurations.implementations.stripe.key), {
 @Injectable()
 export class CreateMethodBulling {
   constructor(
-    private readonly findOneVoucherByService: FindOneVoucherByService,
     private readonly createAmountAmountBalance: CreateAmountAmountBalance,
+    private readonly createOrUpdateActivity: CreateOrUpdateActivity,
   ) {}
 
   /** Stripe billing */
   async stripeMethod(options: CreateStripeBullingDto): Promise<any> {
-    const { amount, currency, fullName, email, infoPaymentMethod, user } = {
+    const {
+      amount,
+      currency,
+      fullName,
+      email,
+      infoPaymentMethod,
+      user,
+      ipLocation,
+      userAgent,
+    } = {
       ...options,
     };
 
@@ -73,6 +82,22 @@ export class CreateMethodBulling {
       if (_errorBull) {
         throw new NotFoundException(_errorBull);
       }
+
+      const [_errorAct, _activity] = await useCatch(
+        this.createOrUpdateActivity.execute({
+          activityAbleType: 'PAYMENT',
+          activityAbleId: bulling?.amountId,
+          action: 'CARD-PAY',
+          ipLocation,
+          browser: userAgent,
+          organizationId: user?.organizationInUtilizationId,
+          applicationId: null,
+          userCreatedId: user?.id,
+        }),
+      );
+      if (_errorAct) {
+        throw new NotFoundException(_errorAct);
+      }
     }
 
     return charge;
@@ -80,7 +105,7 @@ export class CreateMethodBulling {
 
   /** Stripe billing */
   async paypalMethod(options: CreatePayPalBullingDto): Promise<any> {
-    const { amount, currency, user } = { ...options };
+    const { amount, currency, ipLocation, userAgent, user } = { ...options };
 
     const [_errorBull, bulling] = await useCatch(
       this.createAmountAmountBalance.execute({
@@ -98,12 +123,28 @@ export class CreateMethodBulling {
       throw new NotFoundException(_errorBull);
     }
 
+    const [_errorAct, _activity] = await useCatch(
+      this.createOrUpdateActivity.execute({
+        activityAbleType: 'PAYMENT',
+        activityAbleId: bulling?.amountId,
+        action: 'CARD-PAY',
+        ipLocation,
+        browser: userAgent,
+        organizationId: user?.organizationInUtilizationId,
+        applicationId: null,
+        userCreatedId: user?.id,
+      }),
+    );
+    if (_errorAct) {
+      throw new NotFoundException(_errorAct);
+    }
+
     return bulling;
   }
 
   /** Coupon billing */
   async couponMethod(options: CreateCouponBullingDto): Promise<any> {
-    const { code, user } = {
+    const { code, ipLocation, userAgent, user } = {
       ...options,
     };
 
@@ -140,6 +181,22 @@ export class CreateMethodBulling {
     );
     if (_errorBull) {
       throw new NotFoundException(_errorBull);
+    }
+
+    const [_errorAct, _activity] = await useCatch(
+      this.createOrUpdateActivity.execute({
+        activityAbleType: 'PAYMENT',
+        activityAbleId: bulling?.amountId,
+        action: 'CARD-PAY',
+        ipLocation,
+        browser: userAgent,
+        organizationId: user?.organizationInUtilizationId,
+        applicationId: null,
+        userCreatedId: user?.id,
+      }),
+    );
+    if (_errorAct) {
+      throw new NotFoundException(_errorAct);
     }
     return coupon;
   }

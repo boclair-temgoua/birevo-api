@@ -7,19 +7,10 @@ import {
   IsIn,
   IsOptional,
   IsUUID,
-  IsEmail,
   IsInt,
   IsPositive,
-  IsDateString,
-  MinDate,
-  IsDate,
-  MaxDate,
-  Min,
 } from 'class-validator';
-import {
-  MatchDate,
-  MatchIsEmpty,
-} from '../../../infrastructure/utils/decorators';
+import { MatchDate } from '../../../infrastructure/utils/decorators';
 export type StatusOnline = 'ONLINE' | 'OFFLINE' | 'TEST';
 export type DeliveryType = 'AMOUNT' | 'PERCENT';
 export type StatusVoucher = 'PENDING' | 'ACTIVE' | 'USED' | 'TEST';
@@ -82,10 +73,9 @@ export const getOneByNumberVoucherType = (state: number): VoucherableType => {
 };
 
 export class CreateOrUpdateVoucherDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @MaxLength(100)
-  @MinLength(3)
   name: string;
 
   @IsOptional()
@@ -119,7 +109,6 @@ export class CreateOrUpdateVoucherDto {
 
   @IsOptional()
   @IsInt()
-  @Min(1)
   // @MatchIsEmpty('currencyId')
   amount: number;
 

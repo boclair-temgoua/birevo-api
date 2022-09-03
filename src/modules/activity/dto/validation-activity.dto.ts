@@ -1,3 +1,4 @@
+import { paymentMethodType } from '../../billing/dto/validation-bulling.dto';
 import {
   IsString,
   MaxLength,
@@ -15,6 +16,7 @@ export type ActionActivity =
   | 'VOUCHER-UPDATE'
   | 'USER-LOGIN'
   | 'USER-REGISTER'
+  | paymentMethodType
   | 'DELETE';
 
 export const actionActivityArrays = [
