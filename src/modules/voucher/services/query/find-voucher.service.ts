@@ -83,6 +83,7 @@ export class FindVoucherService {
           SELECT jsonb_build_object(
           'uuid', "us"."uuid",
           'profileId', "us"."profileId",
+          'email', "us"."email",
           'firstName', "pr"."firstName",
           'lastName', "pr"."lastName",
           'color', "pr"."color",

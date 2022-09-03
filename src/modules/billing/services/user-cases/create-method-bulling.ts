@@ -8,6 +8,7 @@ import { useCatch } from '../../../../infrastructure/utils/use-catch';
 
 import {
   CreateStripeBullingDto,
+  CreatePayPalBullingDto,
   CreateCouponBullingDto,
 } from '../../dto/validation-bulling.dto';
 import { configurations } from '../../../../infrastructure/configurations/index';
@@ -30,6 +31,7 @@ export class CreateMethodBulling {
     private readonly createAmountAmountBalance: CreateAmountAmountBalance,
   ) {}
 
+  /** Stripe billing */
   async stripeMethod(options: CreateStripeBullingDto): Promise<any> {
     const { amount, currency, fullName, email, infoPaymentMethod, user } = {
       ...options,
@@ -44,7 +46,7 @@ export class CreateMethodBulling {
 
     const [error, charge] = await useCatch(
       stripe.paymentIntents.create({
-        amount: amount * 100, // 25
+        amount: Number(amount) * 100, // 25
         currency: currency,
         description: customer?.description,
         payment_method: infoPaymentMethod?.id,
@@ -58,7 +60,7 @@ export class CreateMethodBulling {
     if (charge) {
       const [_errorBull, bulling] = await useCatch(
         this.createAmountAmountBalance.execute({
-          amount: charge?.amount / 100,
+          amount: Number(charge?.amount) / 100,
           currency: currency,
           type: 'PAYMENT',
           paymentMethod: 'CARD-PAY',
@@ -76,6 +78,30 @@ export class CreateMethodBulling {
     return charge;
   }
 
+  /** Stripe billing */
+  async paypalMethod(options: CreatePayPalBullingDto): Promise<any> {
+    const { amount, currency, user } = { ...options };
+
+    const [_errorBull, bulling] = await useCatch(
+      this.createAmountAmountBalance.execute({
+        amount: Number(amount),
+        currency: currency,
+        type: 'PAYMENT',
+        paymentMethod: 'PAYPAL-PAY',
+        description: `PayPal`,
+        userId: user?.organizationInUtilization?.userId,
+        organizationId: user?.organizationInUtilizationId,
+        userCreatedId: user?.id,
+      }),
+    );
+    if (_errorBull) {
+      throw new NotFoundException(_errorBull);
+    }
+
+    return bulling;
+  }
+
+  /** Coupon billing */
   async couponMethod(options: CreateCouponBullingDto): Promise<any> {
     const { code, user } = {
       ...options,
@@ -101,7 +127,7 @@ export class CreateMethodBulling {
     }
     const [_errorBull, bulling] = await useCatch(
       this.createAmountAmountBalance.execute({
-        amount: coupon?.amount,
+        amount: Number(coupon?.amount),
         type: 'PAYMENT',
         currency: coupon?.currency?.code,
         paymentMethod: 'COUPON-PAY',

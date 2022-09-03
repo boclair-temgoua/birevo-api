@@ -113,6 +113,7 @@ export class FindOneVoucherByService {
         /*sql*/ `jsonb_build_object(
               'userId', "user"."id",
               'user_uuid', "user"."uuid",
+              'email', "user"."email",
               'profileId', "user"."profileId",
               'firstName', "profile"."firstName",
               'lastName', "profile"."lastName",

@@ -1,7 +1,6 @@
 import {
   Controller,
   Post,
-  Response,
   NotFoundException,
   Body,
   UseGuards,
@@ -13,6 +12,7 @@ import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { CreateMethodBulling } from '../services/user-cases/create-method-bulling';
 import {
   CreateCouponBullingDto,
+  CreatePayPalBullingDto,
   CreateStripeBullingDto,
 } from '../dto/validation-bulling.dto';
 import { JwtAuthGuard } from '../../user/middleware/jwt-auth.guard';
@@ -21,6 +21,7 @@ import { JwtAuthGuard } from '../../user/middleware/jwt-auth.guard';
 export class CreateContactController {
   constructor(private readonly createMethodBulling: CreateMethodBulling) {}
 
+  /** Stripe controller send */
   @Post(`/stripe/create`)
   @UseGuards(JwtAuthGuard)
   async createOneStripe(
@@ -40,6 +41,27 @@ export class CreateContactController {
     return reply({ res, results });
   }
 
+  /** PayPal controller send */
+  @Post(`/paypal/create`)
+  @UseGuards(JwtAuthGuard)
+  async createOnePaypal(
+    @Res() res,
+    @Req() req,
+    @Body() createPayPalBullingDto: CreatePayPalBullingDto,
+  ) {
+    const [errors, results] = await useCatch(
+      this.createMethodBulling.paypalMethod({
+        ...createPayPalBullingDto,
+        user: req?.user,
+      }),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results });
+  }
+
+  /** Coupon controller send */
   @Post(`/coupon/create`)
   @UseGuards(JwtAuthGuard)
   async createOneCoupon(

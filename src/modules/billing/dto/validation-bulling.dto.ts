@@ -59,6 +59,22 @@ export class CreateStripeBullingDto {
   user: any;
 }
 
+export class CreatePayPalBullingDto {
+  @IsNotEmpty()
+  @IsInt()
+  amount: number;
+
+  @IsNotEmpty()
+  @IsString()
+  currency: string;
+
+  @IsOptional()
+  @IsString()
+  email: string;
+
+  @IsOptional()
+  user: any;
+}
 export class CreateCouponBullingDto {
   @IsNotEmpty()
   @IsString()

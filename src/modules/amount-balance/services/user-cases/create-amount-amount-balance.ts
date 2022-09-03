@@ -15,7 +15,7 @@ export class CreateAmountAmountBalance {
   ) {}
 
   /** Confirm account token to the database. */
-  // @Cron('5 * * * * *')
+  // @Cron('0 0 1 * *') // 31 days
   // @Interval(10000)
   async executeJobSaveBalance(): Promise<any> {
     const [errorSaveAmount, amountUsages] = await useCatch(
@@ -30,7 +30,7 @@ export class CreateAmountAmountBalance {
     Promise.all([
       amountUsages.map(async (item) => {
         /** Save Amount */
-        const [errorSaveAmount, amount] = await useCatch(
+        const [errorSaveAmount, amountSave] = await useCatch(
           this.createOrUpdateAmountService.createOne({
             amount: item?.amountUsage,
             userId: item?.userId,
@@ -45,19 +45,19 @@ export class CreateAmountAmountBalance {
         }
 
         /** Save AmountBalance */
-        const [errorSaveAmountBa, amountBalSave] = await useCatch(
+        const [errorSaveAmountBa, amountBalance] = await useCatch(
           this.createOrUpdateAmountBalanceService.createOne({
-            amountId: amount?.id,
-            userId: item?.userId,
-            amountBalance: item?.amountUsage,
+            amountId: amountSave?.id,
+            userId: amountSave?.userId,
+            amountBalance: amountSave?.amount,
             monthAmountBalanceAt: item?.lastMonth,
-            organizationId: item?.organizationId,
+            organizationId: amountSave?.organizationId,
           }),
         );
         if (errorSaveAmountBa) {
           throw new NotFoundException(errorSaveAmountBa);
         }
-        console.log(`amountBalSave ====>`, amountBalSave);
+        console.log(`amountBalance ====>`, amountBalance);
       }),
     ]);
     console.log('\x1b[32m%s\x1b[0m', '**** End Job create balance ****');
