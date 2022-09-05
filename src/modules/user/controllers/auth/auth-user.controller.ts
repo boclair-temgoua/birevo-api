@@ -29,6 +29,7 @@ import {
 import { ConfirmAccountTokenUser } from '../../services/use-cases/confirm-account-token-user';
 import { configurations } from '../../../../infrastructure/configurations/index';
 import { authPasswordResetJob } from '../../jobs/auth-login-and-register-job';
+import { getIpRequest } from '../../../../infrastructure/utils/commons/get-ip-request';
 
 @Controller()
 export class AuthUserController {
@@ -43,7 +44,7 @@ export class AuthUserController {
   @Post(`/register`)
   async createOneRegister(
     @Res() res,
-    @Ip() ipLocation: string,
+    @Req() req,
     @Body() createRegisterUserDto: CreateRegisterUserDto,
     @Query() couponCode: string,
     @Headers('User-Agent') userAgent: string,
@@ -51,7 +52,7 @@ export class AuthUserController {
     const [errors, results] = await useCatch(
       this.createRegisterUser.execute({
         ...createRegisterUserDto,
-        ipLocation,
+        ipLocation: getIpRequest(req),
         couponCode,
         userAgent,
       }),
@@ -66,11 +67,14 @@ export class AuthUserController {
   @Post(`/login`)
   async createOneLogin(
     @Res() res,
-    @Ip() ipLocation: string,
+    @Req() req,
     @Body() createLoginUserDto: CreateLoginUserDto,
   ) {
     const [errors, results] = await useCatch(
-      this.createLoginUser.execute({ ...createLoginUserDto, ipLocation }),
+      this.createLoginUser.execute({
+        ...createLoginUserDto,
+        ipLocation: getIpRequest(req),
+      }),
     );
     if (errors) {
       throw new NotFoundException(errors);
