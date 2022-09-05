@@ -107,6 +107,10 @@ export class CreateRegisterUserDto {
   @MaxLength(100)
   lastName: string;
 
+  @IsOptional()
+  @IsString()
+  couponCode: string;
+
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
@@ -121,6 +125,10 @@ export class CreateRegisterUserDto {
   @IsOptional()
   @IsString()
   ipLocation: string;
+
+  @IsOptional()
+  @IsString()
+  userAgent: string;
 
   @IsNotEmpty()
   @MinLength(8)

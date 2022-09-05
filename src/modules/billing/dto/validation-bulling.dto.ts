@@ -13,6 +13,7 @@ export type paymentMethodType =
   | 'PAYPAL-PAY'
   | 'CARD-PAY'
   | 'USED-VOUCHER'
+  | 'USED-COUPON'
   | 'VIEW-VOUCHER';
 
 export const paymentMethodArrays = [
@@ -20,6 +21,7 @@ export const paymentMethodArrays = [
   'PAYPAL-PAY',
   'CARD-PAY',
   'USED-VOUCHER',
+  'USED-COUPON',
   'VIEW-VOUCHER',
 ];
 
@@ -33,6 +35,13 @@ export type CreateOnBullingVoucherRequest = {
   description: string;
   organizationId: number;
   userCreatedId: number;
+};
+
+export type CreateBullingCouponMethodRequest = {
+  coupon: any;
+  ipLocation: string;
+  userAgent: string;
+  user: any;
 };
 
 export class CreateStripeBullingDto {

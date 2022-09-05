@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { configurations } from './infrastructure/configurations';
 import helmet from 'helmet';
+import * as path from 'path';
 
 async function bootstrap() {
   const port = configurations.port;

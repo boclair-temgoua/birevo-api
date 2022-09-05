@@ -21,6 +21,7 @@ import { AmountUsageModule } from './modules/amount-usage/amount-usage.module';
 import { BillingModule } from './modules/billing/billing.module';
 import { ActivityModule } from './modules/activity/activity.module';
 import { AmountBalanceModule } from './modules/amount-balance/amount-balance.module';
+import { CountryModule } from './modules/country/country.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { AmountBalanceModule } from './modules/amount-balance/amount-balance.mod
     BillingModule,
     ActivityModule,
     AmountUsageModule,
+    CountryModule,
     AmountBalanceModule,
   ],
 })

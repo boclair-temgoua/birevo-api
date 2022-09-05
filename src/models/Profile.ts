@@ -22,6 +22,9 @@ export class Profile extends BaseDeleteEntity {
   @Column({ type: 'bigint', nullable: true })
   currencyId?: number;
 
+  @Column({ type: 'bigint', nullable: true })
+  countryId?: number;
+
   @Column({ nullable: true })
   image?: string;
 

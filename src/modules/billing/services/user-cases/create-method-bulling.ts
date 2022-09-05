@@ -14,11 +14,12 @@ import {
 import { configurations } from '../../../../infrastructure/configurations/index';
 import Stripe from 'stripe';
 import {
-  getOneVoucherApi,
-  useOneVoucherApi,
+  getOneCouponApi,
+  useOneCouponApi,
 } from '../../../integrations/birevo/api/index';
 import { CreateAmountAmountBalance } from './create-amount-amount-balance';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
+import { CreateBullingCouponMethodRequest } from '../../dto/validation-bulling.dto';
 
 const stripe = new Stripe(String(configurations.implementations.stripe.key), {
   apiVersion: '2022-08-01',
@@ -148,7 +149,7 @@ export class CreateMethodBulling {
       ...options,
     };
 
-    const [_errorC, coupon] = await useCatch(getOneVoucherApi({ code }));
+    const [_errorC, coupon] = await useCatch(getOneCouponApi({ code }));
     if (_errorC) {
       throw new NotFoundException(_errorC);
     }
@@ -161,11 +162,32 @@ export class CreateMethodBulling {
 
     /** Api Use coupon */
     const [__errorC, _useCoupon] = await useCatch(
-      useOneVoucherApi({ code: coupon?.code }),
+      useOneCouponApi({ code: coupon?.code }),
     );
     if (__errorC) {
       throw new NotFoundException(__errorC);
     }
+
+    /** Update coupon to amount  */
+    const [__errorBc, bulling] = await useCatch(
+      this.bullingCouponMethod({ coupon, ipLocation, userAgent, user }),
+    );
+
+    if (__errorBc) {
+      throw new NotFoundException(__errorBc);
+    }
+
+    return coupon;
+  }
+
+  /** Coupon billing */
+  async bullingCouponMethod(
+    options: CreateBullingCouponMethodRequest,
+  ): Promise<any> {
+    const { coupon, ipLocation, userAgent, user } = {
+      ...options,
+    };
+
     const [_errorBull, bulling] = await useCatch(
       this.createAmountAmountBalance.execute({
         amount: Number(coupon?.amount),
@@ -198,6 +220,7 @@ export class CreateMethodBulling {
     if (_errorAct) {
       throw new NotFoundException(_errorAct);
     }
-    return coupon;
+
+    return bulling;
   }
 }

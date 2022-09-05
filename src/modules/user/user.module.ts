@@ -35,6 +35,8 @@ import { UpdateInformationToUser } from './services/use-cases/update-information
 import { FindOneProfileByService } from '../profile/services/query/find-one-profile-by.service';
 import { FindOneCurrencyByService } from '../currency/services/query/find-one-currency-by.service';
 import { Currency } from '../../models/Currency';
+import { FindOneCountryByService } from '../country/services/query/find-one-country-by.service';
+import { Country } from '../../models/Country';
 
 @Module({
   imports: [
@@ -45,6 +47,7 @@ import { Currency } from '../../models/Currency';
       Organization,
       ResetPassword,
       Subscribe,
+      Country,
       ApplicationToken,
     ]),
   ],
@@ -70,6 +73,9 @@ import { Currency } from '../../models/Currency';
     FindOneResetPasswordByService,
     ResetUpdatePasswordUserService,
     CreateOrUpdateSubscribeService,
+    FindOneSubscribeByService,
+    FindOneOrganizationByService,
+    FindOneCountryByService,
     FindOneProfileByService,
 
     /** Imports providers use-cases */
@@ -79,9 +85,7 @@ import { Currency } from '../../models/Currency';
     ConfirmAccountTokenUser,
     UpdateOrganizationToUser,
     GetAuthorizationToSubscribe,
-    FindOneSubscribeByService,
     UpdateInformationToUser,
-    FindOneOrganizationByService,
   ],
 })
 export class UserModule {}

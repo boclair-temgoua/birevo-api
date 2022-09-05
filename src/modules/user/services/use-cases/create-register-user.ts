@@ -17,11 +17,13 @@ import { CreateOrUpdateSubscribeService } from '../../../subscribe/services/muta
 import { getOneIpLocationApi } from '../../../integrations/ipapi/api/index';
 import { FindOneCurrencyByService } from '../../../currency/services/query/find-one-currency-by.service';
 import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
+import { FindOneCountryByService } from '../../../country/services/query/find-one-country-by.service';
 
 @Injectable()
 export class CreateRegisterUser {
   constructor(
     private readonly findOneUserByService: FindOneUserByService,
+    private readonly findOneCountryByService: FindOneCountryByService,
     private readonly findOneCurrencyByService: FindOneCurrencyByService,
     private readonly createOrUpdateUserService: CreateOrUpdateUserService,
     private readonly createOrUpdateProfileService: CreateOrUpdateProfileService,
@@ -31,10 +33,19 @@ export class CreateRegisterUser {
 
   /** Create one register to the database. */
   async execute(options: CreateRegisterUserDto): Promise<any> {
-    const { email, password, lastName, firstName, ipLocation } = { ...options };
+    const {
+      email,
+      password,
+      lastName,
+      firstName,
+      ipLocation,
+      couponCode,
+      userAgent,
+    } = { ...options };
 
     /** Find currency */
     const findIpLocation = await getOneLocationIpApi({ ipLocation });
+    /** Find one currency */
     const [_errorC, currency] = await useCatch(
       this.findOneCurrencyByService.findOneBy({
         option2: { code: findIpLocation?.currency },
@@ -42,6 +53,16 @@ export class CreateRegisterUser {
     );
     if (_errorC) {
       throw new NotFoundException(_errorC);
+    }
+
+    /** Find one country */
+    const [_errorCt, country] = await useCatch(
+      this.findOneCountryByService.findOneBy({
+        option2: { code: findIpLocation?.countryCode },
+      }),
+    );
+    if (_errorCt) {
+      throw new NotFoundException(_errorCt);
     }
 
     const [_error, user] = await useCatch(
@@ -61,6 +82,7 @@ export class CreateRegisterUser {
       this.createOrUpdateProfileService.createOne({
         firstName,
         lastName,
+        countryId: country?.id || 38,
         currencyId: currency?.id || 1,
       }),
     );

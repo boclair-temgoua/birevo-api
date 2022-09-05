@@ -147,7 +147,6 @@ export class CreateOrUpdateVoucher {
     if (_errorV) {
       throw new NotFoundException(_errorV);
     }
-    console.log(`findVoucher ====>`, findVoucher);
 
     if (!findVoucher)
       throw new HttpException(
@@ -160,13 +159,15 @@ export class CreateOrUpdateVoucher {
       /** Ici je cree la transaction pour le payment de la requete */
 
       /** Start */
+
+      /** Ici je met a jour le payment de la requete du coupon */
       const [_errorBull, bulling] = await useCatch(
         this.createAmountAmountUsage.execute({
           amount: configurations.datasite.pricingBilling,
           currency: 'EUR',
           userId: findVoucher?.userId,
-          paymentMethod: 'USED-VOUCHER',
-          description: 'Use voucher',
+          paymentMethod: 'USED-COUPON',
+          description: 'Use coupon',
           organizationId: findVoucher?.organizationId,
           userCreatedId: user?.id,
         }),

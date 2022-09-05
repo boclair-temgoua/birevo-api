@@ -10,6 +10,7 @@ import {
   Query,
   Get,
   UseGuards,
+  Headers,
   Req,
 } from '@nestjs/common';
 import { reply } from '../../../../infrastructure/utils/reply';
@@ -44,11 +45,15 @@ export class AuthUserController {
     @Res() res,
     @Ip() ipLocation: string,
     @Body() createRegisterUserDto: CreateRegisterUserDto,
+    @Query() couponCode: string,
+    @Headers('User-Agent') userAgent: string,
   ) {
     const [errors, results] = await useCatch(
       this.createRegisterUser.execute({
         ...createRegisterUserDto,
         ipLocation,
+        couponCode,
+        userAgent,
       }),
     );
     if (errors) {

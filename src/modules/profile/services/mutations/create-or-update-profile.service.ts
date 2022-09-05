@@ -20,7 +20,7 @@ export class CreateOrUpdateProfileService {
 
   /** Create one profile to the database. */
   async createOne(options: CreateProfileOptions): Promise<Profile> {
-    const { firstName, currencyId, lastName, image, url } = {
+    const { firstName, currencyId, lastName, image, countryId, url } = {
       ...options,
     };
 
@@ -29,6 +29,7 @@ export class CreateOrUpdateProfileService {
     profile.lastName = lastName;
     profile.color = getRandomElement(colorsArrays);
     profile.currencyId = currencyId;
+    profile.countryId = countryId;
     profile.firstName = firstName;
     profile.url = url;
 
