@@ -22,6 +22,7 @@ import { BillingModule } from './modules/billing/billing.module';
 import { ActivityModule } from './modules/activity/activity.module';
 import { AmountBalanceModule } from './modules/amount-balance/amount-balance.module';
 import { CountryModule } from './modules/country/country.module';
+import { FaqModule } from './modules/faq/faq.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { CountryModule } from './modules/country/country.module';
     OrganizationModule,
     VoucherModule,
     AmountModule,
+    FaqModule,
     BillingModule,
     ActivityModule,
     AmountUsageModule,

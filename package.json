@@ -44,7 +44,7 @@
     "seed:create": "npm run typeorm ./node_modules/.bin/typeorm migration:create --config ./src/providers/typeorm/config/ormconfig-seed.ts -n "
   },
   "dependencies": {
-    "@aws-sdk/client-ses": "^3.163.0",
+    "@aws-sdk/client-ses": "^3.165.0",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/axios": "^0.1.0",
     "@nestjs/common": "^9.0.11",
@@ -62,7 +62,7 @@
     "@paypal/payouts-sdk": "^1.1.1",
     "amqp-connection-manager": "^4.1.6",
     "amqplib": "^0.10.3",
-    "aws-sdk": "^2.1209.0",
+    "aws-sdk": "^2.1210.0",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
@@ -90,7 +90,7 @@
     "rxjs": "^7.5.6",
     "stripe": "^10.7.0",
     "typeorm": "^0.3.9",
-    "uuid": "^8.3.2",
+    "uuid": "^9.0.0",
     "xlsx": "^0.18.5",
     "xml2js": "^0.4.23"
   },
@@ -116,8 +116,8 @@
     "@types/qrcode": "^1.5.0",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.4",
-    "@typescript-eslint/eslint-plugin": "^5.36.1",
-    "@typescript-eslint/parser": "^5.36.1",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "@typescript-eslint/parser": "^5.36.2",
     "dotenv": "16.0.2",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
