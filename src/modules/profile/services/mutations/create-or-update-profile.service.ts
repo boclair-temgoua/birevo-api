@@ -20,17 +20,16 @@ export class CreateOrUpdateProfileService {
 
   /** Create one profile to the database. */
   async createOne(options: CreateProfileOptions): Promise<Profile> {
-    const { firstName, currencyId, lastName, image, countryId, url } = {
+    const { fullName, currencyId, image, countryId, url } = {
       ...options,
     };
 
     const profile = new Profile();
     profile.image = image;
-    profile.lastName = lastName;
+    profile.fullName = fullName;
     profile.color = getRandomElement(colorsArrays);
     profile.currencyId = currencyId;
     profile.countryId = countryId;
-    profile.firstName = firstName;
     profile.url = url;
 
     const query = this.driver.save(profile);
@@ -47,7 +46,7 @@ export class CreateOrUpdateProfileService {
     options: UpdateProfileOptions,
   ): Promise<Profile> {
     const { option1 } = { ...selections };
-    const { firstName, currencyId, lastName, url, image, deletedAt } = {
+    const { fullName, currencyId, url, image, deletedAt } = {
       ...options,
     };
 
@@ -65,8 +64,7 @@ export class CreateOrUpdateProfileService {
 
     findItem.image = image;
     findItem.url = url;
-    findItem.lastName = lastName;
-    findItem.firstName = firstName;
+    findItem.fullName = fullName;
     findItem.currencyId = currencyId;
     findItem.deletedAt = deletedAt;
 

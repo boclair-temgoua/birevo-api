@@ -35,12 +35,11 @@ export class FindUserService {
       'userId', "user"."id",
       'id', "profile"."id",
       'userId', "user"."id",
-      'firstName', "profile"."firstName",
+      'fullName', "profile"."fullName",
       'image', "profile"."image",
       'color', "profile"."color",
       'currencyId', "profile"."currencyId",
-      'url', "profile"."url",
-      'lastName', "profile"."lastName"
+      'url', "profile"."url"
   ) AS "profile"`,
       )
       .addSelect(
@@ -61,13 +60,9 @@ export class FindUserService {
         new Brackets((qb) => {
           qb.where('user.email ::text ILIKE :searchQuery', {
             searchQuery: `%${filterQuery?.q}%`,
-          })
-            .orWhere('profile.firstName ::text ILIKE :searchQuery', {
-              searchQuery: `%${filterQuery?.q}%`,
-            })
-            .orWhere('profile.lastName ::text ILIKE :searchQuery', {
-              searchQuery: `%${filterQuery?.q}%`,
-            });
+          }).orWhere('profile.fullName ::text ILIKE :searchQuery', {
+            searchQuery: `%${filterQuery?.q}%`,
+          });
         }),
       );
     }

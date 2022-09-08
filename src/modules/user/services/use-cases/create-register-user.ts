@@ -14,7 +14,6 @@ import { CreateOrUpdateOrganizationService } from '../../../organization/service
 import { configurations } from '../../../../infrastructure/configurations';
 import { authRegisterJob } from '../../jobs/auth-login-and-register-job';
 import { CreateOrUpdateSubscribeService } from '../../../subscribe/services/mutations/create-or-update-subscribe.service';
-import { getOneIpLocationApi } from '../../../integrations/ipapi/api/index';
 import { FindOneCurrencyByService } from '../../../currency/services/query/find-one-currency-by.service';
 import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
 import { FindOneCountryByService } from '../../../country/services/query/find-one-country-by.service';
@@ -33,15 +32,9 @@ export class CreateRegisterUser {
 
   /** Create one register to the database. */
   async execute(options: CreateRegisterUserDto): Promise<any> {
-    const {
-      email,
-      password,
-      lastName,
-      firstName,
-      ipLocation,
-      couponCode,
-      userAgent,
-    } = { ...options };
+    const { email, password, fullName, ipLocation, couponCode, userAgent } = {
+      ...options,
+    };
 
     /** Find currency */
     const findIpLocation = await getOneLocationIpApi({ ipLocation });
@@ -80,8 +73,7 @@ export class CreateRegisterUser {
     /** Create Profile */
     const [errorP, profile] = await useCatch(
       this.createOrUpdateProfileService.createOne({
-        firstName,
-        lastName,
+        fullName,
         countryId: country?.id || 38,
         currencyId: currency?.id || 1,
       }),
@@ -93,7 +85,7 @@ export class CreateRegisterUser {
     /** Create Organization */
     const [_errorOr, organization] = await useCatch(
       this.createOrUpdateOrganizationService.createOne({
-        name: `${firstName} ${lastName}`,
+        name: `${fullName}`,
       }),
     );
     if (_errorOr) {

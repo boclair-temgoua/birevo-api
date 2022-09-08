@@ -105,16 +105,11 @@ export class CreateRegisterUserDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  lastName: string;
+  fullName: string;
 
   @IsOptional()
   @IsString()
   couponCode: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @MaxLength(100)
-  firstName: string;
 
   @IsNotEmpty()
   @IsString()

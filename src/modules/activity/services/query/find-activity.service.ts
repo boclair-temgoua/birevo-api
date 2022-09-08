@@ -38,8 +38,7 @@ export class FindActivityService {
           SELECT jsonb_build_object(
           'uuid', "us"."uuid",
           'profileId', "us"."profileId",
-          'firstName', "pr"."firstName",
-          'lastName', "pr"."lastName",
+          'fullName', "pr"."fullName",
           'color', "pr"."color",
           'image', "pr"."image"
           )

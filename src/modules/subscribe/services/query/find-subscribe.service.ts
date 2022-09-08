@@ -62,10 +62,9 @@ export class FindSubscribeService {
       query = query
         .addSelect(
           /*sql*/ `jsonb_build_object(
-                'firstName', "profile"."firstName",
+                'fullName', "profile"."fullName",
                 'image', "profile"."image",
                 'color', "profile"."color",
-                'lastName', "profile"."lastName",
                 'userId', "user"."id",
                 'email', "user"."email"
             ) AS "profile"`,
@@ -84,10 +83,7 @@ export class FindSubscribeService {
           qb.where('organization.name ::text ILIKE :search', {
             search: `%${filterQuery?.q}%`,
           })
-            .orWhere('profile.lastName ::text ILIKE :search', {
-              search: `%${filterQuery?.q}%`,
-            })
-            .orWhere('profile.firstName ::text ILIKE :search', {
+            .orWhere('profile.fullName ::text ILIKE :search', {
               search: `%${filterQuery?.q}%`,
             })
             .orWhere('user.username ::text ILIKE :search', {

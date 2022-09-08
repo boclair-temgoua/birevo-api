@@ -7,8 +7,7 @@ export type JwtPayloadType = {
   uuid: string;
   profileId: number;
   organizationId: number;
-  lastName: string;
-  firstName: string;
+  fullName: string;
 };
 
 export type GetUsersSelections = {

@@ -10,12 +10,7 @@ export class CreateOrUpdateProfileDto {
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  firstName: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @MaxLength(100)
-  lastName: string;
+  fullName: string;
 
   @IsOptional()
   @IsString()

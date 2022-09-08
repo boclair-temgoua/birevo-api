@@ -84,8 +84,7 @@ export class FindVoucherService {
           'uuid', "us"."uuid",
           'profileId', "us"."profileId",
           'email', "us"."email",
-          'firstName', "pr"."firstName",
-          'lastName', "pr"."lastName",
+          'fullName', "pr"."fullName",
           'color', "pr"."color",
           'image', "pr"."image"
           )
