@@ -25,10 +25,8 @@ export class FindAmountUsageService {
       .where(
         "amu.createdAt BETWEEN DATE_TRUNC('month', NOW()) - INTERVAL '1 month' AND DATE_TRUNC('month', NOW())",
       )
-      .leftJoin('amu.amount', 'amount')
       .groupBy('amu.userId')
       .addGroupBy('amu.organizationId')
-      .addGroupBy('amount.userId')
       .addGroupBy("DATE_TRUNC('month', amu.createdAt)");
 
     if (option1) {
