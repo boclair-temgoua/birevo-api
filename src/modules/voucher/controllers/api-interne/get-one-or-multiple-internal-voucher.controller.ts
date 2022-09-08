@@ -45,6 +45,10 @@ export class GetOneOrMultipleInternalVoucherController {
     @Query('type') type: VoucherableType,
   ) {
     const { user } = req;
+    if (user?.requiresPayment)
+      throw new UnauthorizedException(
+        'Payment required please check your billing',
+      );
 
     const [errors, results] = await useCatch(
       this.findVoucherService.findAllVouchers({
@@ -69,6 +73,12 @@ export class GetOneOrMultipleInternalVoucherController {
     @Query() getOneVoucherDto: GetOneVoucherDto,
     @Headers('User-Agent') userAgent: string,
   ) {
+    const { user } = req;
+    if (user?.requiresPayment)
+      throw new UnauthorizedException(
+        'Payment required please check your billing',
+      );
+
     const [error, result] = await useCatch(
       this.getOnUserVoucher.executeIntern({
         ...getOneVoucherDto,

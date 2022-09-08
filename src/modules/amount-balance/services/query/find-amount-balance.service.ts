@@ -17,32 +17,26 @@ export class FindAmountBalanceService {
     private driver: Repository<AmountBalance>,
   ) {}
 
-  async findAllApplications(
-    selections: GetAmountBalanceSelections,
-  ): Promise<any> {
+  async findAll(selections: GetAmountBalanceSelections): Promise<any> {
     const { option1, option2 } = { ...selections };
 
-    let query = this.driver.createQueryBuilder('amb').select(/*sql*/ `(
-      SELECT jsonb_build_object(
-      'count', "amb"."count",
-      'AmountBalance', CAST(SUM("amb"."amountBalance") AS INT)
-      )
-      FROM "amount_balance" "amb"
-      INNER JOIN "amount" "am" ON "amb"."amountId" = "am"."id"
-      WHERE "amb"."organizationId" = "am"."organizationId"
-      AND "amb"."userId" = "am"."userId"
-      GROUP BY "amb"."organizationId", "amb"."userId"
-      ) AS "AmountBalanceTotal"`);
-    // .select('amb.AmountBalance', 'AmountBalance');
+    let query = this.driver
+      .createQueryBuilder('amb')
+      .select('amb.organizationId', 'organizationId')
+      .addSelect('amb.userId', 'userId')
+      .addSelect('amb.count', 'count')
+      .addSelect('CAST(SUM("amb"."amountBalance") AS DECIMAL)', 'amountBalance')
+      .groupBy('amb.userId')
+      .addGroupBy('amb.organizationId');
 
     if (option1) {
       const { userId } = { ...option1 };
-      query = query.where('amb.userId = :userId', { userId });
+      query = query.andWhere('amb.userId = :userId', { userId });
     }
 
     if (option2) {
       const { organizationId } = { ...option2 };
-      query = query.where('amb.organizationId = :organizationId', {
+      query = query.andWhere('amb.organizationId = :organizationId', {
         organizationId,
       });
     }

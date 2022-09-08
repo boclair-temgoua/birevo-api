@@ -20,6 +20,7 @@ import {
 import { CreateAmountAmountBalance } from './create-amount-amount-balance';
 import { CreateOrUpdateActivity } from '../../../activity/services/user-cases/create-or-update-activity';
 import { CreateBullingCouponMethodRequest } from '../../dto/validation-bulling.dto';
+import { UpdateUserAfterBilling } from './update-user-after-billing';
 
 const stripe = new Stripe(String(configurations.implementations.stripe.key), {
   apiVersion: '2022-08-01',
@@ -29,6 +30,7 @@ const stripe = new Stripe(String(configurations.implementations.stripe.key), {
 export class CreateMethodBulling {
   constructor(
     private readonly createAmountAmountBalance: CreateAmountAmountBalance,
+    private readonly updateUserAfterBilling: UpdateUserAfterBilling,
     private readonly createOrUpdateActivity: CreateOrUpdateActivity,
   ) {}
 
@@ -48,7 +50,7 @@ export class CreateMethodBulling {
     };
 
     const params: Stripe.CustomerCreateParams = {
-      description: `Payment transaction - ${user?.organizationInUtilization?.name}`,
+      description: `Payment transaction - ${fullName}`,
       email: email,
       name: fullName,
     };
@@ -101,6 +103,16 @@ export class CreateMethodBulling {
       }
     }
 
+    /** Control and update user */
+    const [errorUpdateUser, updateUser] = await useCatch(
+      this.updateUserAfterBilling.execute({
+        userInfoId: user?.organizationInUtilization?.userId,
+      }),
+    );
+    if (errorUpdateUser) {
+      throw new NotFoundException(errorUpdateUser);
+    }
+
     return charge;
   }
 
@@ -115,7 +127,7 @@ export class CreateMethodBulling {
         type: 'PAYMENT',
         paymentMethod: 'PAYPAL-PAY',
         description: `PayPal`,
-        userId: user?.organizationInUtilization?.userId,
+        userId: user?.id,
         organizationId: user?.organizationInUtilizationId,
         userCreatedId: user?.id,
       }),
@@ -138,6 +150,16 @@ export class CreateMethodBulling {
     );
     if (_errorAct) {
       throw new NotFoundException(_errorAct);
+    }
+
+    /** Control and update user */
+    const [errorUpdateUser, updateUser] = await useCatch(
+      this.updateUserAfterBilling.execute({
+        userInfoId: user?.organizationInUtilization?.userId,
+      }),
+    );
+    if (errorUpdateUser) {
+      throw new NotFoundException(errorUpdateUser);
     }
 
     return bulling;
@@ -175,6 +197,16 @@ export class CreateMethodBulling {
 
     if (__errorBc) {
       throw new NotFoundException(__errorBc);
+    }
+
+    /** Control and update user */
+    const [errorUpdateUser, updateUser] = await useCatch(
+      this.updateUserAfterBilling.execute({
+        userInfoId: user?.organizationInUtilization?.userId,
+      }),
+    );
+    if (errorUpdateUser) {
+      throw new NotFoundException(errorUpdateUser);
     }
 
     return coupon;

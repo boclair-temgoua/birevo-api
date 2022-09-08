@@ -24,6 +24,7 @@ import {
 import { CreateOrUpdateVoucher } from '../../services/use-cases/create-or-update-voucher';
 import { JwtAuthGuard } from '../../../user/middleware/jwt-auth.guard';
 import { getIpRequest } from '../../../../infrastructure/utils/commons';
+import { UnauthorizedException } from '@nestjs/common';
 
 @Controller('vouchers')
 export class CreateOrUpdateInternalCouponController {
@@ -37,6 +38,12 @@ export class CreateOrUpdateInternalCouponController {
     @Body() createOrUpdateVoucherDto: CreateOrUpdateVoucherDto,
     @Headers('User-Agent') userAgent: string,
   ) {
+    const { user } = req;
+    if (user?.requiresPayment)
+      throw new UnauthorizedException(
+        'Payment required please check your billing',
+      );
+
     const [error, result] = await useCatch(
       this.createOrUpdateVoucher.create({
         ...createOrUpdateVoucherDto,
@@ -60,6 +67,12 @@ export class CreateOrUpdateInternalCouponController {
     @Param() codeVoucher: CodeVoucherDto,
     @Headers('User-Agent') userAgent: string,
   ) {
+    const { user } = req;
+    if (user?.requiresPayment)
+      throw new UnauthorizedException(
+        'Payment required please check your billing',
+      );
+
     const [error, result] = await useCatch(
       this.createOrUpdateVoucher.useVoucherExternOrInterne({
         ...codeVoucher,
@@ -82,6 +95,12 @@ export class CreateOrUpdateInternalCouponController {
     @Body() createOrUpdateVoucherDto: CreateOrUpdateVoucherDto,
     @Headers('User-Agent') userAgent: string,
   ) {
+    const { user } = req;
+    if (user?.requiresPayment)
+      throw new UnauthorizedException(
+        'Payment required please check your billing',
+      );
+
     const [error, result] = await useCatch(
       this.createOrUpdateVoucher.create({
         ...createOrUpdateVoucherDto,
@@ -105,6 +124,12 @@ export class CreateOrUpdateInternalCouponController {
     @Param() codeVoucher: CodeVoucherDto,
     @Headers('User-Agent') userAgent: string,
   ) {
+    const { user } = req;
+    if (user?.requiresPayment)
+      throw new UnauthorizedException(
+        'Payment required please check your billing',
+      );
+
     const [error, result] = await useCatch(
       this.createOrUpdateVoucher.deleteVoucherExtern({
         ...codeVoucher,

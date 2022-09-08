@@ -16,16 +16,12 @@ import {
 } from '@nestjs/common';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { JwtAuthGuard } from '../../../user/middleware';
-import {
-  GetOneVoucherDto,
-  VoucherableType,
-} from '../../dto/validation-voucher.dto';
-import { FindOneVoucherByService } from '../../services/query/find-one-voucher-by.service';
+import { GetOneVoucherDto } from '../../dto/validation-voucher.dto';
 import { GetOnUserVoucher } from '../../services/use-cases/get-on-user-voucher';
 import { FilterQueryDto } from '../../../../infrastructure/utils/filter-query/filter-query.dto';
 import { RequestPaginationDto } from '../../../../infrastructure/utils/pagination/request-pagination.dto';
 import { FindVoucherService } from '../../services/query/find-voucher.service';
+import { UnauthorizedException } from '@nestjs/common';
 import {
   VoucherableTypeDto,
   getOneByNumberVoucherType,
@@ -48,6 +44,11 @@ export class GetOneOrMultipleExternalVoucherController {
     @Query('is_paginate', ParseBoolPipe) is_paginate: boolean,
   ) {
     const { user } = req;
+    if (user?.requiresPayment)
+      throw new UnauthorizedException(
+        'Payment required please check your billing',
+      );
+
     const [errors, results] = await useCatch(
       this.findVoucherService.findAllVouchers({
         is_paginate,
@@ -70,6 +71,12 @@ export class GetOneOrMultipleExternalVoucherController {
     @Param() getOneVoucherDto: GetOneVoucherDto,
     @Headers('User-Agent') userAgent: string,
   ) {
+    const { user } = req;
+    if (user?.requiresPayment)
+      throw new UnauthorizedException(
+        'Payment required please check your billing',
+      );
+
     const [error, result] = await useCatch(
       this.getOnUserVoucher.executeExtern({
         ...getOneVoucherDto,
@@ -92,6 +99,12 @@ export class GetOneOrMultipleExternalVoucherController {
     @Param() getOneVoucherDto: GetOneVoucherDto,
     @Headers('User-Agent') userAgent: string,
   ) {
+    const { user } = req;
+    if (user?.requiresPayment)
+      throw new UnauthorizedException(
+        'Payment required please check your billing',
+      );
+
     const [error, result] = await useCatch(
       this.getOnUserVoucher.executeExtern({
         ...getOneVoucherDto,

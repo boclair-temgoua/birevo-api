@@ -16,6 +16,10 @@ import { CreateOrUpdateAmountBalanceService } from '../amount-balance/services/m
 import { CreateOrUpdateActivity } from '../activity/services/user-cases/create-or-update-activity';
 import { Activity } from '../../models/Activity';
 import { CreateOrUpdateActivityService } from '../activity/services/mutations/create-or-update-activity.service';
+import { FindOneUserByService } from '../user/services/query/find-one-user-by.service';
+import { User } from '../../models/User';
+import { CreateOrUpdateUserService } from '../user/services/mutations/create-or-update-user.service';
+import { UpdateUserAfterBilling } from './services/user-cases/update-user-after-billing';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -23,6 +27,7 @@ import { CreateOrUpdateActivityService } from '../activity/services/mutations/cr
       Voucher,
       AmountUsage,
       AmountBalance,
+      User,
       Activity,
     ]),
   ],
@@ -33,12 +38,15 @@ import { CreateOrUpdateActivityService } from '../activity/services/mutations/cr
     CreateOrUpdateAmountService,
     FindOneVoucherByService,
     FindAmountService,
+    FindOneUserByService,
+    CreateOrUpdateUserService,
     CreateOrUpdateActivityService,
     CreateOrUpdateAmountBalanceService,
 
     /** Imports providers use-cases */
     CreateMethodBulling,
     CreateOrUpdateActivity,
+    UpdateUserAfterBilling,
     CreateAmountAmountBalance,
   ],
 })

@@ -51,7 +51,7 @@ export class FindOneUserByService {
     return result;
   }
 
-  async findOneInfoBy(selections: GetOneUserSelections): Promise<User> {
+  async findOneInfoBy(selections: GetOneUserSelections): Promise<any> {
     const { option1, option2, option4 } = { ...selections };
     let query = this.driver
       .createQueryBuilder('user')
@@ -59,6 +59,7 @@ export class FindOneUserByService {
       .addSelect('user.id', 'id')
       .addSelect('user.email', 'email')
       .addSelect('user.profileId', 'profileId')
+      .addSelect('user.requiresPayment', 'requiresPayment')
       .addSelect(
         'user.organizationInUtilizationId',
         'organizationInUtilizationId',
