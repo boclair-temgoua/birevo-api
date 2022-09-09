@@ -8,7 +8,12 @@ export const formateDateMountYear = (date: Date) => {
   return dayjs(date).format('MMMM YYYY');
 };
 
-export const formateDateDayjs = (date: Date) => {
+export const formateDateDDMMYYDayjs = (date: Date) => {
+  const dateInit = dayjs(date);
+  return dateInit.format('MM/DD/YYYY');
+};
+
+export const formateDateMMDDYYDayjs = (date: Date) => {
   const dateInit = dayjs(date);
   return dateInit.format('MM/DD/YYYY');
 };

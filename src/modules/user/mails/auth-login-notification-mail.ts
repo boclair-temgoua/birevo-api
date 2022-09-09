@@ -1,4 +1,4 @@
-import { formateDateDayjs } from './../../../infrastructure/utils/commons/formate-date-dayjs';
+import { formateDateMMDDYYDayjs } from './../../../infrastructure/utils/commons/formate-date-dayjs';
 import { configurations } from '../../../infrastructure/configurations/index';
 import { createTransport } from 'nodemailer';
 
@@ -25,7 +25,7 @@ export const authLoginNotificationMail = async (options: { user: User }) => {
     user?.email
   }</a></li>
   <li>Indirizzo IP di provenienza: 93.49.117.134</li>
-  <li>Data e ora di accesso: ${formateDateDayjs(new Date())}</li>
+  <li>Data e ora di accesso: ${formateDateMMDDYYDayjs(new Date())}</li>
   </ul>
   <p>Ricevi questa mail per la tua sicurezza. Se desideri puoi disabilitare l'invio di questa notifica dalla Dashboard della tua Area Clienti (Notifica di accesso).</p>
   <p>Cordiali saluti,<br><br></p><div style="font-size:12px">Questa è una mail automatica.<br>Per dubbi e assistenza il Servizio Clienti Netsons è a tua disposizione al numero + 39 0854510052 e tramite&nbsp;chat e ticket direttamente nella tua <a href="https://www.netsons.com/manage/index.php?m=ns&amp;p=support" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.netsons.com/manage/index.php?m%3Dns%26p%3Dsupport&amp;source=gmail&amp;ust=1661877021988000&amp;usg=AOvVaw1zv3H-H1uTZsnr5JQDu5P7">Area Clienti</a>.</div><p></p>            <div style="border-top:1px solid #eee;font-size:11px;line-height:16px;color:#666;text-align:center;margin-top:20px;padding-top:5px">

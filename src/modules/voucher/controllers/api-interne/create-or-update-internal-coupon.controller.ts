@@ -19,7 +19,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { CreateOrUpdateVoucherService } from '../../services/mutations/create-or-update-voucher.service';
 import {
   CodeVoucherDto,
   CreateOrUpdateVoucherDto,
@@ -29,13 +28,12 @@ import { JwtAuthGuard } from '../../../user/middleware/jwt-auth.guard';
 import { getIpRequest } from '../../../../infrastructure/utils/commons';
 import { UnauthorizedException } from '@nestjs/common';
 import { FindVoucherService } from '../../services/query/find-voucher.service';
-import { formateDateDayjs } from '../../../../infrastructure/utils/commons/formate-date-dayjs';
+import {
+  formateDateDDMMYYDayjs,
+  formateDateMMDDYYDayjs,
+} from '../../../../infrastructure/utils/commons/formate-date-dayjs';
 import { CreateDownloadVoucherDto } from '../../dto/validation-voucher.dto';
 import { FindOneOrganizationByService } from '../../../organization/services/query/find-one-organization-by.service';
-import {
-  StatusVoucher,
-  VoucherableType,
-} from '../../dto/validation-voucher.dto';
 
 @Controller('vouchers')
 export class CreateOrUpdateInternalCouponController {
@@ -187,8 +185,8 @@ export class CreateOrUpdateInternalCouponController {
         status,
         option2: {
           organizationId: organization?.id,
-          initiationAt: formateDateDayjs(initiationAt),
-          endAt: formateDateDayjs(endAt),
+          initiationAt: formateDateDDMMYYDayjs(initiationAt),
+          endAt: formateDateDDMMYYDayjs(endAt),
         },
       }),
     );
@@ -210,6 +208,14 @@ export class CreateOrUpdateInternalCouponController {
       {
         header: `status`,
         key: 'status',
+        width: 30,
+        style: {
+          alignment: { vertical: 'middle', horizontal: 'center' },
+        },
+      },
+      {
+        header: `statusOnline`,
+        key: 'statusOnline',
         width: 30,
         style: {
           alignment: { vertical: 'middle', horizontal: 'center' },
@@ -248,6 +254,22 @@ export class CreateOrUpdateInternalCouponController {
         },
       },
       {
+        header: `startedAt`,
+        key: 'startedAt',
+        width: 30,
+        style: {
+          alignment: { vertical: 'middle', horizontal: 'center' },
+        },
+      },
+      {
+        header: `expiredAt`,
+        key: 'expiredAt',
+        width: 30,
+        style: {
+          alignment: { vertical: 'middle', horizontal: 'center' },
+        },
+      },
+      {
         header: `createdAt`,
         key: 'createdAt',
         width: 30,
@@ -262,11 +284,14 @@ export class CreateOrUpdateInternalCouponController {
         const rowsItem = {
           codeNumber: item?.code,
           status: item?.status,
-          amount: item?.amount,
+          statusOnline: item?.statusOnline,
           voucherType: item?.voucherType,
+          amount: item?.amount,
           currency: item?.currency?.code,
           percent: `${item?.currency?.percent || ''}`,
-          createdAt: formateDateDayjs(item?.createdAt),
+          startedAt: formateDateMMDDYYDayjs(item?.startedAt),
+          expiredAt: formateDateMMDDYYDayjs(item?.expiredAt),
+          createdAt: formateDateMMDDYYDayjs(item?.createdAt),
         };
         worksheet.addRow(rowsItem);
       }),
