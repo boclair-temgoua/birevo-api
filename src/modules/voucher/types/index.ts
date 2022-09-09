@@ -1,13 +1,18 @@
 import { Voucher } from '../../../models/Voucher';
 import { User } from '../../../models/User';
-import { VoucherableType } from '../dto/validation-voucher.dto';
+import { VoucherableType, StatusVoucher } from '../dto/validation-voucher.dto';
 import { SortType } from '../../../infrastructure/utils/pagination';
 
 export type GetVoucherSelections = {
   option1?: { userId: Voucher['userId'] };
+  option2?: {
+    organizationId: Voucher['organizationId'];
+    initiationAt: string;
+    endAt: string;
+  };
   type: VoucherableType;
   is_paginate: boolean;
-  status?: number;
+  status?: StatusVoucher;
   filterQuery?: any;
   data?: any[];
   pagination?: {

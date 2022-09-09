@@ -10,7 +10,10 @@ import {
   IsInt,
   IsPositive,
 } from 'class-validator';
-import { MatchDate } from '../../../infrastructure/utils/decorators';
+import {
+  MatchDate,
+  MatchValidationDate,
+} from '../../../infrastructure/utils/decorators';
 export type StatusOnline = 'ONLINE' | 'OFFLINE' | 'TEST';
 export type DeliveryType = 'AMOUNT' | 'PERCENT';
 export type StatusVoucher = 'PENDING' | 'ACTIVE' | 'USED' | 'TEST';
@@ -177,7 +180,12 @@ export class GetOneVoucherDto {
   @IsOptional()
   user: any;
 }
-
+export class StatusVoucherDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsIn(['1', '2', '3'])
+  status: string;
+}
 export class VoucherableTypeDto {
   @IsNotEmpty()
   @IsString()
@@ -206,4 +214,26 @@ export class CodeVoucherDto {
 
   @IsOptional()
   user: any;
+}
+
+export class CreateDownloadVoucherDto {
+  @IsNotEmpty()
+  @IsString()
+  organizationId: number;
+
+  @IsNotEmpty()
+  @IsIn(voucherableTypeArrays)
+  type?: NonNullable<VoucherableType>;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(statusVoucherArrays)
+  status: StatusVoucher;
+
+  @IsNotEmpty()
+  initiationAt: Date;
+
+  @IsNotEmpty()
+  @MatchValidationDate('initiationAt')
+  endAt: Date;
 }

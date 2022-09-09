@@ -1,10 +1,14 @@
 import * as dayjs from 'dayjs';
-dayjs().locale('fr').format();
-
-export const formateDateDayjs = () => {
-  return dayjs(new Date()).format('DD-MM-YYYY HH:mm:ss');
-};
+import * as localizedFormat from 'dayjs/plugin/localizedFormat';
+import * as relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(localizedFormat);
+dayjs.extend(relativeTime);
 
 export const formateDateMountYear = (date: Date) => {
   return dayjs(date).format('MMMM YYYY');
+};
+
+export const formateDateDayjs = (date: Date) => {
+  const dateInit = dayjs(date);
+  return dateInit.format('MM/DD/YYYY');
 };

@@ -15,7 +15,15 @@ export class FindVoucherService {
   ) {}
 
   async findAllVouchers(selections: GetVoucherSelections): Promise<any> {
-    const { filterQuery, is_paginate, type, status, pagination, option1 } = {
+    const {
+      filterQuery,
+      is_paginate,
+      type,
+      status,
+      pagination,
+      option1,
+      option2,
+    } = {
       ...selections,
     };
 
@@ -143,13 +151,28 @@ export class FindVoucherService {
           WHERE "qc"."qrCodableId" = "voucher"."id"
           ) AS "qrCode"`,
       )
-      .where('voucher.voucherType = :voucherType', { voucherType: type })
-      .andWhere('voucher.deletedAt IS NULL')
+      .where('voucher.deletedAt IS NULL')
+      .andWhere('voucher.voucherType = :voucherType', { voucherType: type })
       .leftJoin('voucher.currency', 'currency');
+
+    if (status) {
+      query = query.andWhere('voucher.status = :status', { status });
+    }
 
     if (option1) {
       const { userId } = { ...option1 };
       query = query.andWhere('voucher.userId = :userId', { userId });
+    }
+
+    if (option2) {
+      const { organizationId, initiationAt, endAt } = { ...option2 };
+      query = query
+        .andWhere('voucher.organizationId = :organizationId', {
+          organizationId,
+        })
+        .andWhere(
+          `"voucher"."createdAt"::date BETWEEN '${initiationAt}' AND '${endAt}'`,
+        );
     }
 
     if (filterQuery?.q) {

@@ -1,14 +1,10 @@
-import { getIpRequest } from '../../../../infrastructure/utils/commons/get-ip-request';
+import { getIpRequest } from '../../../../infrastructure/utils/commons';
 import {
   Controller,
   Get,
-  Param,
-  Response,
-  ParseUUIDPipe,
   NotFoundException,
   Query,
   UseGuards,
-  ParseIntPipe,
   Req,
   Res,
   Headers,
