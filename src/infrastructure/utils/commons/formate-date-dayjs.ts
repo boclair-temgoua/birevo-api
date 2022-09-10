@@ -10,7 +10,7 @@ export const formateDateMountYear = (date: Date) => {
 
 export const formateDateDDMMYYDayjs = (date: Date) => {
   const dateInit = dayjs(date);
-  return dateInit.format('MM/DD/YYYY');
+  return dateInit.format('DD/MM/YYYY');
 };
 
 export const formateDateMMDDYYDayjs = (date: Date) => {

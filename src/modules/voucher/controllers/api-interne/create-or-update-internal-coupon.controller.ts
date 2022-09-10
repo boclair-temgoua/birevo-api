@@ -185,8 +185,8 @@ export class CreateOrUpdateInternalCouponController {
         status,
         option2: {
           organizationId: organization?.id,
-          initiationAt: formateDateDDMMYYDayjs(initiationAt),
-          endAt: formateDateDDMMYYDayjs(endAt),
+          initiationAt: formateDateMMDDYYDayjs(initiationAt),
+          endAt: formateDateMMDDYYDayjs(endAt),
         },
       }),
     );
@@ -200,7 +200,7 @@ export class CreateOrUpdateInternalCouponController {
       {
         header: 'code',
         key: 'codeNumber',
-        width: 30,
+        width: 40,
         style: {
           alignment: { vertical: 'middle', horizontal: 'right' },
         },
@@ -208,7 +208,7 @@ export class CreateOrUpdateInternalCouponController {
       {
         header: `status`,
         key: 'status',
-        width: 30,
+        width: 40,
         style: {
           alignment: { vertical: 'middle', horizontal: 'center' },
         },
@@ -216,7 +216,7 @@ export class CreateOrUpdateInternalCouponController {
       {
         header: `statusOnline`,
         key: 'statusOnline',
-        width: 30,
+        width: 40,
         style: {
           alignment: { vertical: 'middle', horizontal: 'center' },
         },
@@ -224,7 +224,7 @@ export class CreateOrUpdateInternalCouponController {
       {
         header: `voucher_type`,
         key: 'voucherType',
-        width: 30,
+        width: 40,
         style: {
           alignment: { vertical: 'middle', horizontal: 'center' },
         },
@@ -232,7 +232,7 @@ export class CreateOrUpdateInternalCouponController {
       {
         header: `amount`,
         key: 'amount',
-        width: 30,
+        width: 40,
         style: {
           alignment: { vertical: 'middle', horizontal: 'right' },
         },
@@ -240,7 +240,7 @@ export class CreateOrUpdateInternalCouponController {
       {
         header: `currency`,
         key: 'currency',
-        width: 30,
+        width: 40,
         style: {
           alignment: { vertical: 'middle', horizontal: 'left' },
         },
@@ -248,32 +248,35 @@ export class CreateOrUpdateInternalCouponController {
       {
         header: `percent %`,
         key: 'percent',
-        width: 30,
+        width: 40,
         style: {
-          alignment: { vertical: 'middle', horizontal: 'left' },
+          alignment: { vertical: 'middle', horizontal: 'center' },
         },
       },
       {
         header: `startedAt`,
         key: 'startedAt',
-        width: 30,
+        width: 40,
         style: {
+          numFmt: 'dd/mm/yyyy',
           alignment: { vertical: 'middle', horizontal: 'center' },
         },
       },
       {
         header: `expiredAt`,
         key: 'expiredAt',
-        width: 30,
+        width: 40,
         style: {
+          numFmt: 'dd/mm/yyyy',
           alignment: { vertical: 'middle', horizontal: 'center' },
         },
       },
       {
         header: `createdAt`,
         key: 'createdAt',
-        width: 30,
+        width: 40,
         style: {
+          numFmt: 'dd/mm/yyyy',
           alignment: { vertical: 'middle', horizontal: 'center' },
         },
       },
@@ -288,10 +291,10 @@ export class CreateOrUpdateInternalCouponController {
           voucherType: item?.voucherType,
           amount: item?.amount,
           currency: item?.currency?.code,
-          percent: `${item?.currency?.percent || ''}`,
-          startedAt: formateDateMMDDYYDayjs(item?.startedAt),
-          expiredAt: formateDateMMDDYYDayjs(item?.expiredAt),
-          createdAt: formateDateMMDDYYDayjs(item?.createdAt),
+          percent: item?.percent,
+          startedAt: formateDateDDMMYYDayjs(item?.startedAt),
+          expiredAt: formateDateDDMMYYDayjs(item?.expiredAt),
+          createdAt: formateDateDDMMYYDayjs(item?.createdAt),
         };
         worksheet.addRow(rowsItem);
       }),
