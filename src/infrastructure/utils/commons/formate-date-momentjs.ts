@@ -1,4 +1,4 @@
-import moment from 'moment';
+import * as moment from 'moment';
 
 export const formateDateMountYearMomentJs = (date: Date) => {
   return moment(date).format('MMMM YYYY');
