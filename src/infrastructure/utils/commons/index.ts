@@ -8,6 +8,6 @@ export * from './generate-coupon-code';
 export * from './generate-long-uuid';
 export * from './capitalized-name';
 export * from './geo-ip-request';
-export * from './formate-date-dayjs';
+export * from './formate-date-momentjs';
 export * from './check-if-number-or-empty';
 export * from './database-utils';

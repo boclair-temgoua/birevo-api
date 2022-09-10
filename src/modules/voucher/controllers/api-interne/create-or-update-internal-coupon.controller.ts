@@ -31,7 +31,7 @@ import { FindVoucherService } from '../../services/query/find-voucher.service';
 import {
   formateDateDDMMYYMomentJs,
   formateDateMMDDYYMomentJs,
-} from '../../../../infrastructure/utils/commons/formate-date-dayjs';
+} from '../../../../infrastructure/utils/commons/formate-date-momentjs';
 import { CreateDownloadVoucherDto } from '../../dto/validation-voucher.dto';
 import { FindOneOrganizationByService } from '../../../organization/services/query/find-one-organization-by.service';
 

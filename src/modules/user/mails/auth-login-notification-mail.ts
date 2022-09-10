@@ -1,4 +1,4 @@
-import { formateDateMMDDYYMomentJs } from './../../../infrastructure/utils/commons/formate-date-dayjs';
+import { formateDateMMDDYYMomentJs } from '../../../infrastructure/utils/commons/formate-date-momentjs';
 import { configurations } from '../../../infrastructure/configurations/index';
 import { createTransport } from 'nodemailer';
 

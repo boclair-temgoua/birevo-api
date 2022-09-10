@@ -4,7 +4,7 @@ import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateAmountBalanceService } from '../mutations/create-or-update-amount-balance.service';
 import { CreateOrUpdateAmountService } from '../../../amount/services/mutations/create-or-update-amount.service';
 import { Cron, Interval } from '@nestjs/schedule';
-import { formateDateMountYearMomentJs } from '../../../../infrastructure/utils/commons/formate-date-dayjs';
+import { formateDateMountYearMomentJs } from '../../../../infrastructure/utils/commons/formate-date-momentjs';
 import { FindAmountBalanceService } from '../query/find-amount-balance.service';
 import { CreateOrUpdateUserService } from '../../../user/services/mutations/create-or-update-user.service';
 
