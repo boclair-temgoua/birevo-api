@@ -6,5 +6,8 @@ apk add --update bash
 
 #! npm run migration:generate --name="User"
 npm run migration:run
+
 # npm run seed:run
 npm run start:dev
+
+# npm run seed:create --name="Seeds"

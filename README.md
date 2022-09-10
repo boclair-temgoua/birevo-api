@@ -54,10 +54,10 @@ npm run start:prod
 
 ```bash
 # Create a migration
-npm run migration:create --name=foo
+npm run migration:create --name="foo"
 
 # Generate a migration from schema changes
-npm run migration:generate --name=bar
+npm run migration:generate --name="bar"
 
 # Run migrations and checks for schema changes
 npm run migration:run
@@ -66,6 +66,15 @@ npm run migration:run
 npm run migration:revert
 ```
 
+## Seeds
+
+```bash
+# Run seeds
+npm run seed:run
+
+# Generate seeds
+npm run seed:create --name="Seeds"
+```
 ## Test
 
 ```bash

@@ -39,6 +39,7 @@ export class FindUserService {
       'image', "profile"."image",
       'color', "profile"."color",
       'currencyId', "profile"."currencyId",
+      'countryId', "profile"."countryId",
       'url', "profile"."url"
   ) AS "profile"`,
       )
