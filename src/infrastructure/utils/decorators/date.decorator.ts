@@ -60,10 +60,7 @@ export class IsAValidateNowConstraint implements ValidatorConstraintInterface {
   validate(endDate: Date, initialDate: ValidationArguments) {
     const [relatedPropertyName] = initialDate.constraints;
     const initialDateValue = (initialDate.object as any)[relatedPropertyName];
-    return (
-      new Date(endDate).getTime() <= Date.now() &&
-      new Date(endDate).getTime() >= new Date(initialDateValue).getTime()
-    );
+    return new Date(endDate).getTime() >= new Date(initialDateValue).getTime();
   }
   defaultMessage(initialDate: ValidationArguments) {
     const [constraintProperty]: (() => any)[] = initialDate.constraints;
