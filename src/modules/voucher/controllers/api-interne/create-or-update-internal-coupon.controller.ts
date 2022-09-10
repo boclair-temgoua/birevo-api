@@ -13,6 +13,7 @@ import {
   Body,
   UseGuards,
   Put,
+  UnauthorizedException,
 } from '@nestjs/common';
 import * as excel from 'exceljs';
 import * as fs from 'fs';
@@ -26,11 +27,10 @@ import {
 import { CreateOrUpdateVoucher } from '../../services/use-cases/create-or-update-voucher';
 import { JwtAuthGuard } from '../../../user/middleware/jwt-auth.guard';
 import { getIpRequest } from '../../../../infrastructure/utils/commons';
-import { UnauthorizedException } from '@nestjs/common';
 import { FindVoucherService } from '../../services/query/find-voucher.service';
 import {
-  formateDateDDMMYYDayjs,
-  formateDateMMDDYYDayjs,
+  formateDateDDMMYYMomentJs,
+  formateDateMMDDYYMomentJs,
 } from '../../../../infrastructure/utils/commons/formate-date-dayjs';
 import { CreateDownloadVoucherDto } from '../../dto/validation-voucher.dto';
 import { FindOneOrganizationByService } from '../../../organization/services/query/find-one-organization-by.service';
@@ -185,8 +185,8 @@ export class CreateOrUpdateInternalCouponController {
         status,
         option2: {
           organizationId: organization?.id,
-          initiationAt: formateDateMMDDYYDayjs(initiationAt),
-          endAt: formateDateMMDDYYDayjs(endAt),
+          initiationAt: formateDateMMDDYYMomentJs(initiationAt),
+          endAt: formateDateMMDDYYMomentJs(endAt),
         },
       }),
     );
@@ -292,9 +292,9 @@ export class CreateOrUpdateInternalCouponController {
           amount: item?.amount,
           currency: item?.currency?.code,
           percent: item?.percent,
-          startedAt: formateDateDDMMYYDayjs(item?.startedAt),
-          expiredAt: formateDateDDMMYYDayjs(item?.expiredAt),
-          createdAt: formateDateDDMMYYDayjs(item?.createdAt),
+          startedAt: formateDateDDMMYYMomentJs(item?.startedAt),
+          expiredAt: formateDateDDMMYYMomentJs(item?.expiredAt),
+          createdAt: formateDateDDMMYYMomentJs(item?.createdAt),
         };
         worksheet.addRow(rowsItem);
       }),

@@ -1,19 +1,13 @@
-import * as dayjs from 'dayjs';
-import * as localizedFormat from 'dayjs/plugin/localizedFormat';
-import * as relativeTime from 'dayjs/plugin/relativeTime';
-dayjs.extend(localizedFormat);
-dayjs.extend(relativeTime);
+import moment from 'moment';
 
-export const formateDateMountYear = (date: Date) => {
-  return dayjs(date).format('MMMM YYYY');
+export const formateDateMountYearMomentJs = (date: Date) => {
+  return moment(date).format('MMMM YYYY');
 };
 
-export const formateDateDDMMYYDayjs = (date: Date) => {
-  const dateInit = dayjs(date);
-  return dateInit.format('DD/MM/YYYY');
+export const formateDateDDMMYYMomentJs = (date: Date) => {
+  return moment(date).format('DD/MM/YYYY');
 };
 
-export const formateDateMMDDYYDayjs = (date: Date) => {
-  const dateInit = dayjs(date);
-  return dateInit.format('MM/DD/YYYY');
+export const formateDateMMDDYYMomentJs = (date: Date) => {
+  return moment(date).format('MM/DD/YYYY');
 };
