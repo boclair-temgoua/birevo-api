@@ -64,6 +64,6 @@ export class CreateAmountAmountBalance {
       throw new NotFoundException(errorSaveAmountSub);
     }
 
-    return amountBalSave;
+    return amountSave;
   }
 }

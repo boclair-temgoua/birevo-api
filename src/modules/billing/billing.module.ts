@@ -20,6 +20,7 @@ import { FindOneUserByService } from '../user/services/query/find-one-user-by.se
 import { User } from '../../models/User';
 import { CreateOrUpdateUserService } from '../user/services/mutations/create-or-update-user.service';
 import { UpdateUserAfterBilling } from './services/user-cases/update-user-after-billing';
+import { FindOneAmountByService } from '../amount/services/query/find-one-amount-by.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -41,6 +42,7 @@ import { UpdateUserAfterBilling } from './services/user-cases/update-user-after-
     FindOneUserByService,
     CreateOrUpdateUserService,
     CreateOrUpdateActivityService,
+    FindOneAmountByService,
     CreateOrUpdateAmountBalanceService,
 
     /** Imports providers use-cases */

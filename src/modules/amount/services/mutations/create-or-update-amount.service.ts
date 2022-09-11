@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateAmountOptions } from '../../types/index';
 import { Amount } from '../../../../models/Amount';
+import { generateLongUUID } from '../../../../infrastructure/utils/commons/generate-long-uuid';
 
 @Injectable()
 export class CreateOrUpdateAmountService {
@@ -29,6 +30,7 @@ export class CreateOrUpdateAmountService {
     amountSave.amount = amount;
     amountSave.currency = currency;
     amountSave.type = type;
+    amountSave.token = generateLongUUID(50);
     amountSave.userId = userId;
     amountSave.description = description;
     amountSave.paymentMethod = paymentMethod;

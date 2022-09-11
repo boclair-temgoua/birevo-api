@@ -69,40 +69,44 @@ export class CreateMethodBulling {
       throw new NotFoundException(error);
     }
 
-    if (charge) {
-      const [_errorBull, bulling] = await useCatch(
-        this.createAmountAmountBalance.execute({
-          amount: Number(charge?.amount) / 100,
-          currency: currency,
-          type: 'PAYMENT',
-          paymentMethod: 'CARD-PAY',
-          description: `Cart Transaction`,
-          userId: user?.organizationInUtilization?.userId,
-          organizationId: user?.organizationInUtilizationId,
-          userCreatedId: user?.id,
-        }),
+    if (!charge) {
+      throw new HttpException(
+        `Transaction not found please try again`,
+        HttpStatus.NOT_FOUND,
       );
-      if (_errorBull) {
-        throw new NotFoundException(_errorBull);
-      }
-
-      const [_errorAct, _activity] = await useCatch(
-        this.createOrUpdateActivity.execute({
-          activityAbleType: 'PAYMENT',
-          activityAbleId: bulling?.amountId,
-          action: 'CARD-PAY',
-          ipLocation,
-          browser: userAgent,
-          organizationId: user?.organizationInUtilizationId,
-          applicationId: null,
-          userCreatedId: user?.id,
-        }),
-      );
-      if (_errorAct) {
-        throw new NotFoundException(_errorAct);
-      }
     }
 
+    const [_errorBull, bulling] = await useCatch(
+      this.createAmountAmountBalance.execute({
+        amount: Number(charge?.amount) / 100,
+        currency: currency,
+        type: 'PAYMENT',
+        paymentMethod: 'CARD-PAY',
+        description: `Cart Transaction`,
+        userId: user?.organizationInUtilization?.userId,
+        organizationId: user?.organizationInUtilizationId,
+        userCreatedId: user?.id,
+      }),
+    );
+    if (_errorBull) {
+      throw new NotFoundException(_errorBull);
+    }
+
+    const [_errorAct, _activity] = await useCatch(
+      this.createOrUpdateActivity.execute({
+        activityAbleType: 'PAYMENT',
+        activityAbleId: bulling?.amountId,
+        action: 'CARD-PAY',
+        ipLocation,
+        browser: userAgent,
+        organizationId: user?.organizationInUtilizationId,
+        applicationId: null,
+        userCreatedId: user?.id,
+      }),
+    );
+    if (_errorAct) {
+      throw new NotFoundException(_errorAct);
+    }
     /** Control and update user */
     const [errorUpdateUser, updateUser] = await useCatch(
       this.updateUserAfterBilling.execute({
@@ -113,7 +117,7 @@ export class CreateMethodBulling {
       throw new NotFoundException(errorUpdateUser);
     }
 
-    return charge;
+    return bulling;
   }
 
   /** Stripe billing */

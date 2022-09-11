@@ -9,6 +9,7 @@ import {
   Res,
   ParseBoolPipe,
   ParseIntPipe,
+  Param,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
@@ -16,10 +17,14 @@ import { JwtAuthGuard } from '../../user/middleware';
 import { FilterQueryDto } from '../../../infrastructure/utils/filter-query/filter-query.dto';
 import { RequestPaginationDto } from '../../../infrastructure/utils/pagination/request-pagination.dto';
 import { FindAmountService } from '../../amount/services/query/find-amount.service';
+import { FindOneAmountByService } from '../../amount/services/query/find-one-amount-by.service';
 
 @Controller('billings')
 export class GetOneOrMultipleBillingController {
-  constructor(private readonly findAmountService: FindAmountService) {}
+  constructor(
+    private readonly findAmountService: FindAmountService,
+    private readonly findOneAmountByService: FindOneAmountByService,
+  ) {}
 
   @Get(`/billing_history`)
   @UseGuards(JwtAuthGuard)
@@ -43,5 +48,20 @@ export class GetOneOrMultipleBillingController {
       throw new NotFoundException(errors);
     }
     return reply({ res, results });
+  }
+
+  @Get(`/billing_success/:token`)
+  @UseGuards(JwtAuthGuard)
+  async getOneAmount(@Res() res, @Req() req, @Param('token') token: string) {
+    const { user } = req;
+    const [errors, result] = await useCatch(
+      this.findOneAmountByService.findOneBy({
+        option2: { token, organizationId: user?.organizationInUtilizationId },
+      }),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results: result });
   }
 }

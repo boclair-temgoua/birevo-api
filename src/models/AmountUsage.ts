@@ -20,16 +20,16 @@ export class AmountUsage extends BaseEntity {
   id: number;
 
   @Column({ type: 'float', nullable: true })
-  amountUsage: number;
+  amountUsage?: number;
 
   @Column({ type: 'bigint', nullable: true })
-  amountId: number;
+  amountId?: number;
 
   @Column({ type: 'bigint', nullable: true })
-  userId: number;
+  userId?: number;
 
   @Column({ type: 'bigint', nullable: true })
-  organizationId: number;
+  organizationId?: number;
 
   @OneToOne(() => Amount, (amount) => amount.amountUsage, {
     onDelete: 'CASCADE',

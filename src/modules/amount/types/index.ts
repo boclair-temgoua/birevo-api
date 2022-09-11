@@ -21,6 +21,10 @@ export type GetOneAmountSelections = {
   option1?: {
     amountId: Amount['id'];
   };
+  option2?: {
+    token: Amount['token'];
+    organizationId: Amount['organizationId'];
+  };
 };
 
 export type CreateAmountOptions = Partial<Amount>;

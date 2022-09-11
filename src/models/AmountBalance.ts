@@ -15,19 +15,19 @@ export class AmountBalance extends BaseEntity {
   id: number;
 
   @Column({ type: 'float', nullable: true })
-  amountBalance: number;
+  amountBalance?: number;
 
   @Column({ type: 'bigint', nullable: true })
-  amountId: number;
+  amountId?: number;
 
   @Column({ type: 'bigint', nullable: true })
-  userId: number;
+  userId?: number;
 
   @Column({ type: 'bigint', nullable: true })
-  organizationId: number;
+  organizationId?: number;
 
   @Column({ type: 'timestamptz', nullable: true })
-  monthAmountBalanceAt: Date;
+  monthAmountBalanceAt?: Date;
 
   @ManyToOne(() => Organization, (organization) => organization.amountBalances)
   @JoinColumn()

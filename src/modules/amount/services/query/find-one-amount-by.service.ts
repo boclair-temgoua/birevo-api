@@ -13,16 +13,23 @@ export class FindOneAmountByService {
   ) {}
 
   async findOneBy(selections: GetOneAmountSelections): Promise<Amount> {
-    const { option1 } = { ...selections };
-    let query = this.driver
-      .createQueryBuilder('amount')
-      .leftJoinAndSelect('amount.application', 'application');
+    const { option1, option2 } = { ...selections };
+    let query = this.driver.createQueryBuilder('amount');
 
     if (option1) {
       const { amountId } = { ...option1 };
-      query = query.andWhere('amount.id = :id', {
+      query = query.where('amount.id = :id', {
         id: amountId,
       });
+    }
+
+    if (option2) {
+      const { token, organizationId } = { ...option2 };
+      query = query
+        .where('amount.token = :token', { token })
+        .andWhere('amount.organizationId = :organizationId', {
+          organizationId,
+        });
     }
 
     const [error, result] = await useCatch(query.getOne());

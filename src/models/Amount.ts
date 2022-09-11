@@ -9,28 +9,31 @@ export class Amount extends BaseEntity {
   id: number;
 
   @Column({ type: 'float', nullable: true })
-  amount: number;
+  amount?: number;
 
   @Column({ nullable: true })
-  currency: string;
+  currency?: string;
 
   @Column({ nullable: true })
-  type: 'PAYMENT' | 'BALANCE';
+  type?: 'PAYMENT' | 'BALANCE';
 
   @Column({ nullable: true })
-  paymentMethod: string;
+  paymentMethod?: string;
 
   @Column({ nullable: true })
-  description: string;
+  token?: string;
+
+  @Column({ nullable: true })
+  description?: string;
 
   @Column({ type: 'bigint', nullable: true })
-  userId: number;
+  userId?: number;
 
   @Column({ type: 'bigint', nullable: true })
-  organizationId: number;
+  organizationId?: number;
 
   @Column({ type: 'bigint', nullable: true })
-  userCreatedId: number;
+  userCreatedId?: number;
 
   @OneToOne(() => AmountUsage, (amountUsage) => amountUsage.amount, {
     onDelete: 'CASCADE',
