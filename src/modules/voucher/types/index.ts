@@ -6,6 +6,7 @@ import { SortType } from '../../../infrastructure/utils/pagination';
 export type GetVoucherSelections = {
   option1?: { userId: Voucher['userId'] };
   option2?: {
+    statusVoucher: Voucher['status'];
     organizationId: Voucher['organizationId'];
     initiationAt: string;
     endAt: string;

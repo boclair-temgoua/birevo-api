@@ -164,7 +164,7 @@ export class CreateOrUpdateInternalCouponController {
     @Req() req,
     @Query() createDownloadVoucherDto: CreateDownloadVoucherDto,
   ) {
-    const { type, status, organizationId, initiationAt, endAt } =
+    const { type, statusVoucher, organizationId, initiationAt, endAt } =
       createDownloadVoucherDto;
 
     /** Find one organization */
@@ -182,8 +182,8 @@ export class CreateOrUpdateInternalCouponController {
       this.findVoucherService.findAllVouchers({
         is_paginate: false,
         type,
-        status,
         option2: {
+          statusVoucher,
           organizationId: organization?.id,
           initiationAt: formateDateMMDDYYMomentJs(initiationAt),
           endAt: formateDateMMDDYYMomentJs(endAt),

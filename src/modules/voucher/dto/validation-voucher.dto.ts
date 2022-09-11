@@ -16,12 +16,12 @@ import {
 } from '../../../infrastructure/utils/decorators';
 export type StatusOnline = 'ONLINE' | 'OFFLINE' | 'TEST';
 export type DeliveryType = 'AMOUNT' | 'PERCENT';
-export type StatusVoucher = 'PENDING' | 'ACTIVE' | 'USED' | 'TEST';
+export type StatusVoucher = 'ALL' | 'PENDING' | 'ACTIVE' | 'USED' | 'TEST';
 export type VoucherableType = 'COUPON' | 'VOUCHER' | 'BON';
 
 export const deliveryTypeArrays = ['AMOUNT', 'PERCENT'];
 
-export const statusVoucherArrays = ['PENDING', 'ACTIVE', 'USED'];
+export const statusVoucherArrays = ['ALL', 'PENDING', 'ACTIVE', 'USED'];
 
 export const voucherableTypeArrays = ['COUPON', 'VOUCHER', 'BON'];
 
@@ -228,7 +228,7 @@ export class CreateDownloadVoucherDto {
   @IsOptional()
   @IsString()
   @IsIn(statusVoucherArrays)
-  status: StatusVoucher;
+  statusVoucher: StatusVoucher;
 
   @IsNotEmpty()
   initiationAt: Date;

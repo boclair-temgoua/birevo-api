@@ -155,17 +155,15 @@ export class FindVoucherService {
       .andWhere('voucher.voucherType = :voucherType', { voucherType: type })
       .leftJoin('voucher.currency', 'currency');
 
-    if (status) {
-      query = query.andWhere('voucher.status = :status', { status });
-    }
-
     if (option1) {
       const { userId } = { ...option1 };
       query = query.andWhere('voucher.userId = :userId', { userId });
     }
 
     if (option2) {
-      const { organizationId, initiationAt, endAt } = { ...option2 };
+      const { organizationId, statusVoucher, initiationAt, endAt } = {
+        ...option2,
+      };
       query = query
         .andWhere('voucher.organizationId = :organizationId', {
           organizationId,
@@ -173,6 +171,12 @@ export class FindVoucherService {
         .andWhere(
           `"voucher"."createdAt"::date BETWEEN '${initiationAt}' AND '${endAt}'`,
         );
+
+      if (statusVoucher !== 'ALL') {
+        query = query.andWhere('voucher.status = :status', {
+          status: statusVoucher,
+        });
+      }
     }
 
     if (filterQuery?.q) {
