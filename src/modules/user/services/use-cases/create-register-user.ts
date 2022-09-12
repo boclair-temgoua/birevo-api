@@ -17,6 +17,7 @@ import { CreateOrUpdateSubscribeService } from '../../../subscribe/services/muta
 import { FindOneCurrencyByService } from '../../../currency/services/query/find-one-currency-by.service';
 import { getOneLocationIpApi } from '../../../integrations/ip-api/api/index';
 import { FindOneCountryByService } from '../../../country/services/query/find-one-country-by.service';
+import { getOneVoucherApi } from '../../../integrations/birevo/api/index';
 
 @Injectable()
 export class CreateRegisterUser {
@@ -32,7 +33,7 @@ export class CreateRegisterUser {
 
   /** Create one register to the database. */
   async execute(options: CreateRegisterUserDto): Promise<any> {
-    const { email, password, fullName, ipLocation, couponCode, userAgent } = {
+    const { email, password, fullName, ipLocation, codeVoucher, userAgent } = {
       ...options,
     };
 
@@ -139,6 +140,16 @@ export class CreateRegisterUser {
     await channel.assertQueue(queue, { durable: false });
     await channel.sendToQueue(queue, Buffer.from(JSON.stringify(saveItem)));
     await authRegisterJob({ channel, queue });
+
+    // if (codeVoucher) {
+    //   const [_errorC, voucher] = await useCatch(
+    //     getOneVoucherApi({ code: codeVoucher }),
+    //   );
+    //   if (_errorC) {
+    //     throw new NotFoundException(_errorC);
+    //   }
+
+    // }
 
     return saveItem;
   }

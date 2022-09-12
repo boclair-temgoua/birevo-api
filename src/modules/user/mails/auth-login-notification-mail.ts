@@ -5,6 +5,15 @@ import { createTransport } from 'nodemailer';
 import { User } from '../../../models/User';
 import moment from 'moment';
 
+// import formData from 'form-data';
+// import Mailgun from 'mailgun.js';
+// const mailgun = new Mailgun(formData);
+// const mg = mailgun.client({
+//   username: 'api',
+//   key: `66bf0631a87091245037bf33b79697a8-0e6e8cad-005184f7`,
+// });
+
+// console.log(`mg ====>`, mg);
 export const authLoginNotificationMail = async (options: { user: User }) => {
   const { user } = { ...options };
   const output = `

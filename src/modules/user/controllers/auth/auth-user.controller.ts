@@ -45,14 +45,12 @@ export class AuthUserController {
     @Res() res,
     @Req() req,
     @Body() createRegisterUserDto: CreateRegisterUserDto,
-    @Query() couponCode: string,
     @Headers('User-Agent') userAgent: string,
   ) {
     const [errors, results] = await useCatch(
       this.createRegisterUser.execute({
         ...createRegisterUserDto,
         ipLocation: getIpRequest(req),
-        couponCode,
         userAgent,
       }),
     );

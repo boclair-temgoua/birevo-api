@@ -45,6 +45,20 @@ export class CreateOrUpdateSubscribeDto {
   subscribableType: SubscribableType;
 }
 
+export class UpdateOnRoleSubscribeDto {
+  @IsNotEmpty()
+  @IsInt()
+  roleId: number;
+
+  @IsNotEmpty()
+  @IsString()
+  subscribe_uuid: string;
+
+  @IsOptional()
+  @IsInt()
+  contributorId: number;
+}
+
 export class SubscribeRequestDto {
   @IsNotEmpty()
   @IsString()

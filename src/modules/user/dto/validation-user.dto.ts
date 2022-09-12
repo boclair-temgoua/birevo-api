@@ -109,7 +109,7 @@ export class CreateRegisterUserDto {
 
   @IsOptional()
   @IsString()
-  couponCode: string;
+  codeVoucher: string;
 
   @IsNotEmpty()
   @IsString()
