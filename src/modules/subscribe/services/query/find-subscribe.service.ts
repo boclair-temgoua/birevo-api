@@ -13,7 +13,7 @@ export class FindSubscribeService {
     private driver: Repository<Subscribe>,
   ) {}
 
-  async findAllSubscribes(
+  async findAll(
     selections: GetSubscribesSelections,
   ): Promise<GetSubscribesSelections | any> {
     const { option1, option2, is_paginate, filterQuery, pagination } = {

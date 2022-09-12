@@ -13,7 +13,7 @@ export class FindContactService {
     private driver: Repository<Contact>,
   ) {}
 
-  async findAllContacts(
+  async findAll(
     selections: GetContactsSelections,
   ): Promise<GetContactsSelections> {
     const { filterQuery, pagination } = { ...selections };

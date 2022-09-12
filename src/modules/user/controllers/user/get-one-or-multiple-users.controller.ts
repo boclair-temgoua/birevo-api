@@ -35,7 +35,7 @@ export class GetOneOrMultipleUsersController {
     @Query() filterQuery: FilterQueryDto,
   ) {
     const [errors, results] = await useCatch(
-      this.findUserService.findAllUsers({
+      this.findUserService.findAll({
         filterQuery,
         pagination,
       }),

@@ -40,7 +40,7 @@ export class GetContactController {
     @Query() filterQuery: FilterQueryDto,
   ) {
     const [errors, results] = await useCatch(
-      this.findContactService.findAllContacts({
+      this.findContactService.findAll({
         filterQuery,
         pagination,
       }),

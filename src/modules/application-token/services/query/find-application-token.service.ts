@@ -12,7 +12,7 @@ export class FindApplicationTokenService {
     private driver: Repository<ApplicationToken>,
   ) {}
 
-  async findAllApplications(
+  async findAll(
     selections: GetCurrenciesSelections,
   ): Promise<GetCurrenciesSelections[]> {
     const { filterQuery, option1, option2 } = { ...selections };

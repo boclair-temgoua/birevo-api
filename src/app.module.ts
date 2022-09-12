@@ -23,6 +23,7 @@ import { ActivityModule } from './modules/activity/activity.module';
 import { AmountBalanceModule } from './modules/amount-balance/amount-balance.module';
 import { CountryModule } from './modules/country/country.module';
 import { FaqModule } from './modules/faq/faq.module';
+import { UserAddressModule } from './modules/user-address/user-address.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { FaqModule } from './modules/faq/faq.module';
     UserModule,
     QrCodeModule,
     ApplicationTokenModule,
+    UserAddressModule,
     ApplicationModule,
     SubscribeModule,
     OrganizationModule,

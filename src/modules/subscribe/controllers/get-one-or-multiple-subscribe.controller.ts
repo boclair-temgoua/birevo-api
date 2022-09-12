@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Param,
   NotFoundException,
   UseGuards,
   Res,
@@ -9,7 +8,6 @@ import {
   Req,
   ParseIntPipe,
   ParseBoolPipe,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
@@ -38,7 +36,7 @@ export class GetOneOrMultipleSubscribeController {
     const { user } = req;
     /** get contributor filter by organization */
     const [errors, results] = await useCatch(
-      this.findSubscribeService.findAllSubscribes({
+      this.findSubscribeService.findAll({
         is_paginate,
         filterQuery,
         pagination,
@@ -66,7 +64,7 @@ export class GetOneOrMultipleSubscribeController {
     const { user } = req;
     /** get contributor filter by organization */
     const [errors, results] = await useCatch(
-      this.findSubscribeService.findAllSubscribes({
+      this.findSubscribeService.findAll({
         is_paginate,
         filterQuery,
         pagination,

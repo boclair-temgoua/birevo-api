@@ -13,9 +13,7 @@ export class FindUserService {
     private driver: Repository<User>,
   ) {}
 
-  async findAllUsers(
-    selections: GetUsersSelections,
-  ): Promise<GetUsersSelections> {
+  async findAll(selections: GetUsersSelections): Promise<GetUsersSelections> {
     const { filterQuery, pagination } = { ...selections };
     let query = this.driver
       .createQueryBuilder('user')
@@ -34,7 +32,6 @@ export class FindUserService {
         /*sql*/ `jsonb_build_object(
       'userId', "user"."id",
       'id', "profile"."id",
-      'userId', "user"."id",
       'fullName', "profile"."fullName",
       'image', "profile"."image",
       'color', "profile"."color",

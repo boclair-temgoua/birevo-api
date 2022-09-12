@@ -20,7 +20,7 @@ export class GetOneOrMultipleCurrencyController {
   @UseGuards(JwtAuthGuard)
   async getCurrencies(@Res() res, @Query() filterQuery: FilterQueryDto) {
     const [error, results] = await useCatch(
-      this.findCurrencyService.findAllCurrencies({ filterQuery }),
+      this.findCurrencyService.findAll({ filterQuery }),
     );
 
     if (error) {

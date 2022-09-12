@@ -12,7 +12,7 @@ export class FindCurrencyService {
     private driver: Repository<Currency>,
   ) {}
 
-  async findAllCurrencies(selections: GetCurrenciesSelections): Promise<any> {
+  async findAll(selections: GetCurrenciesSelections): Promise<any> {
     const { filterQuery } = { ...selections };
 
     let query = this.driver

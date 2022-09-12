@@ -77,7 +77,7 @@ export class GetOneOrMultipleApplicationController {
     @Query('applicationId', ParseIntPipe) applicationId: number,
   ) {
     const [error, result] = await useCatch(
-      this.findApplicationTokenService.findAllApplications({
+      this.findApplicationTokenService.findAll({
         option2: { applicationId },
       }),
     );
