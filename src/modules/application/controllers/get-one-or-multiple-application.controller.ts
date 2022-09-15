@@ -38,7 +38,7 @@ export class GetOneOrMultipleApplicationController {
   ) {
     const { user } = req;
     const [errors, results] = await useCatch(
-      this.findApplicationService.findAllApplications({
+      this.findApplicationService.findAll({
         option1: { userId: user?.organizationInUtilization?.userId },
         filterQuery,
         pagination,

@@ -24,6 +24,7 @@ import { AmountBalanceModule } from './modules/amount-balance/amount-balance.mod
 import { CountryModule } from './modules/country/country.module';
 import { FaqModule } from './modules/faq/faq.module';
 import { UserAddressModule } from './modules/user-address/user-address.module';
+import { TestimonialModule } from './modules/testimonial/testimonial.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { UserAddressModule } from './modules/user-address/user-address.module';
     ApplicationTokenModule,
     UserAddressModule,
     ApplicationModule,
+    TestimonialModule,
     SubscribeModule,
     OrganizationModule,
     VoucherModule,

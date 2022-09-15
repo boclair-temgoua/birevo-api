@@ -301,6 +301,9 @@ export class CreateOrUpdateInternalCouponController {
     ]);
 
     const pathDirection = path.join('./src/modules/voucher', './public');
+    if (!fs.existsSync(pathDirection)) {
+      fs.mkdirSync(pathDirection);
+    }
     const fileName = `voucher_date-${organization?.uuid}.xlsx`;
     await workbook.xlsx.writeFile(path.resolve(pathDirection, fileName));
 

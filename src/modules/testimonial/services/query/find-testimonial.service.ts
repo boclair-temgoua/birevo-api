@@ -1,35 +1,34 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Application } from '../../../../models/Application';
+import { Testimonial } from '../../../../models/Testimonial';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { withPagination } from '../../../../infrastructure/utils/pagination';
-import { GetApplicationsSelections } from '../../types';
+import { GetTestimonialsSelections } from '../../types';
 
 @Injectable()
-export class FindApplicationService {
+export class FindTestimonialService {
   constructor(
-    @InjectRepository(Application)
-    private driver: Repository<Application>,
+    @InjectRepository(Testimonial)
+    private driver: Repository<Testimonial>,
   ) {}
 
   async findAll(
-    selections: GetApplicationsSelections,
-  ): Promise<GetApplicationsSelections> {
+    selections: GetTestimonialsSelections,
+  ): Promise<GetTestimonialsSelections> {
     const { filterQuery, pagination, option1 } = { ...selections };
 
     let query = this.driver
-      .createQueryBuilder('application')
-      .leftJoinAndSelect('application.applicationTokens', 'applicationTokens')
-      .where('application.deletedAt IS NULL');
+      .createQueryBuilder('testimonial')
+      .where('testimonial.deletedAt IS NULL');
 
     if (option1) {
       const { userId } = { ...option1 };
-      query = query.andWhere('application.userId = :userId', { userId });
+      query = query.andWhere('testimonial.userId = :userId', { userId });
     }
 
     if (filterQuery?.q) {
-      query = query.andWhere('application.name ::text ILIKE :searchQuery', {
+      query = query.andWhere('testimonial.name ::text ILIKE :searchQuery', {
         searchQuery: `%${filterQuery?.q}%`,
       });
     }
@@ -39,7 +38,7 @@ export class FindApplicationService {
 
     const [error, results] = await useCatch(
       query
-        .orderBy('application.createdAt', pagination?.sort)
+        .orderBy('testimonial.createdAt', pagination?.sort)
         .limit(pagination.limit)
         .offset((pagination.page - 1) * pagination.limit)
         .getMany(),
