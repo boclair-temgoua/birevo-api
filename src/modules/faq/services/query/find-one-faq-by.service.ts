@@ -18,6 +18,8 @@ export class FindOneFaqByService {
       .createQueryBuilder('faq')
       .select('faq.title', 'title')
       .addSelect('faq.status', 'status')
+      .addSelect('faq.type', 'type')
+      .addSelect('faq.slug', 'slug')
       .addSelect('faq.description', 'description')
       .where('faq.deletedAt IS NULL');
 

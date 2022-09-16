@@ -14,14 +14,17 @@ export class FindFaqService {
   ) {}
 
   async findAll(selections: GetFaqsSelections): Promise<GetFaqsSelections> {
-    const { filterQuery, pagination, option1 } = { ...selections };
+    const { filterQuery, type, pagination, option1 } = { ...selections };
 
     let query = this.driver
       .createQueryBuilder('faq')
       .select('faq.title', 'title')
       .addSelect('faq.status', 'status')
+      .addSelect('faq.type', 'type')
+      .addSelect('faq.slug', 'slug')
       .addSelect('faq.description', 'description')
       .where('faq.status IS TRUE')
+      .andWhere('faq.type = :type', { type })
       .andWhere('faq.deletedAt IS NULL');
 
     if (option1) {

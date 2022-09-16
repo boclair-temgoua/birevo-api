@@ -6,14 +6,24 @@ import {
   MinLength,
   IsBoolean,
   IsOptional,
+  IsIn,
   IsUUID,
 } from 'class-validator';
+
+export type TypeFaq = 'PRICING' | 'HELP';
+
+export const typeFaqArrays = ['PRICING', 'HELP'];
 
 export class CreateOrUpdateFaqDto {
   @IsOptional()
   @IsString()
   @IsUUID()
   faq_uuid: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @IsIn(typeFaqArrays)
+  type: TypeFaq;
 
   @IsOptional()
   @IsBoolean()
@@ -38,4 +48,11 @@ export class FaqUuidDto {
   @IsString()
   @IsUUID()
   faq_uuid: string;
+}
+
+export class FaqTypeDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsIn(typeFaqArrays)
+  type: TypeFaq;
 }

@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 import { BaseDeleteEntity } from '../infrastructure/databases/common/BaseDeleteEntity';
+import { TypeFaq } from '../modules/faq/dto/validation-faq.dto';
 
 @Entity('faq')
 export class Faq extends BaseDeleteEntity {
@@ -14,11 +15,17 @@ export class Faq extends BaseDeleteEntity {
   })
   uuid?: string;
 
+  @Column({ nullable: true })
+  slug?: string;
+
   @Column({ default: true })
   status?: boolean;
 
   @Column({ nullable: true })
   title?: string;
+
+  @Column({ nullable: true })
+  type?: TypeFaq;
 
   @Column({ type: 'text', nullable: true })
   description?: string;

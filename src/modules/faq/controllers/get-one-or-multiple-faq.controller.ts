@@ -15,6 +15,7 @@ import { FindFaqService } from '../services/query/find-faq.service';
 import { FilterQueryDto } from '../../../infrastructure/utils/filter-query';
 import { RequestPaginationDto } from '../../../infrastructure/utils/pagination';
 import { JwtAuthGuard } from '../../user/middleware';
+import { FaqTypeDto, TypeFaq } from '../dto/validation-faq.dto';
 
 @Controller('faqs')
 export class GetOneOrMultipleFaqController {
@@ -28,11 +29,13 @@ export class GetOneOrMultipleFaqController {
     @Res() res,
     @Query() pagination: RequestPaginationDto,
     @Query() filterQuery: FilterQueryDto,
+    @Query() faqTypeDto: FaqTypeDto,
   ) {
     const [errors, results] = await useCatch(
       this.findFaqService.findAll({
         filterQuery,
         pagination,
+        type: faqTypeDto?.type,
       }),
     );
     if (errors) {

@@ -18,7 +18,9 @@ export class CreateOrUpdateFaq {
 
   /** Create one Faq Or Update to the database. */
   async createOrUpdate(options: CreateOrUpdateFaqDto): Promise<any> {
-    const { faq_uuid, title, status, description, user } = { ...options };
+    const { faq_uuid, title, type, status, description, user } = {
+      ...options,
+    };
 
     if (faq_uuid) {
       const [error, findFaq] = await useCatch(
@@ -47,6 +49,7 @@ export class CreateOrUpdateFaq {
         this.createOrUpdateFaqService.createOne({
           title,
           description,
+          type,
           userId: user?.organizationInUtilization?.userId,
           userCreatedId: user?.id,
         }),

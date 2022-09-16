@@ -3,12 +3,16 @@ import { Faq } from '../../../../models/Faq';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
-import { generateUUID } from '../../../../infrastructure/utils/commons';
+import {
+  generateUUID,
+  generateNumber,
+} from '../../../../infrastructure/utils/commons';
 import {
   CreateFaqOptions,
   UpdateFaqOptions,
   UpdateFaqSelections,
 } from '../../types';
+import * as Slug from 'slug';
 
 @Injectable()
 export class CreateOrUpdateFaqService {
@@ -19,12 +23,16 @@ export class CreateOrUpdateFaqService {
 
   /** Create one Faq to the database. */
   async createOne(options: CreateFaqOptions): Promise<Faq> {
-    const { userId, userCreatedId, title, description } = { ...options };
+    const { userId, userCreatedId, title, description, type } = {
+      ...options,
+    };
 
     const faq = new Faq();
     faq.uuid = generateUUID();
     faq.userId = userId;
     faq.title = title;
+    faq.slug = `${Slug(title)}-${generateNumber(4)}`;
+    faq.type = type;
     faq.userCreatedId = userCreatedId;
     faq.description = description;
 
@@ -42,7 +50,7 @@ export class CreateOrUpdateFaqService {
     options: UpdateFaqOptions,
   ): Promise<Faq> {
     const { option1, option2 } = { ...selections };
-    const { title, description, status, deletedAt } = { ...options };
+    const { title, description, type, status, deletedAt } = { ...options };
 
     let findQuery = this.driver.createQueryBuilder('faq');
 
@@ -64,6 +72,7 @@ export class CreateOrUpdateFaqService {
     findItem.title = title;
     findItem.description = description;
     findItem.status = status;
+    findItem.type = type;
     findItem.deletedAt = deletedAt;
 
     const query = this.driver.save(findItem);

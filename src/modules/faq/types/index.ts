@@ -1,8 +1,10 @@
 import { Faq } from '../../../models/Faq';
 import { SortType } from '../../../infrastructure/utils/pagination';
+import { TypeFaq } from '../dto/validation-faq.dto';
 
 export type GetFaqsSelections = {
   filterQuery?: any;
+  type?: TypeFaq;
   data?: any[];
   option1?: {
     userId: Faq['userId'];
