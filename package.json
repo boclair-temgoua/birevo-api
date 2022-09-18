@@ -63,7 +63,7 @@
     "@types/mime": "^3.0.1",
     "amqp-connection-manager": "^4.1.6",
     "amqplib": "^0.10.3",
-    "aws-sdk": "^2.1217.0",
+    "aws-sdk": "^2.1218.0",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "chalk": "^5.0.1",
