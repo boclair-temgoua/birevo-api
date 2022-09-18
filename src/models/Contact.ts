@@ -21,13 +21,13 @@ export class Contact extends BaseDeleteEntity {
   slug?: string;
 
   @Column({ nullable: true })
-  firstName?: string;
+  fullName?: string;
 
   @Column({ nullable: true })
-  lastName?: string;
+  phone?: string;
 
   @Column({ nullable: true })
-  subject?: string;
+  countryId?: number;
 
   @Column({ nullable: true })
   email?: string;

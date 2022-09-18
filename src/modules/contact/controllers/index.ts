@@ -1,4 +1,2 @@
-export * from './get-contact.controller';
-export * from './get-one-contact.controller';
-export * from './create-contact.controller';
-export * from './update-contact.controller';
+export * from './get-one-or-multiple-contact.controller';
+export * from './create-or-update-contact.controller';

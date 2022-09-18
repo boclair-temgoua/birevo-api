@@ -8,15 +8,14 @@ import {
   IsOptional,
 } from 'class-validator';
 export class CreateOrUpdateContactDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @MaxLength(100)
-  firstName: string;
+  fullName: string;
 
-  @IsOptional()
-  @IsString()
-  @MaxLength(100)
-  lastName: string;
+  @IsNotEmpty()
+  @IsInt()
+  countryId: number;
 
   @IsNotEmpty()
   @IsString()
@@ -27,11 +26,6 @@ export class CreateOrUpdateContactDto {
   @IsOptional()
   @IsBoolean()
   isRed: boolean;
-
-  @IsNotEmpty()
-  @IsString()
-  @MaxLength(100)
-  subject: string;
 
   @IsNotEmpty()
   @IsString()

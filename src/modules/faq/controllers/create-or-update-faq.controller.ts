@@ -41,7 +41,7 @@ export class CreateOrUpdateFaqController {
     return reply({ res, results });
   }
 
-  @Delete(`/delete/:Faq_uuid`)
+  @Delete(`/delete/:faq_uuid`)
   @UseGuards(JwtAuthGuard)
   async deleteOneFaq(
     @Response() res: any,

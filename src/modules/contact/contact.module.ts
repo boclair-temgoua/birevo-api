@@ -3,10 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Contact } from '../../models/Contact';
 import { FindOneContactByService } from './services/query/find-one-contact-by.service';
 import {
-  GetContactController,
-  GetOneContactController,
-  CreateContactController,
-  UpdateContactController,
+  CreateOrUpdateContactController,
+  GetOneOrMultipleContactController,
 } from './controllers';
 import { FindContactService } from './services/query/find-contact.service';
 import { CreateOrUpdateContactService } from './services/mutations/create-or-update-contact.service';
@@ -25,10 +23,8 @@ import { HttpModule } from '@nestjs/axios';
     TypeOrmModule.forFeature([ApplicationToken]),
   ],
   controllers: [
-    GetContactController,
-    GetOneContactController,
-    CreateContactController,
-    UpdateContactController,
+    GetOneOrMultipleContactController,
+    CreateOrUpdateContactController,
   ],
   providers: [
     FindOneContactByService,
@@ -40,9 +36,4 @@ import { HttpModule } from '@nestjs/axios';
     FindOneUserByService,
   ],
 })
-export class ContactModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthTokenMiddleware).forRoutes(GetOneContactController);
-  }
-}
-// export class ContactModule {}
+export class ContactModule {}

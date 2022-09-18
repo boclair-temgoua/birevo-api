@@ -20,12 +20,6 @@ export class FindContactService {
 
     let query = this.driver
       .createQueryBuilder('contact')
-      .select('contact.id', 'id')
-      .addSelect('contact.uuid', 'uuid')
-      .addSelect('contact.slug', 'slug')
-      .addSelect('contact.lastName', 'lastName')
-      .addSelect('contact.email', 'email')
-      .addSelect('contact.createdAt', 'createdAt')
       .where('contact.deletedAt IS NULL');
 
     if (filterQuery?.q) {
@@ -48,7 +42,7 @@ export class FindContactService {
         .orderBy('contact.createdAt', pagination?.sort)
         .limit(pagination.limit)
         .offset((pagination.page - 1) * pagination.limit)
-        .getRawMany(),
+        .getMany(),
     );
     if (error) throw new NotFoundException(error);
 

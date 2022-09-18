@@ -20,7 +20,7 @@ export class CreateOrUpdateContactService {
 
   /** Create one contact to the database. */
   async createOne(options: CreateContactOptions): Promise<Contact> {
-    const { email, lastName, description, subject, firstName } = {
+    const { email, phone, fullName, description, countryId } = {
       ...options,
     };
 
@@ -28,10 +28,10 @@ export class CreateOrUpdateContactService {
     contact.uuid = generateUUID();
     contact.slug = generateLongUUID(30);
     contact.email = email;
+    contact.phone = phone;
     contact.description = description;
-    contact.subject = subject;
-    contact.lastName = lastName;
-    contact.firstName = firstName;
+    contact.countryId = countryId;
+    contact.fullName = fullName;
 
     const query = this.driver.save(contact);
 
@@ -47,7 +47,7 @@ export class CreateOrUpdateContactService {
     options: UpdateContactOptions,
   ): Promise<Contact> {
     const { option1 } = { ...selections };
-    const { email, lastName, description, subject, firstName, isRed } = {
+    const { email, fullName, description, countryId, isRed, deletedAt } = {
       ...options,
     };
 
@@ -64,11 +64,11 @@ export class CreateOrUpdateContactService {
     if (errorFind) throw new NotFoundException(errorFind);
 
     findItem.email = email;
-    findItem.lastName = lastName;
+    findItem.countryId = countryId;
     findItem.description = description;
-    findItem.subject = subject;
-    findItem.firstName = firstName;
+    findItem.fullName = fullName;
     findItem.isRed = isRed;
+    findItem.deletedAt = deletedAt;
 
     const query = this.driver.save(findItem);
     const [errorUp, result] = await useCatch(query);

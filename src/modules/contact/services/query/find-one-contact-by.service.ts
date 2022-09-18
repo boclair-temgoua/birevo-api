@@ -16,12 +16,6 @@ export class FindOneContactByService {
     const { option1, option2, option3 } = { ...selections };
     let query = this.driver
       .createQueryBuilder('contact')
-      .select('contact.id', 'id')
-      .addSelect('contact.uuid', 'uuid')
-      .addSelect('contact.slug', 'slug')
-      .addSelect('contact.lastName', 'lastName')
-      .addSelect('contact.email', 'email')
-      .addSelect('contact.createdAt', 'createdAt')
       .where('contact.deletedAt IS NULL');
 
     if (option1) {
@@ -39,7 +33,7 @@ export class FindOneContactByService {
       query = query.andWhere('contact.uuid = :uuid', { uuid: contact_uuid });
     }
 
-    const [error, result] = await useCatch(query.getRawOne());
+    const [error, result] = await useCatch(query.getOne());
     if (error)
       throw new HttpException('Contact not found', HttpStatus.NOT_FOUND);
 
