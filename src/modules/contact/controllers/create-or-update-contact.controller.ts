@@ -16,6 +16,7 @@ import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateContactDto } from '../dto/validation-contact.dto';
 import { CreateOrUpdateContactService } from '../services/mutations/create-or-update-contact.service';
 import { JwtAuthGuard } from '../../user/middleware/jwt-auth.guard';
+import { getIpRequest } from '../../../infrastructure/utils/commons/get-ip-request';
 
 @Controller('contacts')
 export class CreateOrUpdateContactController {
@@ -30,12 +31,12 @@ export class CreateOrUpdateContactController {
     @Body() createOrUpdateContactDto: CreateOrUpdateContactDto,
   ) {
     const { fullName, email, countryId } = { ...createOrUpdateContactDto };
-    const { user } = req;
     const [errors, result] = await useCatch(
       this.createOrUpdateContactService.createOne({
         email,
         fullName,
         countryId,
+        ipLocation: getIpRequest(req),
       }),
     );
     if (errors) {

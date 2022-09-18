@@ -21,6 +21,9 @@ export class Contact extends BaseDeleteEntity {
   slug?: string;
 
   @Column({ nullable: true })
+  ipLocation?: string;
+
+  @Column({ nullable: true })
   fullName?: string;
 
   @Column({ nullable: true })
