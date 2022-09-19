@@ -112,6 +112,13 @@ export const configurations = {
       pass: process.env.MAIL_PASSWORD,
     },
     /**
+     * Mailtrap
+     */
+    mailjet: {
+      apiKey: process.env.MJ_APIKEY_PUBLIC,
+      apiSecret: process.env.MJ_APIKEY_PRIVATE,
+    },
+    /**
      * Amazon s3
      */
     aws: {

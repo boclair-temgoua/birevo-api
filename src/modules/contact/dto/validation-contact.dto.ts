@@ -23,6 +23,10 @@ export class CreateOrUpdateContactDto {
   @MaxLength(100)
   email: string;
 
+  @IsNotEmpty()
+  @IsString()
+  phone: string;
+
   @IsOptional()
   @IsBoolean()
   isRed: boolean;
