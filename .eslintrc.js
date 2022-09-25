@@ -1,3 +1,4 @@
+
 module.exports = {
   parser: '@typescript-eslint/parser',
 
@@ -6,8 +7,7 @@ module.exports = {
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
-
-  plugins: ['@typescript-eslint', '@typescript-eslint/eslint-plugin', 'import'],
+  plugins: ['@typescript-eslint', 'import', 'unused-imports'],
 
   env: {
     node: true,
@@ -24,11 +24,6 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/no-empty-interface': 0,
     '@typescript-eslint/no-var-requires': 0,
-
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
     // Import
     'import/order': [
       'error',
@@ -41,8 +36,17 @@ module.exports = {
         },
       },
     ],
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
   },
-
   parserOptions: {
     ecmaVersion: 2021, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module', // Allows for the use of imports
@@ -50,7 +54,6 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-
   settings: {
     'import/resolver': {
       node: {
