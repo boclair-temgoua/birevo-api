@@ -25,7 +25,6 @@ import {
   NotFoundException,
   Req,
   Res,
-  UseGuards,
 } from '@nestjs/common';
 import { RequestPaginationDto } from '../../../infrastructure/utils/pagination';
 import { FilterQueryDto } from '../../../infrastructure/utils/filter-query';

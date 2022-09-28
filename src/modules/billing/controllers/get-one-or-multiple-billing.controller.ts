@@ -1,14 +1,11 @@
 import {
   Controller,
   Get,
-  ParseUUIDPipe,
   NotFoundException,
   Query,
   UseGuards,
   Req,
   Res,
-  ParseBoolPipe,
-  ParseIntPipe,
   Param,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';

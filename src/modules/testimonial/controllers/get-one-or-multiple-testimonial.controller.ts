@@ -1,13 +1,9 @@
 import {
   Controller,
   Get,
-  Param,
-  Response,
-  ParseUUIDPipe,
   NotFoundException,
   Query,
   UseGuards,
-  ParseIntPipe,
   Req,
   Res,
 } from '@nestjs/common';

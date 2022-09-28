@@ -9,6 +9,7 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint', 'import', 'unused-imports'],
 
+  root: true,
   env: {
     node: true,
     jest: true,
@@ -16,6 +17,11 @@ module.exports = {
   ignorePatterns: ['.eslintrc.js'],
 
   rules: {
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    
     // General
     '@typescript-eslint/no-unused-vars': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,

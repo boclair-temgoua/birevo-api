@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Param,
-  Response,
   ParseUUIDPipe,
   NotFoundException,
   Query,

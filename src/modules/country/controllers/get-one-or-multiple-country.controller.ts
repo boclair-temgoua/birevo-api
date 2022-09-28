@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  NotFoundException,
-  UseGuards,
-  Res,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, NotFoundException, Res, Query } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
 import { FilterQueryDto } from '../../../infrastructure/utils/filter-query/filter-query.dto';
