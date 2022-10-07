@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import * as path from 'path';
 
 async function bootstrap() {
+  // config.update({});
   const port = configurations.port;
   const version = configurations.api.version;
   const app = await NestFactory.create(AppModule);
