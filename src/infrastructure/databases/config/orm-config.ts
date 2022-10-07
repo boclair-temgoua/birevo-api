@@ -3,6 +3,7 @@ import { configurations } from '../../configurations/index';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
+  // url: 'postgres://birevo:imJnx7iVY84XglRfwlAjKuNaoerzbM1c@dpg-cceau51a6gdgjihboru0-a.frankfurt-postgres.render.com/bqontejiencmgf',
   host: configurations.database.host,
   port: configurations.database.port,
   username: configurations.database.username,
