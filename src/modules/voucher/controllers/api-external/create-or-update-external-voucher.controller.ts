@@ -110,6 +110,7 @@ export class CreateOrUpdateExternalVoucherController {
     return reply({ res, results: result });
   }
 
+  /** Delete voucher */
   @Delete(`/vouchers/delete/:code`)
   async deleteOneCoupon(
     @Res() res,
