@@ -16,7 +16,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as excel from 'exceljs';
-import * as fs from 'fs';
+import { mkdirSync, existsSync } from 'node:fs';
 import * as path from 'path';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
@@ -300,9 +300,9 @@ export class CreateOrUpdateInternalCouponController {
       }),
     ]);
 
-    const pathDirection = path.join('./src/modules/voucher', './public');
-    if (!fs.existsSync(pathDirection)) {
-      fs.mkdirSync(pathDirection);
+    const pathDirection = path.join('./public', './voucher');
+    if (!existsSync(pathDirection)) {
+      mkdirSync(pathDirection);
     }
     const fileName = `voucher_date-${organization?.uuid}.xlsx`;
     await workbook.xlsx.writeFile(path.resolve(pathDirection, fileName));
