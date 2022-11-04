@@ -9,6 +9,7 @@ import {
   IsUUID,
   IsInt,
   IsPositive,
+  IsBoolean,
 } from 'class-validator';
 import {
   MatchDate,
@@ -20,6 +21,17 @@ export type StatusVoucher = 'ALL' | 'PENDING' | 'ACTIVE' | 'USED' | 'TEST';
 export type VoucherableType = 'COUPON' | 'VOUCHER' | 'BON';
 
 export const deliveryTypeArrays = ['AMOUNT', 'PERCENT'];
+
+export const optionsNumberGenerateCouponArrays = [
+  '1',
+  '5',
+  '10',
+  '30',
+  '50',
+  '100',
+  '150',
+  '200',
+];
 
 export const statusVoucherArrays = ['ALL', 'PENDING', 'ACTIVE', 'USED'];
 
@@ -97,6 +109,10 @@ export class CreateOrUpdateVoucherDto {
   @IsOptional()
   @IsString()
   description: string;
+
+  @IsOptional()
+  @IsIn(optionsNumberGenerateCouponArrays)
+  numberGenerate: number;
 
   @IsIn(deliveryTypeArrays)
   // @MatchIsEmpty('deliveryType')

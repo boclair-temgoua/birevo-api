@@ -25,34 +25,13 @@ export class CreateOrUpdateVoucher {
     private readonly createAmountAmountUsage: CreateAmountAmountUsage,
     private readonly findOneVoucherByService: FindOneVoucherByService,
     private readonly createOrUpdateQrCodeService: CreateOrUpdateQrCodeService,
-    private readonly findOneCurrencyByService: FindOneCurrencyByService,
     private readonly createOrUpdateVoucherService: CreateOrUpdateVoucherService,
     private readonly createOrUpdateActivity: CreateOrUpdateActivity,
   ) {}
 
   /** Confirm account token to the database. */
   async create(options: CreateOrUpdateVoucherDto): Promise<any> {
-    const {
-      name,
-      status,
-      email,
-      amount,
-      description,
-      type,
-      code,
-      voucherId,
-      currencyId,
-      ipLocation,
-      userAgent,
-      percent,
-      startedAt,
-      expiredAt,
-      deliveryType,
-      applicationId,
-      user,
-    } = {
-      ...options,
-    };
+    const { code, user, numberGenerate } = { ...options };
 
     const [_errorV, findVoucher] = await useCatch(
       this.findOneVoucherByService.findOneBy({
@@ -74,59 +53,25 @@ export class CreateOrUpdateVoucher {
         HttpStatus.NOT_FOUND,
       );
 
-    const [errorSave, coupon] = await useCatch(
-      this.createOrUpdateVoucherService.createOne({
-        name,
-        amount: Number(amount),
-        currencyId: Number(currencyId),
-        voucherCategoryId: getOneVoucherType(type),
-        voucherType: type,
-        code: code ? code : generateCouponCode(16),
-        deliveryType,
-        description,
-        email,
-        startedAt,
-        expiredAt,
-        status,
-        percent: percent,
-        organizationId: user?.organizationInUtilizationId,
-        userCreatedId: user?.id,
-        userId: user?.organizationInUtilization?.userId,
-        applicationId: applicationId || user?.applicationToken?.applicationId,
-      }),
-    );
-    if (errorSave) {
-      throw new NotFoundException(errorSave);
-    }
-    /** Here create QRCode */
-    const [_errorQr, _qrcode] = await useCatch(
-      this.createOrUpdateQrCodeService.createOne({
-        qrCode: coupon?.code,
-        qrCodType: coupon?.voucherType,
-        qrCodableId: coupon?.id,
-      }),
-    );
-    if (_errorQr) {
-      throw new NotFoundException(_errorQr);
+    if (numberGenerate) {
+      for (let i = 0; i < numberGenerate; i++) {
+        const [errorSave, coupon] = await useCatch(
+          this.createOneVoucher({ ...options }),
+        );
+        if (errorSave) {
+          throw new NotFoundException(errorSave);
+        }
+      }
+    } else {
+      const [errorSave, coupon] = await useCatch(
+        this.createOneVoucher({ ...options }),
+      );
+      if (errorSave) {
+        throw new NotFoundException(errorSave);
+      }
     }
 
-    /** Here create Activity */
-    const [_errorAct, _activity] = await useCatch(
-      this.createOrUpdateActivity.execute({
-        activityAbleType: coupon?.voucherType,
-        activityAbleId: coupon?.id,
-        action: 'VOUCHER-NEW',
-        ipLocation,
-        browser: userAgent,
-        organizationId: coupon?.organizationId,
-        applicationId: coupon?.applicationId,
-        userCreatedId: coupon?.userCreatedId,
-      }),
-    );
-    if (_errorAct) {
-      throw new NotFoundException(_errorAct);
-    }
-    return coupon;
+    return options;
   }
 
   /** Use voucher account token to the database. */
@@ -265,5 +210,82 @@ export class CreateOrUpdateVoucher {
     }
 
     return { id: findVoucher?.uuid, code: findVoucher?.code };
+  }
+
+  /** Ce code me sert a pouvoir sauvegarder plusieur voucher. */
+  async createOneVoucher(options: CreateOrUpdateVoucherDto): Promise<any> {
+    const {
+      name,
+      status,
+      email,
+      amount,
+      description,
+      type,
+      code,
+      currencyId,
+      ipLocation,
+      userAgent,
+      percent,
+      startedAt,
+      expiredAt,
+      deliveryType,
+      applicationId,
+      user,
+    } = {
+      ...options,
+    };
+
+    const [errorSave, coupon] = await useCatch(
+      this.createOrUpdateVoucherService.createOne({
+        name,
+        amount: Number(amount),
+        currencyId: Number(currencyId),
+        voucherCategoryId: getOneVoucherType(type),
+        voucherType: type,
+        code: code ? code : generateCouponCode(16),
+        deliveryType,
+        description,
+        email,
+        startedAt,
+        expiredAt,
+        status,
+        percent: percent,
+        organizationId: user?.organizationInUtilizationId,
+        userCreatedId: user?.id,
+        userId: user?.organizationInUtilization?.userId,
+        applicationId: applicationId || user?.applicationToken?.applicationId,
+      }),
+    );
+    if (errorSave) {
+      throw new NotFoundException(errorSave);
+    }
+    /** Here create QRCode */
+    const [_errorQr, _qrcode] = await useCatch(
+      this.createOrUpdateQrCodeService.createOne({
+        qrCode: coupon?.code,
+        qrCodType: coupon?.voucherType,
+        qrCodableId: coupon?.id,
+      }),
+    );
+    if (_errorQr) {
+      throw new NotFoundException(_errorQr);
+    }
+
+    /** Here create Activity */
+    const [_errorAct, _activity] = await useCatch(
+      this.createOrUpdateActivity.execute({
+        activityAbleType: coupon?.voucherType,
+        activityAbleId: coupon?.id,
+        action: 'VOUCHER-NEW',
+        ipLocation,
+        browser: userAgent,
+        organizationId: coupon?.organizationId,
+        applicationId: coupon?.applicationId,
+        userCreatedId: coupon?.userCreatedId,
+      }),
+    );
+    if (_errorAct) {
+      throw new NotFoundException(_errorAct);
+    }
   }
 }
