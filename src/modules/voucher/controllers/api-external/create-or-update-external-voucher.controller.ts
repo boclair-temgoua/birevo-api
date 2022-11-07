@@ -83,11 +83,11 @@ export class CreateOrUpdateExternalVoucherController {
   }
 
   /** Update coupon */
-  @Put(`/coupons/use/:code`)
+  @Put(`/coupons/use`)
   async useOneCoupon(
     @Res() res,
     @Req() req,
-    @Param() codeVoucher: CodeVoucherDto,
+    @Body() codeVoucher: CodeVoucherDto,
     @Headers('User-Agent') userAgent: string,
   ) {
     const { user } = req;

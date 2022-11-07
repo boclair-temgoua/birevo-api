@@ -13,7 +13,8 @@ export const getOneCouponApi = async (payload: GetOneVoucherRequest) => {
 
 export const useOneCouponApi = async (payload: GetOneVoucherRequest) => {
   const { data } = await dyaxios.put<GetOneVoucherRequest>(
-    `/coupons/use/${payload?.code}`,
+    `/coupons/use`,
+    payload,
   );
   return data;
 };
