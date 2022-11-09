@@ -19,8 +19,9 @@ export class CreateAmountAmountBalance {
   ) {}
 
   /** Confirm account token to the database. */
-  @Cron('0 0 1 * *') // 31 days
+  @Cron('1 0 1 * *') // 31 days
   // @Interval(5000)
+  // @Cron('45 * * * * *')
   async executeJobSaveBalance(): Promise<any> {
     const [errorSaveAmount, amountUsages] = await useCatch(
       this.findAmountUsageService.findAll({}),
