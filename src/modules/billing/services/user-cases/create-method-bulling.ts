@@ -50,7 +50,7 @@ export class CreateMethodBulling {
     };
 
     const params: Stripe.CustomerCreateParams = {
-      description: `Payment transaction - ${fullName}`,
+      description: `Payment billing ${configurations.datasite.name} - ${fullName}`,
       email: email,
       name: fullName,
     };

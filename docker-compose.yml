@@ -23,7 +23,7 @@ services:
         env_file:
             - ./.env
         ports:
-            - '5000:5000'
+            - '4500:4500'
         depends_on:
             - berivo_v2_host_db
         links:
