@@ -1,5 +1,6 @@
 import { createTransport } from 'nodemailer';
 import { configurations } from '../../../infrastructure/configurations/index';
+import { NodeMailServiceAdapter } from '../../integrations/aws/node-mailer-service-adapter';
 
 export const authPasswordResetMail = async (options: { resetPassword }) => {
   const { resetPassword } = { ...options };
@@ -138,25 +139,9 @@ export const authPasswordResetMail = async (options: { resetPassword }) => {
   </html>
       `;
   // create reusable transporter object using the default SMTP transport
-  const transporter = createTransport({
-    host: configurations.implementations.mailSMTP.host,
-    port: configurations.implementations.mailSMTP.port,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: configurations.implementations.mailSMTP.user, // generated ethereal user
-      pass: configurations.implementations.mailSMTP.pass, // generated ethereal password
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
+  await NodeMailServiceAdapter({
+    to: [`${resetPassword.email}`],
+    subject: `${configurations.datasite.name} - Reset password`,
+    html: output,
   });
-  // setup email data with unicode symbols
-  const mailOptions = {
-    from: `${configurations.datasite.name} ${configurations.datasite.emailNoreply}`, // sender address
-    to: resetPassword.email, // list of receivers
-    subject: `${configurations.datasite.name} - Reset password`, // Subject line
-    html: output, // html body
-  };
-  // send mail with defined transport object
-  await transporter.sendMail(mailOptions);
 };

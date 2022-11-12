@@ -1,19 +1,10 @@
 import { formateDateMMDDYYMomentJs } from '../../../infrastructure/utils/commons/formate-date-momentjs';
 import { configurations } from '../../../infrastructure/configurations/index';
-import { createTransport } from 'nodemailer';
 
 import { User } from '../../../models/User';
 import moment from 'moment';
+import { NodeMailServiceAdapter } from '../../integrations/aws/node-mailer-service-adapter';
 
-// import formData from 'form-data';
-// import Mailgun from 'mailgun.js';
-// const mailgun = new Mailgun(formData);
-// const mg = mailgun.client({
-//   username: 'api',
-//   key: `66bf0631a87091245037bf33b79697a8-0e6e8cad-005184f7`,
-// });
-
-// console.log(`mg ====>`, mg);
 export const authLoginNotificationMail = async (options: { user: User }) => {
   const { user } = { ...options };
   const output = `
@@ -52,25 +43,9 @@ export const authLoginNotificationMail = async (options: { user: User }) => {
   </html>
       `;
   // create reusable transporter object using the default SMTP transport
-  const transporter = createTransport({
-    host: configurations.implementations.mailSMTP.host,
-    port: configurations.implementations.mailSMTP.port,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: configurations.implementations.mailSMTP.user, // generated ethereal user
-      pass: configurations.implementations.mailSMTP.pass, // generated ethereal password
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
+  await NodeMailServiceAdapter({
+    to: [`${user.email}`],
+    subject: `${configurations.datasite.name} - Notification access to the Customer Area`,
+    html: output,
   });
-  // setup email data with unicode symbols
-  const mailOptions = {
-    from: `${configurations.datasite.name} ${configurations.datasite.emailNoreply}`, // sender address
-    to: user?.email, // list of receivers
-    subject: `${configurations.datasite.name} - Notification access to the Customer Area`, // Subject line
-    html: output, // html body
-  };
-  // send mail with defined transport object
-  await transporter.sendMail(mailOptions);
 };

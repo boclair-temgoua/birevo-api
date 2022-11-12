@@ -112,6 +112,16 @@ export const configurations = {
       pass: process.env.MAIL_PASSWORD,
     },
     /**
+     * Aws smtp
+     */
+    awsSMTP: {
+      host: process.env.AWS_SMTP_HOST,
+      port: Number(process.env.AWS_SMTP_PORT),
+      user: process.env.AWS_SMTP_USERNAME,
+      pass: process.env.AWS_SMTP_PASSWORD,
+      email: process.env.AWS_SMTP_EMAIL,
+    },
+    /**
      * Mailtrap
      */
     mailjet: {

@@ -104,6 +104,18 @@ export class FindOneUserByService {
       .addSelect(
         /*sql*/ `(
         SELECT jsonb_build_object(
+        'name', "role"."name"
+        )
+        FROM "subscribe" "sub"
+        INNER JOIN "role" "role" ON "sub"."roleId" = "role"."id"
+        WHERE "sub"."deletedAt" IS NULL 
+        AND "user"."id" = "sub"."userId"
+        AND "user"."organizationInUtilizationId" = "sub"."organizationId"
+        ) AS "role"`,
+      )
+      .addSelect(
+        /*sql*/ `(
+        SELECT jsonb_build_object(
         'total', CAST(SUM("amb"."amountBalance") AS DECIMAL)
         )
         FROM "amount_balance" "amb"

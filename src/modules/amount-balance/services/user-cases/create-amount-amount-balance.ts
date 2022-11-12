@@ -19,9 +19,9 @@ export class CreateAmountAmountBalance {
   ) {}
 
   /** Confirm account token to the database. */
-  @Cron('1 0 1 * *') // 31 days
+  @Cron('30 0 1 * *') // 31 days
   // @Interval(5000)
-  // @Cron('45 * * * * *')
+  // @Cron('50 * * * * *')
   async executeJobSaveBalance(): Promise<any> {
     const [errorSaveAmount, amountUsages] = await useCatch(
       this.findAmountUsageService.findAll({}),
@@ -76,7 +76,7 @@ export class CreateAmountAmountBalance {
   }
 
   /** Confirm account token to the database. */
-  @Cron('0 0 15 * *') //Execute every 15 days
+  @Cron('30 0 15 * *') //Execute every 15 days
   // @Interval(5000)
   async executeJobControlIfPaymentExecute(): Promise<any> {
     const [errorSaveAmount, findAmountBalances] = await useCatch(
