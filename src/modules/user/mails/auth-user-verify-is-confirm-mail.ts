@@ -69,8 +69,8 @@ export const authUserVerifyIsConfirmMail = async (options: { user: User }) => {
   border: 1px solid #0069ff;
   color: #fff !important;
   display: inline-block;
-  height: 3rem;
-  line-height: 3rem;
+  height: 45px;
+  line-height: 45px;
   text-align: center;
   text-decoration: none;
   width:100%" href="${

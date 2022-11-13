@@ -73,7 +73,7 @@ export const authLoginNotificationMail = async (options: { user: User }) => {
   line-height: 3rem;
   text-align: center;
   text-decoration: none;
-  width:100%" style="width:100%" href="${
+  width:100%" href="${
     configurations.datasite.urlClient
   }/confirm-account?token=${user?.token}">Confirm your account</a>
   </td>

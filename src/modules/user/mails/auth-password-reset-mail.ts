@@ -57,14 +57,14 @@ export const authPasswordResetMail = async (options: { resetPassword }) => {
   <tr>
   <td colspan="2">
   <a 
-  style="    
-  background: #0069ff;
+  style=
+  "background: #0069ff;
   border-radius: 3px;
   border: 1px solid #0069ff;
   color: #fff !important;
   display: inline-block;
-  height: 3rem;
-  line-height: 3rem;
+  height: 45px;
+  line-height: 45px;
   text-align: center;
   text-decoration: none;
   width:100%" href="${configurations.datasite.urlClient}/reset-password/${
