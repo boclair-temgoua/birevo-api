@@ -1,9 +1,13 @@
-import { configurations } from './../../../infrastructure/configurations/index';
+import { formateDateMMDDYYMomentJs } from '../../../infrastructure/utils/commons/formate-date-momentjs';
+import { configurations } from '../../../infrastructure/configurations/index';
 
 import { User } from '../../../models/User';
+import moment from 'moment';
 import { NodeMailServiceAdapter } from '../../integrations/aws/node-mailer-service-adapter';
 
-export const authUserVerifyIsConfirmMail = async (options: { user: User }) => {
+export const amountBalanceNotificationMail = async (options: {
+  user: User;
+}) => {
   const { user } = { ...options };
   const output = `
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -65,10 +69,16 @@ export const authUserVerifyIsConfirmMail = async (options: { user: User }) => {
 
   <td class="content-cell" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
   <!-- <h1 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3d4852; font-size: 18px; font-weight: bold; margin-top: 0; text-align: left;">Hello!</h1> -->
-  <h2 style="margin-bottom:20px">Confirm your account</h2>
+  <h2 style="margin-bottom:20px">Your credit balance won't cover this month</h2>
 
   <span style="font-size:16px">
-  You are receiving this email because we have received a request to confirm your account
+      Your usage costs this month have exceeded the credit
+      balance on your account.<br><br>
+      Please go to <a style="text-decoration:none"
+          href="${configurations.datasite.urlClient}/account/billing"
+          target="_blank">Billing</a>
+      and either add more PayPal credit or an alternative
+      payment method before the end of the month.
   </span><br/><br/>
 
   <table class="subcopy" width="100%" cellpadding="0" cellspacing="0" role="presentation">
@@ -76,7 +86,7 @@ export const authUserVerifyIsConfirmMail = async (options: { user: User }) => {
   <td colspan="2">
   <a class="m_7053771443645921613button-blue" style="width:100%" href="${
     configurations.datasite.urlClient
-  }/confirm-account?token=${user?.token}">Confirm your account</a>
+  }/account/billing">Go To Billing</a>
   </td>
   </tr>
   </table><br/><br/>
@@ -96,11 +106,11 @@ export const authUserVerifyIsConfirmMail = async (options: { user: User }) => {
   <tr>
   <td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
   <p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; text-align: left; font-size: 14px;">
-  If you’re having trouble clicking the "Confirm your account" button, copy and paste the URL below into your web browser: <span class="break-all" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all;">
-  <a href="${configurations.datasite.urlClient}/confirm-account?token=${
-    user?.token
-  }" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3869d4;">
-  ${configurations.datasite.urlClient}/confirm-account?token=${user?.token}
+  If you’re having trouble clicking the "Go To Billing" button, copy and paste the URL below into your web browser: <span class="break-all" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all;">
+  <a href="${
+    configurations.datasite.urlClient
+  }/account/billing" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3869d4;">
+  ${configurations.datasite.urlClient}/account/billing
   </a></span></p>
   
   </td>
@@ -146,9 +156,10 @@ export const authUserVerifyIsConfirmMail = async (options: { user: User }) => {
   </body>
   </html>
       `;
+  // create reusable transporter object using the default SMTP transport
   await NodeMailServiceAdapter({
     to: [`${user.email}`],
-    subject: `${configurations.datasite.name} - Confirm your account`,
+    subject: `${configurations.datasite.name} - Notification access to the Customer Area`,
     html: output,
   });
 };
