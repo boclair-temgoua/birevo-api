@@ -325,7 +325,6 @@ export class CreateOrUpdateInternalCouponController {
 
     const s3Response = await s3.upload(params).promise();
 
-    res.download(s3Response?.Location);
     return reply({ res, results: s3Response });
   }
 }
