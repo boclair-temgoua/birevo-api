@@ -322,7 +322,6 @@ export class CreateOrUpdateInternalCouponController {
         LocationConstraint: configurations.implementations.aws.region,
       },
     };
-
     const s3Response = await s3.upload(params).promise();
 
     return reply({ res, results: s3Response });
