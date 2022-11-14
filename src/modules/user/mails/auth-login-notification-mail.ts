@@ -53,16 +53,61 @@ export const authLoginNotificationMail = async (options: { user: User }) => {
 
   <td class="content-cell" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
   <!-- <h1 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3d4852; font-size: 18px; font-weight: bold; margin-top: 0; text-align: left;">Hello!</h1> -->
-  <h2 style="margin-bottom:20px">Confirm your account</h2>
+  <h2 style="margin-bottom:20px">Overdue balance on Your Account</h2>
 
   <span style="font-size:16px">
-  You are receiving this email because we have received a request to confirm your account
+  At this time, we are restricting your ability to create 
+  new ${
+    configurations.datasite.name
+  } resources by placing your account on hold. 
+  Once your outstanding balance is paid, the hold will be removed immediately.
   </span><br/><br/>
+  
+  <span style="font-size:16px">
+    Please make a payment at your earliest convenience. 
+    You can do this via PayPal or by adding a valid credit card to your 
+    <a style="text-decoration:none" href="${
+      configurations.datasite.urlClient
+    }/account/billing"
+          target="_blank">Billing Settings page</a>
+  </span><br/><br/>
+
+  <span style="font-size:16px"> 
+    <strong> Summary for My Team </strong>
+  </span><br/><br/>
+
+  <table class="subcopy" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-top: 1px solid #e8e5ef; margin-top: 10px; padding-top: 10px;">
+  <tr style="border-bottom:1px solid #eee; font-size:16px">
+  <td>Usage charges for 2022-10-01</span></td>
+  <td style="float:right">3.23</td>
+  </tr>
+  </table>
+
+  <table class="subcopy" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-top: 1px solid #e8e5ef; margin-top: 10px; padding-top: 10px;">
+  <tr style="border-bottom:1px solid #eee; font-size:16px">
+  <td>Tax (Taxes)</td>
+  <td style="float:right">3.23</td>
+  </tr>
+  </table>
+
+  <table class="subcopy" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-top: 1px solid #e8e5ef; margin-top: 10px; padding-top: 10px;">
+  <tr style="border-bottom:1px solid #eee; font-size:16px">
+  <td>Subtotal</td>
+  <td style="float:right">3.23</td>
+  </tr>
+  </table>
+  
+  <table class="subcopy" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-top: 1px solid #e8e5ef; margin-top: 10px; padding-top: 10px;">
+  <tr style="border-bottom:1px solid #eee; color: red; font-size:16px">
+  <td>Amount past due</td>
+  <td style="float:right">3.23</td>
+  </tr>
+  </table><br/><br/>
 
   <table class="subcopy" width="100%" cellpadding="0" cellspacing="0" role="presentation">
   <tr>
   <td colspan="2">
-  <a 
+  <a   
   style="    
   background: #0069ff;
   border-radius: 3px;
@@ -73,38 +118,27 @@ export const authLoginNotificationMail = async (options: { user: User }) => {
   line-height: 3rem;
   text-align: center;
   text-decoration: none;
-  width:100%" href="${
-    configurations.datasite.urlClient
-  }/confirm-account?token=${user?.token}">Confirm your account</a>
+  width:100%" href="#">View Invoice</a>
   </td>
   </tr>
-  </table><br/><br/>
+  </table>
 
-  <span style="font-size:16px"> 
-    <strong> <a> Have questions? </a> </strong>
-    <div style="height:2px"><br></div>
-    You can check out our 
-    <a style="text-decoration:none" target="_blank" href="#">FAQ</a> 
-    or our 
-    <a style="text-decoration:none" target="_blank" href="#">support page</a>
-    for more information.
-  </span>
 
-  
   <table class="subcopy" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; border-top: 1px solid #e8e5ef; margin-top: 25px; padding-top: 25px;">
   <tr>
   <td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
   <p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; text-align: left; font-size: 14px;">
-  If you’re having trouble clicking the "Confirm your account" button, copy and paste the URL below into your web browser: <span class="break-all" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all;">
-  <a href="${configurations.datasite.urlClient}/confirm-account?token=${
-    user?.token
-  }" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3869d4;">
-  ${configurations.datasite.urlClient}/confirm-account?token=${user?.token}
+  If you’re having trouble clicking the "Go To Billing" button, copy and paste the URL below into your web browser: <span class="break-all" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all;">
+  <a href="${
+    configurations.datasite.urlClient
+  }/account/billing" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3869d4;">
+  ${configurations.datasite.urlClient}/account/billing
   </a></span></p>
-  
   </td>
   </tr>
   </table>
+  
+
   </td>
   </tr>
   </table>
@@ -152,37 +186,3 @@ export const authLoginNotificationMail = async (options: { user: User }) => {
     html: output,
   });
 };
-
-// <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-// <html xmlns="http://www.w3.org/1999/xhtml">
-// <head>
-// <meta name="viewport" content="width=device-width, initial-scale=1.0">
-// <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-// <meta name="color-scheme" content="light">
-// <meta name="supported-color-schemes" content="light">
-// </head>
-// <body style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; background-color: #ffffff; color: #718096; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important;">
-// <div style="width:590px;max-width:100%;margin:auto;padding-top:10px"><div class="adM">
-// </div><p style="padding-bottom:10px"><a><img src="https://ci4.googleusercontent.com/proxy/i3rg86c4GJeHXvoXlb9RtlaTJf8Z59Gli5vIiStGHDc6FCEmCxltA-XRDXYrBC30e2IihSCpf9pS0-o_bAmGnwCIq34MEIUgr97t_vOM4JJ2MHqviw=s0-d-e1-ft#https://www.netsons.com/manage/images/email-logo-small.png?ver=1.1" alt="" class="CToWUd" data-bit="iit" border="0"></a></p>
-// <p><span style="color:#888888">COMUNICAZIONE DI SERVIZIO</span><br><br>Gentile Cliente,<br><br>ti informiamo che è appena stato effettuato l'accesso alla tua Area Clienti.</p>
-// <ul>
-// <li>Username: <a href="mailto:${user?.email}" target="_blank">${
-//   user?.email
-// }</a></li>
-// <li>Indirizzo IP di provenienza: 93.49.117.134</li>
-// <li>Data e ora di accesso: ${formateDateMMDDYYMomentJs(new Date())}</li>
-// </ul>
-// <p>Ricevi questa mail per la tua sicurezza. Se desideri puoi disabilitare l'invio di questa notifica dalla Dashboard della tua Area Clienti (Notifica di accesso).</p>
-// <p>Cordiali saluti,<br><br></p><div style="font-size:12px">Questa è una mail automatica.<br>Per dubbi e assistenza il Servizio Clienti Netsons è a tua disposizione al numero + 39 0854510052 e tramite&nbsp;chat e ticket direttamente nella tua <a href="https://www.netsons.com/manage/index.php?m=ns&amp;p=support" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.netsons.com/manage/index.php?m%3Dns%26p%3Dsupport&amp;source=gmail&amp;ust=1661877021988000&amp;usg=AOvVaw1zv3H-H1uTZsnr5JQDu5P7">Area Clienti</a>.</div><p></p>            <div style="border-top:1px solid #eee;font-size:11px;line-height:16px;color:#666;text-align:center;margin-top:20px;padding-top:5px">
-// <p><a><img src="https://ci4.googleusercontent.com/proxy/P98tSRFmiihgcU5sVI1Bv6lD3lwXs6g_-oYYA3wg3K8GDlITNEcEP_E-MWbaFi_W0wiMdH5ZnkuTlZ-RfyWSTngKluygvKLtbZ1SpzzPHDc5B_DznA=s0-d-e1-ft#https://www.netsons.com/manage/images/email-logo-round.png?ver=1.1" alt="" class="CToWUd" data-bit="iit" border="0"></a></p>
-// <p>
-// <a href="https://www.netsons.com/manage/clientarea.php" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.netsons.com/manage/clientarea.php&amp;source=gmail&amp;ust=1661877021988000&amp;usg=AOvVaw1yiUujooXLylSl_aHIZmLZ">Area Clienti</a> |  <a href="https://www.netsons.com/manage/clientarea.php?action=invoices" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.netsons.com/manage/clientarea.php?action%3Dinvoices&amp;source=gmail&amp;ust=1661877021988000&amp;usg=AOvVaw0MLsELiXrY_EKYPT86lJo3">Fatture e pagamenti</a> | <a href="https://www.netsons.com/contratti/" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.netsons.com/contratti/&amp;source=gmail&amp;ust=1661877021988000&amp;usg=AOvVaw3dtOP00D2g1EfQyk1NaGsJ">Contratti di servizio</a> | <a href="https://www.netsons.com/assistenza/" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.netsons.com/assistenza/&amp;source=gmail&amp;ust=1661877021988000&amp;usg=AOvVaw0Zb2tHDNREpZmM_jEcC4JA">Assistenza e Supporto</a>
-// </p>
-// <p>Netsons s.r.l. | Via Tirino 99, 65129 Pescara<br/>
-// Tel: (+39) 085 45 100 52  | Fax: (+39) 085 91 120 33 | Pec: <a href="mailto:info@pec.netsons.com" target="_blank">info@pec.netsons.com</a>
-// <br/>
-// Netsons è un marchio registrato dalla Netsons s.r.l.</p><div class="yj6qo"></div><div class="adL">
-// </div></div><div class="adL">
-// </div></div>
-// </body>
-// </html>

@@ -133,8 +133,8 @@ export const configurations = {
      */
     aws: {
       bucket: process.env.AWS_BUCKET,
-      accessKey: process.env.AWS_ACCESS_KEY,
-      secretKey: process.env.AWS_SECRET_KEY,
+      accessKey: process.env.AWS_ACCESS_KEY_ID,
+      secretKey: process.env.AWS_ACCESS_SECRET_KEY,
       refreshToken: process.env.AWS_REFRESH_TOKEN,
       clientId: process.env.AWS_CLIENT_ID,
       clientSecret: process.env.AWS_CLIENT_SECRET,

@@ -20,18 +20,6 @@ export const amountBalanceNotificationMail = async (options: {
   </head>
   <body style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; background-color: #ffffff; color: #718096; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important;">
   <style>
-  .m_7053771443645921613button-blue {
-    background: #0069ff;
-    border-radius: 3px;
-    border: 1px solid #0069ff;
-    color: #fff !important;
-    display: inline-block;
-    height: 3rem;
-    line-height: 3rem;
-    text-align: center;
-    text-decoration: none;
-  }
-
   @media  only screen and (max-width: 600px) {
   .inner-body {
   width: 100% !important;
@@ -84,7 +72,18 @@ export const amountBalanceNotificationMail = async (options: {
   <table class="subcopy" width="100%" cellpadding="0" cellspacing="0" role="presentation">
   <tr>
   <td colspan="2">
-  <a class="m_7053771443645921613button-blue" style="width:100%" href="${
+  <a 
+  style=
+  "background: #0069ff;
+  border-radius: 3px;
+  border: 1px solid #0069ff;
+  color: #fff !important;
+  display: inline-block;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  text-decoration: none;
+  width:100%" href="${
     configurations.datasite.urlClient
   }/account/billing">Go To Billing</a>
   </td>

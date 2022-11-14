@@ -21,12 +21,12 @@ export const NodeMailServiceAdapter = async (options: {
   const { attachments, to, html, subject, description } = { ...options };
 
   const transporter = createTransport({
-    host: configurations.implementations.awsSMTP.host,
-    port: configurations.implementations.awsSMTP.port,
+    host: configurations.implementations.mailSMTP.host,
+    port: configurations.implementations.mailSMTP.port,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: configurations.implementations.awsSMTP.user, // generated ethereal user
-      pass: configurations.implementations.awsSMTP.pass, // generated ethereal password
+      user: configurations.implementations.mailSMTP.user, // generated ethereal user
+      pass: configurations.implementations.mailSMTP.pass, // generated ethereal password
     },
     tls: {
       rejectUnauthorized: false,

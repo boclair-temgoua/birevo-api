@@ -1,3 +1,4 @@
+import { generateUUID } from './../../../../infrastructure/utils/commons/generate-uuid';
 import {
   Controller,
   Get,
@@ -16,8 +17,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as excel from 'exceljs';
-import { mkdirSync, existsSync } from 'node:fs';
-import * as path from 'path';
 import { reply } from '../../../../infrastructure/utils/reply';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import {
@@ -34,6 +33,15 @@ import {
 } from '../../../../infrastructure/utils/commons/formate-date-momentjs';
 import { CreateDownloadVoucherDto } from '../../dto/validation-voucher.dto';
 import { FindOneOrganizationByService } from '../../../organization/services/query/find-one-organization-by.service';
+import { S3 } from 'aws-sdk';
+import { configurations } from '../../../../infrastructure/configurations/index';
+import { ConfigService } from '@nestjs/config';
+
+const s3 = new S3({
+  region: configurations.implementations.aws.region,
+  accessKeyId: configurations.implementations.aws.accessKey,
+  secretAccessKey: configurations.implementations.aws.secretKey,
+});
 
 @Controller('vouchers')
 export class CreateOrUpdateInternalCouponController {
@@ -41,6 +49,7 @@ export class CreateOrUpdateInternalCouponController {
     private readonly createOrUpdateVoucher: CreateOrUpdateVoucher,
     private readonly findOneOrganizationByService: FindOneOrganizationByService,
     private readonly findVoucherService: FindVoucherService,
+    private readonly configService: ConfigService,
   ) {}
 
   @Post(`/c/create-or-update`)
@@ -158,11 +167,11 @@ export class CreateOrUpdateInternalCouponController {
   }
 
   // /** Create download xlsx */
-  @Get(`/download-xlsx`)
+  @Post(`/download-xlsx`)
   async downloadAllVouchers(
     @Res() res,
     @Req() req,
-    @Query() createDownloadVoucherDto: CreateDownloadVoucherDto,
+    @Body() createDownloadVoucherDto: CreateDownloadVoucherDto,
   ) {
     const { type, statusVoucher, organizationId, initiationAt, endAt } =
       createDownloadVoucherDto;
@@ -300,15 +309,23 @@ export class CreateOrUpdateInternalCouponController {
       }),
     ]);
 
-    const pathDirection = path.join('./public', './voucher');
-    if (!existsSync(pathDirection)) {
-      mkdirSync(pathDirection);
-    }
-    const fileName = `voucher_date-${organization?.uuid}.xlsx`;
-    await workbook.xlsx.writeFile(path.resolve(pathDirection, fileName));
+    const buffer = await workbook.xlsx.writeBuffer();
+    const params = {
+      Bucket: `${configurations.implementations.aws.bucket}/voucher-export`,
+      Key: `voucher_date-${generateUUID()}.xlsx`,
+      Body: buffer,
+      ACL: 'public-read',
+      contentType:
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      ContentDisposition: 'inline',
+      CreateBucketConfiguration: {
+        LocationConstraint: configurations.implementations.aws.region,
+      },
+    };
 
-    const file = `${pathDirection}/${fileName}`;
+    const s3Response = await s3.upload(params).promise();
 
-    res.download(file);
+    res.download(s3Response?.Location);
+    return reply({ res, results: s3Response });
   }
 }
