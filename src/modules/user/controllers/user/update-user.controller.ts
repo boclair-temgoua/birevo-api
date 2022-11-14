@@ -1,3 +1,5 @@
+import { generateLongUUID } from './../../../../infrastructure/utils/commons/generate-long-uuid';
+import { generateUUID } from './../../../../infrastructure/utils/commons/generate-uuid';
 import {
   Controller,
   Get,
@@ -146,13 +148,18 @@ export class UpdateUserController {
   @UseGuards(JwtAuthGuard)
   async deactivateProfile(
     @Res() res,
+    @Req() req,
     @Body('confirm', ParseBoolPipe) confirm: boolean,
     @Param('user_uuid', ParseUUIDPipe) user_uuid: string,
   ) {
+    const { user } = req;
     const [errors, result] = await useCatch(
       this.createOrUpdateUserService.updateOne(
         { option4: { user_uuid } },
-        { deletedAt: new Date() },
+        {
+          deletedAt: new Date(),
+          email: `${generateLongUUID(8)}-${user?.email}`,
+        },
       ),
     );
     if (errors) {
