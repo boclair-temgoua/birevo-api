@@ -168,23 +168,15 @@ export class CreateOrUpdateInternalCouponController {
 
   // /** Create download xlsx */
   @Post(`/download-xlsx`)
+  @UseGuards(JwtAuthGuard)
   async downloadAllVouchers(
     @Res() res,
     @Req() req,
     @Body() createDownloadVoucherDto: CreateDownloadVoucherDto,
   ) {
-    const { type, statusVoucher, organizationId, initiationAt, endAt } =
+    const { user } = req;
+    const { type, statusVoucher, initiationAt, endAt } =
       createDownloadVoucherDto;
-
-    /** Find one organization */
-    const [_errorOr, organization] = await useCatch(
-      this.findOneOrganizationByService.findOneBy({
-        option1: { organizationId },
-      }),
-    );
-    if (_errorOr) {
-      throw new NotFoundException(_errorOr);
-    }
 
     /** Find vouchers */
     const [errors, vouchers] = await useCatch(
@@ -193,7 +185,7 @@ export class CreateOrUpdateInternalCouponController {
         type,
         option2: {
           statusVoucher,
-          organizationId: organization?.id,
+          organizationId: user?.organizationInUtilizationId,
           initiationAt: formateDateMMDDYYMomentJs(initiationAt),
           endAt: formateDateMMDDYYMomentJs(endAt),
         },

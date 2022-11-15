@@ -239,7 +239,7 @@ export class CreateDownloadVoucherDto {
 
   @IsNotEmpty()
   @IsIn(voucherableTypeArrays)
-  type?: NonNullable<VoucherableType>;
+  type: VoucherableType;
 
   @IsOptional()
   @IsString()

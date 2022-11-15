@@ -169,7 +169,7 @@ export class FindVoucherService {
           organizationId,
         })
         .andWhere(
-          `"voucher"."createdAt"::date BETWEEN '${initiationAt}' AND '${endAt}'`,
+          `TO_CHAR("voucher"."createdAt", 'MM/DD/YYYY') BETWEEN '${initiationAt}' AND '${endAt}'`,
         );
 
       if (statusVoucher !== 'ALL') {
