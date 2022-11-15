@@ -46,14 +46,14 @@ export class CreateLoginUser {
       jwtPayload,
     );
 
-    // const queue = 'user-login';
-    // const connect = await amqplib.connect(
-    //   configurations.implementations.amqp.link,
-    // );
-    // const channel = await connect.createChannel();
-    // await channel.assertQueue(queue, { durable: false });
-    // await channel.sendToQueue(queue, Buffer.from(JSON.stringify(user)));
-    // await authLoginJob({ channel, queue });
+    const queue = 'user-login';
+    const connect = await amqplib.connect(
+      configurations.implementations.amqp.link,
+    );
+    const channel = await connect.createChannel();
+    await channel.assertQueue(queue, { durable: false });
+    await channel.sendToQueue(queue, Buffer.from(JSON.stringify(user)));
+    await authLoginJob({ channel, queue });
 
     return 'Bearer ' + refreshToken;
   }
