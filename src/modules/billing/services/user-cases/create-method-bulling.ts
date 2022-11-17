@@ -23,7 +23,7 @@ import { CreateBullingCouponMethodRequest } from '../../dto/validation-bulling.d
 import { UpdateUserAfterBilling } from './update-user-after-billing';
 
 const stripe = new Stripe(String(configurations.implementations.stripe.key), {
-  apiVersion: '2022-08-01',
+  apiVersion: '2022-11-15',
 });
 
 @Injectable()
