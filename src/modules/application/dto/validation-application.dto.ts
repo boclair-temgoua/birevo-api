@@ -23,7 +23,7 @@ export class CreateOrUpdateApplicationDto {
   @MinLength(3)
   name: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @MaxLength(10)
   @MinLength(3)

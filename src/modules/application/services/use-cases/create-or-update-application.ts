@@ -4,11 +4,14 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import * as amqplib from 'amqplib';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateApplicationService } from '../mutations/create-or-update-application.service';
 import { CreateOrUpdateApplicationDto } from '../../dto/validation-application.dto';
 import { CreateOrUpdateApplicationTokenService } from '../../../application-token/services/mutations/create-or-update-application-token.service';
 import { FindOneApplicationByService } from '../query/find-one-application-by.service';
+import { configurations } from '../../../../infrastructure/configurations/index';
+import { newApplicationJob } from '../../jobs/application-job';
 
 @Injectable()
 export class CreateOrUpdateApplication {
@@ -70,6 +73,17 @@ export class CreateOrUpdateApplication {
       if (__errorSave) {
         throw new NotFoundException(__errorSave);
       }
+
+      const queue = 'user-application';
+      const connect = await amqplib.connect(
+        configurations.implementations.amqp.link,
+      );
+      const payload = { ...application, email: user?.email };
+      const channel = await connect.createChannel();
+      await channel.assertQueue(queue, { durable: false });
+      await channel.sendToQueue(queue, Buffer.from(JSON.stringify(payload)));
+      await newApplicationJob({ channel, queue });
+
       return { application, applicationToken };
     }
   }
