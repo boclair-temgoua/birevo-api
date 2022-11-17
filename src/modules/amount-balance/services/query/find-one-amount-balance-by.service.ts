@@ -15,7 +15,7 @@ export class FindOneAmountBalanceByService {
   async findOneBy(
     selections: GetOneAmountBalanceSelections,
   ): Promise<AmountBalance> {
-    const { option1 } = { ...selections };
+    const { option1, option2 } = { ...selections };
     let query = this.driver
       .createQueryBuilder('abl')
       .select('abl.amountBalance', 'amountBalance')
@@ -23,9 +23,14 @@ export class FindOneAmountBalanceByService {
 
     if (option1) {
       const { amountBalanceId } = { ...option1 };
-      query = query.andWhere('abl.id = :id', {
+      query = query.where('abl.id = :id', {
         id: amountBalanceId,
       });
+    }
+
+    if (option2) {
+      const { amountId } = { ...option2 };
+      query = query.where('abl.amountId = :amountId', { amountId });
     }
 
     const [error, result] = await useCatch(query.getOne());

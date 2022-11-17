@@ -18,6 +18,9 @@ export type GetOneAmountBalanceSelections = {
   option1?: {
     amountBalanceId: AmountBalance['id'];
   };
+  option2?: {
+    amountId: AmountBalance['amountId'];
+  };
 };
 
 export type UpdateAmountBalanceSelections = {

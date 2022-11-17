@@ -35,7 +35,6 @@ import { CreateDownloadVoucherDto } from '../../dto/validation-voucher.dto';
 import { FindOneOrganizationByService } from '../../../organization/services/query/find-one-organization-by.service';
 import { S3 } from 'aws-sdk';
 import { configurations } from '../../../../infrastructure/configurations/index';
-import { ConfigService } from '@nestjs/config';
 
 const s3 = new S3({
   region: configurations.implementations.aws.region,
@@ -49,7 +48,6 @@ export class CreateOrUpdateInternalCouponController {
     private readonly createOrUpdateVoucher: CreateOrUpdateVoucher,
     private readonly findOneOrganizationByService: FindOneOrganizationByService,
     private readonly findVoucherService: FindVoucherService,
-    private readonly configService: ConfigService,
   ) {}
 
   @Post(`/c/create-or-update`)

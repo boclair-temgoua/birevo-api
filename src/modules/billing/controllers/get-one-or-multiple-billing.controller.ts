@@ -61,4 +61,20 @@ export class GetOneOrMultipleBillingController {
     }
     return reply({ res, results: result });
   }
+
+  @Get(`/billing_xml/:token`)
+  @UseGuards(JwtAuthGuard)
+  async getOneAmountXML(@Res() res, @Req() req, @Param('token') token: string) {
+    const { user } = req;
+    console.log(`token ======>`, token);
+    // const [errors, result] = await useCatch(
+    //   this.findOneAmountByService.findOneBy({
+    //     option2: { token, organizationId: user?.organizationInUtilizationId },
+    //   }),
+    // );
+    // if (errors) {
+    //   throw new NotFoundException(errors);
+    // }
+    return reply({ res, results: 'result' });
+  }
 }

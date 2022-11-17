@@ -4,10 +4,19 @@ import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateOrUpdateAmountBalanceService } from '../mutations/create-or-update-amount-balance.service';
 import { CreateOrUpdateAmountService } from '../../../amount/services/mutations/create-or-update-amount.service';
 import { Cron, Interval } from '@nestjs/schedule';
-import { formateDateMountYearMomentJs } from '../../../../infrastructure/utils/commons/formate-date-momentjs';
+import { formateDateMountYearMomentJs } from '../../../../infrastructure/utils/commons';
 import { FindAmountBalanceService } from '../query/find-amount-balance.service';
 import { CreateOrUpdateUserService } from '../../../user/services/mutations/create-or-update-user.service';
+import * as excel from 'exceljs';
+import { S3 } from 'aws-sdk';
+import { configurations } from '../../../../infrastructure/configurations/index';
+import { FindOneAmountBalanceByService } from '../query/find-one-amount-balance-by.service';
 
+const s3 = new S3({
+  region: configurations.implementations.aws.region,
+  accessKeyId: configurations.implementations.aws.accessKey,
+  secretAccessKey: configurations.implementations.aws.secretKey,
+});
 @Injectable()
 export class CreateAmountAmountBalance {
   constructor(
@@ -15,6 +24,7 @@ export class CreateAmountAmountBalance {
     private readonly findAmountBalanceService: FindAmountBalanceService,
     private readonly createOrUpdateUserService: CreateOrUpdateUserService,
     private readonly createOrUpdateAmountService: CreateOrUpdateAmountService,
+    private readonly findOneAmountBalanceByService: FindOneAmountBalanceByService,
     private readonly createOrUpdateAmountBalanceService: CreateOrUpdateAmountBalanceService,
   ) {}
 
@@ -50,7 +60,6 @@ export class CreateAmountAmountBalance {
         if (errorSaveAmount) {
           throw new NotFoundException(errorSaveAmount);
         }
-
         /** Save AmountBalance */
         const [errorSaveAmountBa, amountBalance] = await useCatch(
           this.createOrUpdateAmountBalanceService.createOne({
@@ -65,6 +74,9 @@ export class CreateAmountAmountBalance {
           throw new NotFoundException(errorSaveAmountBa);
         }
         console.log(`amountBalance ====>`, amountBalance);
+
+        /** Save to aws XML */
+        this.executeBalanceXMLExecute({ amount: amountSave, amountBalance });
       }),
     ]);
     console.log(
@@ -117,5 +129,93 @@ export class CreateAmountAmountBalance {
     );
 
     return 'amountSubSave';
+  }
+
+  /** Generate XML SaveBalance */
+  async executeBalanceXMLExecute({ amount, amountBalance }): Promise<any> {
+    const workbook = new excel.Workbook();
+    const worksheet = workbook.addWorksheet();
+    worksheet.columns = [
+      {
+        header: `description`,
+        key: 'description',
+        width: 40,
+        style: { alignment: { vertical: 'middle', horizontal: 'left' } },
+      },
+      {
+        header: `hours`,
+        key: 'hours',
+        width: 40,
+        style: { alignment: { vertical: 'middle', horizontal: 'left' } },
+      },
+      {
+        header: `start`,
+        key: 'start',
+        width: 40,
+        style: {
+          numFmt: 'dd/mm/yyyy',
+          alignment: { vertical: 'middle', horizontal: 'left' },
+        },
+      },
+      {
+        header: `end`,
+        key: 'end',
+        width: 40,
+        style: {
+          numFmt: 'dd/mm/yyyy',
+          alignment: { vertical: 'middle', horizontal: 'left' },
+        },
+      },
+      {
+        header: `total`,
+        key: 'total',
+        width: 40,
+        style: { alignment: { vertical: 'middle', horizontal: 'left' } },
+      },
+      {
+        header: `currency`,
+        key: 'currency',
+        width: 40,
+        style: { alignment: { vertical: 'middle', horizontal: 'left' } },
+      },
+    ];
+    const rowsItem = {
+      description: amount?.description,
+      hours: 744,
+      start: amountBalance?.monthAmountBalanceAt,
+      end: amountBalance?.createdAt,
+      total: amount?.amount,
+      currency: amount?.currency,
+    };
+    worksheet.addRow(rowsItem);
+    const buffer = await workbook.xlsx.writeBuffer();
+    const fileName = `${
+      configurations.datasite.name
+    } Invoice ${formateDateMountYearMomentJs(
+      amountBalance?.monthAmountBalanceAt,
+    )} (${amount?.id}-${amount?.invoiceNumber}).xlsx`;
+    const params = {
+      Bucket: `${configurations.implementations.aws.bucket}/invoices`,
+      Key: fileName,
+      Body: buffer,
+      ACL: 'public-read',
+      contentType:
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      ContentDisposition: 'inline',
+      CreateBucketConfiguration: {
+        LocationConstraint: configurations.implementations.aws.region,
+      },
+    };
+
+    const s3Response = await s3.upload(params).promise();
+    const [errorUpdateAmount, amountUpdate] = await useCatch(
+      this.createOrUpdateAmountService.updateOne(
+        { option1: { amountId: amount?.id } },
+        { urlFile: s3Response?.Location },
+      ),
+    );
+    if (errorUpdateAmount) {
+      throw new NotFoundException(errorUpdateAmount);
+    }
   }
 }

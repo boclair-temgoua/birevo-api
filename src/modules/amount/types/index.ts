@@ -27,6 +27,12 @@ export type GetOneAmountSelections = {
   };
 };
 
+export type UpdateAmountSelections = {
+  option1?: {
+    amountId: Amount['id'];
+  };
+};
+
 export type CreateAmountOptions = Partial<Amount>;
 
 export type UpdateAmountOptions = Partial<Amount>;

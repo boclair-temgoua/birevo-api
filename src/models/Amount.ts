@@ -24,6 +24,12 @@ export class Amount extends BaseEntity {
   token?: string;
 
   @Column({ nullable: true })
+  invoiceNumber?: string;
+
+  @Column({ nullable: true })
+  urlFile?: string;
+
+  @Column({ nullable: true })
   description?: string;
 
   @Column({ type: 'bigint', nullable: true })
