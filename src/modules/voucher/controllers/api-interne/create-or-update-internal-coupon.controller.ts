@@ -1,4 +1,3 @@
-import { generateUUID } from './../../../../infrastructure/utils/commons/generate-uuid';
 import {
   Controller,
   Get,
@@ -25,12 +24,13 @@ import {
 } from '../../dto/validation-voucher.dto';
 import { CreateOrUpdateVoucher } from '../../services/use-cases/create-or-update-voucher';
 import { JwtAuthGuard } from '../../../user/middleware/jwt-auth.guard';
-import { getIpRequest } from '../../../../infrastructure/utils/commons';
 import { FindVoucherService } from '../../services/query/find-voucher.service';
 import {
+  getIpRequest,
+  generateUUID,
   formateDateDDMMYYMomentJs,
   formateDateMMDDYYMomentJs,
-} from '../../../../infrastructure/utils/commons/formate-date-momentjs';
+} from '../../../../infrastructure/utils/commons';
 import { CreateDownloadVoucherDto } from '../../dto/validation-voucher.dto';
 import { FindOneOrganizationByService } from '../../../organization/services/query/find-one-organization-by.service';
 import { S3 } from 'aws-sdk';
