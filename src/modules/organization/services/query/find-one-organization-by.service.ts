@@ -12,9 +12,7 @@ export class FindOneOrganizationByService {
     private driver: Repository<Organization>,
   ) {}
 
-  async findOneBy(
-    selections: GetOneOrganizationSelections,
-  ): Promise<Organization> {
+  async findOneBy(selections: GetOneOrganizationSelections): Promise<any> {
     const { option1, option2 } = { ...selections };
     let query = this.driver
       .createQueryBuilder('organization')
@@ -33,7 +31,40 @@ export class FindOneOrganizationByService {
       AND "sr"."deletedAt" IS NULL
       ) AS "contributorTotal"`,
       )
-      .where('organization.deletedAt IS NULL');
+      .addSelect(
+        /*sql*/ `(
+          SELECT jsonb_build_object(
+          'uuid', "uad"."uuid",
+          'company', "uad"."company",
+          'city', "uad"."city",
+          'phone', "uad"."phone",
+          'region', "uad"."region",
+          'street1', "uad"."street1",
+          'street2', "uad"."street2",
+          'country', "co"."name",
+          'cap', "uad"."cap"
+          )
+          FROM "user_address" "uad"
+          LEFT JOIN "country" "co" ON "uad"."countryId" = "co"."id"
+          WHERE "uad"."organizationId" = "organization"."id"
+          AND "uad"."userId" = "organization"."userId"
+          AND "uad"."deletedAt" IS NULL
+          ) AS "userAddress"`,
+      )
+      .addSelect(
+        /*sql*/ `jsonb_build_object(
+              'userId', "user"."id",
+              'user_uuid', "user"."uuid",
+              'email', "user"."email",
+              'profileId', "user"."profileId",
+              'fullName', "profile"."fullName",
+              'color', "profile"."color",
+              'image', "profile"."image"
+          ) AS "profileOwner"`,
+      )
+      .where('organization.deletedAt IS NULL')
+      .leftJoin('organization.user', 'user')
+      .leftJoin('user.profile', 'profile');
 
     if (option1) {
       const { organizationId } = { ...option1 };

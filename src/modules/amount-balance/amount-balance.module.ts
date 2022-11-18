@@ -11,10 +11,19 @@ import { CreateOrUpdateAmountService } from '../amount/services/mutations/create
 import { Amount } from '../../models/Amount';
 import { CreateOrUpdateUserService } from '../user/services/mutations/create-or-update-user.service';
 import { User } from '../../models/User';
+import { CreatePdfAndSendMailAmountAmountBalance } from './services/user-cases/create-pdf-and-send-mail-amount-amount-balance';
+import { FindOneOrganizationByService } from '../organization/services/query/find-one-organization-by.service';
+import { Organization } from '../../models/Organization';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([AmountBalance, Amount, AmountUsage, User]),
+    TypeOrmModule.forFeature([
+      AmountBalance,
+      Amount,
+      AmountUsage,
+      User,
+      Organization,
+    ]),
   ],
   controllers: [],
   providers: [
@@ -27,6 +36,8 @@ import { User } from '../../models/User';
     /** Imports providers use-cases */
     CreateAmountAmountBalance,
     CreateOrUpdateUserService,
+    FindOneOrganizationByService,
+    CreatePdfAndSendMailAmountAmountBalance,
   ],
 })
 export class AmountBalanceModule {}

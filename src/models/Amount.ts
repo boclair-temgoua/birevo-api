@@ -27,7 +27,10 @@ export class Amount extends BaseEntity {
   invoiceNumber?: string;
 
   @Column({ nullable: true })
-  urlFile?: string;
+  urlPdf?: string;
+
+  @Column({ nullable: true })
+  urlXml?: string;
 
   @Column({ nullable: true })
   description?: string;

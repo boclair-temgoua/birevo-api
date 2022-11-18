@@ -27,7 +27,6 @@ export class CreateOrUpdateAmountService {
       amount,
       currency,
       type,
-      urlFile,
       description,
       organizationId,
       userCreatedId,
@@ -41,7 +40,6 @@ export class CreateOrUpdateAmountService {
     amountSave.token = generateLongUUID(50);
     amountSave.invoiceNumber = generateNumber(7);
     amountSave.userId = userId;
-    amountSave.urlFile = urlFile;
     amountSave.description = description;
     amountSave.paymentMethod = paymentMethod;
     amountSave.organizationId = organizationId;
@@ -60,17 +58,7 @@ export class CreateOrUpdateAmountService {
     options: UpdateAmountOptions,
   ): Promise<Amount> {
     const { option1 } = { ...selections };
-    const {
-      userId,
-      amount,
-      currency,
-      type,
-      urlFile,
-      description,
-      organizationId,
-      userCreatedId,
-      paymentMethod,
-    } = { ...options };
+    const { urlPdf, urlXml } = { ...options };
 
     let findQuery = this.driver.createQueryBuilder('amount');
 
@@ -82,7 +70,8 @@ export class CreateOrUpdateAmountService {
     const [errorFind, findItem] = await useCatch(findQuery.getOne());
     if (errorFind) throw new NotFoundException(errorFind);
 
-    findItem.urlFile = urlFile;
+    findItem.urlPdf = urlPdf;
+    findItem.urlXml = urlXml;
 
     const query = this.driver.save(findItem);
 

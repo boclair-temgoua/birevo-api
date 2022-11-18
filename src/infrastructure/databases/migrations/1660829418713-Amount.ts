@@ -5,7 +5,7 @@ export class Amount1660829418713 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE "amount" ("createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "id" BIGSERIAL NOT NULL, "token" character varying, "invoiceNumber" character varying, "urlFile" character varying, "amount" double precision, "currency" character varying, "type" character varying, "paymentMethod" character varying, "description" character varying, "userId" bigint, "organizationId" bigint, "userCreatedId" bigint, CONSTRAINT "PK_a477ff5de83a86ac715bb5ddac9" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "amount" ("createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "id" BIGSERIAL NOT NULL, "token" character varying, "invoiceNumber" character varying, "urlPdf" character varying, "urlXml" character varying, "amount" double precision, "currency" character varying, "type" character varying, "paymentMethod" character varying, "description" character varying, "userId" bigint, "organizationId" bigint, "userCreatedId" bigint, CONSTRAINT "PK_a477ff5de83a86ac715bb5ddac9" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "amount_usage" ("createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "id" BIGSERIAL NOT NULL, "amountUsage" double precision, "amountId" bigint, "userId" bigint, "organizationId" bigint, CONSTRAINT "REL_0eec630bedb5618739b1c3c879" UNIQUE ("amountId"), CONSTRAINT "PK_011769b7625deccbd14e16221d2" PRIMARY KEY ("id"))`,

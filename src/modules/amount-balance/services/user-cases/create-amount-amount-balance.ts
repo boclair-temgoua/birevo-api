@@ -11,6 +11,7 @@ import * as excel from 'exceljs';
 import { S3 } from 'aws-sdk';
 import { configurations } from '../../../../infrastructure/configurations/index';
 import { FindOneAmountBalanceByService } from '../query/find-one-amount-balance-by.service';
+import { CreatePdfAndSendMailAmountAmountBalance } from './create-pdf-and-send-mail-amount-amount-balance';
 
 const s3 = new S3({
   region: configurations.implementations.aws.region,
@@ -26,6 +27,7 @@ export class CreateAmountAmountBalance {
     private readonly createOrUpdateAmountService: CreateOrUpdateAmountService,
     private readonly findOneAmountBalanceByService: FindOneAmountBalanceByService,
     private readonly createOrUpdateAmountBalanceService: CreateOrUpdateAmountBalanceService,
+    private readonly createPdfAndSendMailAmountAmountBalance: CreatePdfAndSendMailAmountAmountBalance,
   ) {}
 
   /** Confirm account token to the database. */
@@ -73,10 +75,14 @@ export class CreateAmountAmountBalance {
         if (errorSaveAmountBa) {
           throw new NotFoundException(errorSaveAmountBa);
         }
-        console.log(`amountBalance ====>`, amountBalance);
-
         /** Save to aws XML */
         this.executeBalanceXMLExecute({ amount: amountSave, amountBalance });
+
+        /** Save to aws PDF */
+        this.createPdfAndSendMailAmountAmountBalance.executeGeneratePDF({
+          amount: amountSave,
+        });
+        console.log(`amountBalance ====>`, amountBalance);
       }),
     ]);
     console.log(
@@ -211,7 +217,7 @@ export class CreateAmountAmountBalance {
     const [errorUpdateAmount, amountUpdate] = await useCatch(
       this.createOrUpdateAmountService.updateOne(
         { option1: { amountId: amount?.id } },
-        { urlFile: s3Response?.Location },
+        { urlXml: s3Response?.Location },
       ),
     );
     if (errorUpdateAmount) {
