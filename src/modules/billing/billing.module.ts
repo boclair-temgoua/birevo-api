@@ -23,6 +23,9 @@ import { User } from '../../models/User';
 import { CreateOrUpdateUserService } from '../user/services/mutations/create-or-update-user.service';
 import { UpdateUserAfterBilling } from './services/user-cases/update-user-after-billing';
 import { FindOneAmountByService } from '../amount/services/query/find-one-amount-by.service';
+import { CreatePdfAndSendMailAmountAmountBalance } from '../amount-balance/services/user-cases/create-pdf-and-send-mail-amount-amount-balance';
+import { Organization } from '../../models/Organization';
+import { FindOneOrganizationByService } from '../organization/services/query/find-one-organization-by.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -31,6 +34,7 @@ import { FindOneAmountByService } from '../amount/services/query/find-one-amount
       AmountUsage,
       AmountBalance,
       User,
+      Organization,
       Activity,
     ]),
   ],
@@ -46,6 +50,8 @@ import { FindOneAmountByService } from '../amount/services/query/find-one-amount
     CreateOrUpdateActivityService,
     FindOneAmountByService,
     CreateOrUpdateAmountBalanceService,
+    CreatePdfAndSendMailAmountAmountBalance,
+    FindOneOrganizationByService,
 
     /** Imports providers use-cases */
     CreateMethodBulling,

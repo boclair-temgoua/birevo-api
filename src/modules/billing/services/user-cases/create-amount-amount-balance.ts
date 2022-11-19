@@ -1,21 +1,17 @@
-import {
-  Injectable,
-  NotFoundException,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 
-import { CreateOrUpdateAmountUsageService } from '../../../amount-usage/services/mutations/create-or-update-amount-usage.service';
 import { CreateOrUpdateAmountService } from '../../../amount/services/mutations/create-or-update-amount.service';
 import { CreateOnBullingVoucherRequest } from '../../dto/validation-bulling.dto';
 import { CreateOrUpdateAmountBalanceService } from '../../../amount-balance/services/mutations/create-or-update-amount-balance.service';
+import { CreatePdfAndSendMailAmountAmountBalance } from '../../../amount-balance/services/user-cases/create-pdf-and-send-mail-amount-amount-balance';
 
 @Injectable()
 export class CreateAmountAmountBalance {
   constructor(
-    private readonly createOrUpdateAmountBalanceService: CreateOrUpdateAmountBalanceService,
     private readonly createOrUpdateAmountService: CreateOrUpdateAmountService,
+    private readonly createOrUpdateAmountBalanceService: CreateOrUpdateAmountBalanceService,
+    private readonly createPdfAndSendMailAmountAmountBalance: CreatePdfAndSendMailAmountAmountBalance,
   ) {}
 
   /** Confirm account token to the database. */
@@ -63,6 +59,11 @@ export class CreateAmountAmountBalance {
     if (errorSaveAmountSub) {
       throw new NotFoundException(errorSaveAmountSub);
     }
+
+    /** Save to aws PDF */
+    this.createPdfAndSendMailAmountAmountBalance.executeGeneratePDF({
+      amount: amountSave,
+    });
 
     return amountSave;
   }
