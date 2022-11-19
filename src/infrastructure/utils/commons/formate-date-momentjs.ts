@@ -4,6 +4,10 @@ export const formateDateMountYearMomentJs = (date: Date) => {
   return moment(date).format('MMMM YYYY');
 };
 
+export const formateDateMountYearHhMmSsMomentJs = (date: Date) => {
+  return moment(date).format('ll');
+};
+
 export const formateDateDDMMYYMomentJs = (date: Date) => {
   return moment(date).format('DD/MM/YYYY');
 };

@@ -1,10 +1,10 @@
-import { formateDateMMDDYYMomentJs } from './../../../../infrastructure/utils/commons/formate-date-momentjs';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import * as PdfPrinter from 'pdfmake';
 import {
   generateNumber,
   formateDateMountYearMomentJs,
+  formateDateMountYearHhMmSsMomentJs,
 } from '../../../../infrastructure/utils/commons';
 import * as fs from 'fs';
 import { FindOneOrganizationByService } from '../../../organization/services/query/find-one-organization-by.service';
@@ -97,7 +97,9 @@ export class CreatePdfAndSendMailAmountAmountBalance {
                         alignment: 'right',
                       },
                       {
-                        text: `${formateDateMMDDYYMomentJs(new Date())}`,
+                        text: `${formateDateMountYearHhMmSsMomentJs(
+                          new Date(),
+                        )}`,
                         bold: true,
                         color: '#333333',
                         style: 'policyText',
@@ -117,7 +119,9 @@ export class CreatePdfAndSendMailAmountAmountBalance {
                         alignment: 'right',
                       },
                       {
-                        text: `${formateDateMMDDYYMomentJs(new Date())}`,
+                        text: `${formateDateMountYearHhMmSsMomentJs(
+                          new Date(),
+                        )}`,
                         bold: true,
                         color: '#333333',
                         style: 'policyText',
@@ -138,7 +142,7 @@ export class CreatePdfAndSendMailAmountAmountBalance {
               text: 'From',
               color: '#aaaaab',
               bold: true,
-              fontSize: 11,
+              fontSize: 9,
               alignment: 'left',
               margin: [0, 15, 0, 5],
             },
@@ -146,8 +150,8 @@ export class CreatePdfAndSendMailAmountAmountBalance {
               text: 'To',
               color: '#aaaaab',
               bold: true,
-              fontSize: 11,
-              alignment: 'left',
+              fontSize: 9,
+              alignment: 'right',
               margin: [0, 15, 0, 5],
             },
           ],
@@ -162,15 +166,17 @@ export class CreatePdfAndSendMailAmountAmountBalance {
               alignment: 'left',
             },
             {
-              text: `${organization?.name} 
-              \n ${organization?.profileOwner?.email} 
-              \n ${organization?.userAddress?.street1} 
-              \n ${organization?.userAddress?.city} ${organization?.userAddress?.cap} ${organization?.userAddress?.region} 
-              \n ${organization?.userAddress?.region} `,
+              text: `${organization?.name} \n ${
+                organization?.profileOwner?.email
+              } \n ${organization?.userAddress?.street1 || ''} \n ${
+                organization?.userAddress?.city || ''
+              } ${organization?.userAddress?.cap || ''} ${
+                organization?.userAddress?.region || ''
+              } \n ${organization?.userAddress?.region || ''}`,
               bold: true,
               style: 'policyText',
               color: '#333333',
-              alignment: 'left',
+              alignment: 'right',
             },
           ],
         },
@@ -188,7 +194,7 @@ export class CreatePdfAndSendMailAmountAmountBalance {
             body: [
               [
                 {
-                  text: 'Total usage charges',
+                  text: `${amount?.description}`,
                   border: [false, false, false, true],
                   margin: [0, 5, 0, 5],
                   alignment: 'left',
@@ -207,6 +213,7 @@ export class CreatePdfAndSendMailAmountAmountBalance {
         },
         '\n',
         '\n',
+        '\n',
         {
           layout: {
             defaultBorder: false,
@@ -218,25 +225,27 @@ export class CreatePdfAndSendMailAmountAmountBalance {
             headerRows: 1,
             widths: ['*', 'auto'],
             body: [
-              // [
-              //   {
-              //     text: 'Subtotal',
-              //     border: [false, true, false, true],
-              //     alignment: 'right',
-              //     margin: [0, 5, 0, 5],
-              //   },
-              //   {
-              //     border: [false, true, false, true],
-              //     text: '1241.99 €',
-              //     alignment: 'right',
-              //     margin: [0, 5, 0, 5],
-              //   },
-              // ],
+              [
+                {
+                  text: 'Subtotal',
+                  alignment: 'right',
+                  style: 'policyText',
+                  margin: [0, 5, 0, 5],
+                  border: [false, true, false, true],
+                },
+                {
+                  text: `${amount?.amount} €`,
+                  alignment: 'right',
+                  style: 'policyText',
+                  margin: [0, 5, 0, 5],
+                  border: [false, true, false, true],
+                },
+              ],
               [
                 {
                   text: 'Total',
                   bold: true,
-                  fontSize: 16,
+                  style: 'policyText',
                   alignment: 'right',
                   border: [false, false, false, true],
                   margin: [0, 5, 0, 5],
@@ -244,7 +253,7 @@ export class CreatePdfAndSendMailAmountAmountBalance {
                 {
                   text: `${amount?.amount} €`,
                   bold: true,
-                  fontSize: 16,
+                  style: 'policyText',
                   alignment: 'right',
                   border: [false, false, false, true],
                   margin: [0, 5, 0, 5],
