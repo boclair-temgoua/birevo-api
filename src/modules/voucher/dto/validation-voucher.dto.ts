@@ -168,7 +168,6 @@ export class GetOneVoucherDto {
   @IsOptional()
   @IsString()
   @MaxLength(20)
-  @MinLength(8)
   code: string;
 
   @IsOptional()

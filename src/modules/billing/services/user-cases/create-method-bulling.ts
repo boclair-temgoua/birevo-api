@@ -131,7 +131,7 @@ export class CreateMethodBulling {
         type: 'PAYMENT',
         paymentMethod: 'PAYPAL-PAY',
         description: `PayPal Transaction`,
-        userId: user?.id,
+        userId: user?.organizationInUtilization?.userId,
         organizationId: user?.organizationInUtilizationId,
         userCreatedId: user?.id,
       }),
@@ -213,7 +213,7 @@ export class CreateMethodBulling {
       throw new NotFoundException(errorUpdateUser);
     }
 
-    return coupon;
+    return bulling;
   }
 
   /** Coupon billing */
