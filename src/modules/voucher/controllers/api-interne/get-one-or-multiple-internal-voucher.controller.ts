@@ -41,7 +41,7 @@ export class GetOneOrMultipleInternalVoucherController {
     @Query('type') type: VoucherableType,
   ) {
     const { user } = req;
-    if (user?.requiresPayment)
+    if (user?.organizationInUtilization?.requiresPayment)
       throw new UnauthorizedException(
         'Payment required please check your billing',
       );
@@ -70,7 +70,7 @@ export class GetOneOrMultipleInternalVoucherController {
     @Headers('User-Agent') userAgent: string,
   ) {
     const { user } = req;
-    if (user?.requiresPayment)
+    if (user?.organizationInUtilization?.requiresPayment)
       throw new UnauthorizedException(
         'Payment required please check your billing',
       );

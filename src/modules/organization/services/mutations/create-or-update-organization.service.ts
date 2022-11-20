@@ -45,7 +45,7 @@ export class CreateOrUpdateOrganizationService {
     options: UpdateOrganizationOptions,
   ): Promise<Organization> {
     const { option1, option2 } = { ...selections };
-    const { userId, name, deletedAt } = {
+    const { userId, name, requiresPayment, deletedAt } = {
       ...options,
     };
 
@@ -70,6 +70,7 @@ export class CreateOrUpdateOrganizationService {
 
     findItem.userId = userId;
     findItem.name = name;
+    findItem.requiresPayment = requiresPayment;
     findItem.deletedAt = deletedAt;
 
     const query = this.driver.save(findItem);

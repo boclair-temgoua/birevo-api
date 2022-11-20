@@ -28,9 +28,6 @@ export class User extends BaseDeleteEntity {
   })
   uuid?: string;
 
-  @Column({ default: false })
-  requiresPayment?: boolean;
-
   @Column({ type: 'timestamptz', nullable: true })
   confirmedAt?: Date;
 

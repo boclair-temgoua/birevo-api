@@ -63,7 +63,6 @@ export class CreateOrUpdateUserService {
       accessToken,
       refreshToken,
       organizationInUtilizationId,
-      requiresPayment,
       deletedAt,
       confirmedAt,
     } = {
@@ -99,7 +98,6 @@ export class CreateOrUpdateUserService {
     findItem.noHashPassword = noHashPassword;
     findItem.accessToken = accessToken;
     findItem.refreshToken = refreshToken;
-    findItem.requiresPayment = requiresPayment;
     findItem.organizationInUtilizationId = organizationInUtilizationId;
     findItem.deletedAt = deletedAt;
     findItem.confirmedAt = confirmedAt;

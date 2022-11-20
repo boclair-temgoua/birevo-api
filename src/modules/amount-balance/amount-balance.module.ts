@@ -14,6 +14,7 @@ import { User } from '../../models/User';
 import { CreatePdfAndSendMailAmountAmountBalance } from './services/user-cases/create-pdf-and-send-mail-amount-amount-balance';
 import { FindOneOrganizationByService } from '../organization/services/query/find-one-organization-by.service';
 import { Organization } from '../../models/Organization';
+import { CreateOrUpdateOrganizationService } from '../organization/services/mutations/create-or-update-organization.service';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { Organization } from '../../models/Organization';
     CreateOrUpdateAmountBalanceService,
     FindOneAmountBalanceByService,
     CreateOrUpdateAmountService,
+    CreateOrUpdateOrganizationService,
 
     /** Imports providers use-cases */
     CreateAmountAmountBalance,

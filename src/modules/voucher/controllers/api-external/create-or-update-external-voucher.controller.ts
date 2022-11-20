@@ -33,7 +33,7 @@ export class CreateOrUpdateExternalVoucherController {
     @Headers('User-Agent') userAgent: string,
   ) {
     const { user } = req;
-    if (user?.requiresPayment)
+    if (user?.organizationInUtilization?.requiresPayment)
       throw new UnauthorizedException(
         'Payment required please check your billing',
       );
@@ -62,7 +62,7 @@ export class CreateOrUpdateExternalVoucherController {
     @Headers('User-Agent') userAgent: string,
   ) {
     const { user } = req;
-    if (user?.requiresPayment)
+    if (user?.organizationInUtilization?.requiresPayment)
       throw new UnauthorizedException(
         'Payment required please check your billing',
       );
@@ -91,7 +91,7 @@ export class CreateOrUpdateExternalVoucherController {
     @Headers('User-Agent') userAgent: string,
   ) {
     const { user } = req;
-    if (user?.requiresPayment)
+    if (user?.organizationInUtilization?.requiresPayment)
       throw new UnauthorizedException(
         'Payment required please check your billing',
       );
@@ -119,7 +119,7 @@ export class CreateOrUpdateExternalVoucherController {
     @Headers('User-Agent') userAgent: string,
   ) {
     const { user } = req;
-    if (user?.requiresPayment)
+    if (user?.organizationInUtilization?.requiresPayment)
       throw new UnauthorizedException(
         'Payment required please check your billing',
       );

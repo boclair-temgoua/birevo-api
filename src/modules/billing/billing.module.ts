@@ -26,6 +26,7 @@ import { FindOneAmountByService } from '../amount/services/query/find-one-amount
 import { CreatePdfAndSendMailAmountAmountBalance } from '../amount-balance/services/user-cases/create-pdf-and-send-mail-amount-amount-balance';
 import { Organization } from '../../models/Organization';
 import { FindOneOrganizationByService } from '../organization/services/query/find-one-organization-by.service';
+import { CreateOrUpdateOrganizationService } from '../organization/services/mutations/create-or-update-organization.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -52,6 +53,7 @@ import { FindOneOrganizationByService } from '../organization/services/query/fin
     CreateOrUpdateAmountBalanceService,
     CreatePdfAndSendMailAmountAmountBalance,
     FindOneOrganizationByService,
+    CreateOrUpdateOrganizationService,
 
     /** Imports providers use-cases */
     CreateMethodBulling,

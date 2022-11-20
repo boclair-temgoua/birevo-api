@@ -59,7 +59,6 @@ export class FindOneUserByService {
       .addSelect('user.id', 'id')
       .addSelect('user.email', 'email')
       .addSelect('user.profileId', 'profileId')
-      .addSelect('user.requiresPayment', 'requiresPayment')
       .addSelect(
         'user.organizationInUtilizationId',
         'organizationInUtilizationId',

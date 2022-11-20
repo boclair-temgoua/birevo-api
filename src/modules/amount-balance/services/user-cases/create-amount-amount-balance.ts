@@ -12,6 +12,7 @@ import { S3 } from 'aws-sdk';
 import { configurations } from '../../../../infrastructure/configurations/index';
 import { FindOneAmountBalanceByService } from '../query/find-one-amount-balance-by.service';
 import { CreatePdfAndSendMailAmountAmountBalance } from './create-pdf-and-send-mail-amount-amount-balance';
+import { CreateOrUpdateOrganizationService } from '../../../organization/services/mutations/create-or-update-organization.service';
 
 const s3 = new S3({
   region: configurations.implementations.aws.region,
@@ -23,9 +24,8 @@ export class CreateAmountAmountBalance {
   constructor(
     private readonly findAmountUsageService: FindAmountUsageService,
     private readonly findAmountBalanceService: FindAmountBalanceService,
-    private readonly createOrUpdateUserService: CreateOrUpdateUserService,
     private readonly createOrUpdateAmountService: CreateOrUpdateAmountService,
-    private readonly findOneAmountBalanceByService: FindOneAmountBalanceByService,
+    private readonly createOrUpdateOrganizationService: CreateOrUpdateOrganizationService,
     private readonly createOrUpdateAmountBalanceService: CreateOrUpdateAmountBalanceService,
     private readonly createPdfAndSendMailAmountAmountBalance: CreatePdfAndSendMailAmountAmountBalance,
   ) {}
@@ -116,9 +116,9 @@ export class CreateAmountAmountBalance {
     Promise.all([
       amountBalances.map(async (item) => {
         /** Save Amount */
-        const [errorUpdateUser, updateUser] = await useCatch(
-          this.createOrUpdateUserService.updateOne(
-            { option1: { userId: item.userId } },
+        const [errorUpdateUser, updateOrganization] = await useCatch(
+          this.createOrUpdateOrganizationService.updateOne(
+            { option1: { organizationId: item.organizationId } },
             {
               requiresPayment: true,
             },

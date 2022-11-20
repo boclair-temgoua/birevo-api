@@ -9,12 +9,13 @@ import { useCatch } from '../../../../infrastructure/utils/use-catch';
 import { CreateStripeBullingDto } from '../../dto/validation-bulling.dto';
 import { FindOneUserByService } from '../../../user/services/query/find-one-user-by.service';
 import { CreateOrUpdateUserService } from '../../../user/services/mutations/create-or-update-user.service';
+import { CreateOrUpdateOrganizationService } from '../../../organization/services/mutations/create-or-update-organization.service';
 
 @Injectable()
 export class UpdateUserAfterBilling {
   constructor(
-    private readonly createOrUpdateUserService: CreateOrUpdateUserService,
     private readonly findOneUserByService: FindOneUserByService,
+    private readonly createOrUpdateOrganizationService: CreateOrUpdateOrganizationService,
   ) {}
 
   /** Update user */
@@ -33,8 +34,10 @@ export class UpdateUserAfterBilling {
     if (findUser?.balance?.total >= 0) {
       /** Save Amount */
       const [errorUpdateUser, updateUser] = await useCatch(
-        this.createOrUpdateUserService.updateOne(
-          { option1: { userId: findUser?.id } },
+        this.createOrUpdateOrganizationService.updateOne(
+          {
+            option1: { organizationId: findUser?.organizationInUtilizationId },
+          },
           { requiresPayment: false },
         ),
       );
