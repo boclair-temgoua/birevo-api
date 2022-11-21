@@ -50,6 +50,26 @@ export class FindActivityService {
       .addSelect(
         /*sql*/ `(
           SELECT jsonb_build_object(
+          'uuid', "vo"."uuid",
+          'code', "vo"."code",
+          'status', "vo"."status",
+          'amount', "vo"."amount",
+          'percent', "vo"."percent",
+          'currency', "cu"."code",
+          'image', "qc"."qrCode"
+          )
+          FROM "voucher" "vo"
+          LEFT JOIN "qr_code" "qc" ON "qc"."qrCodableId" = "vo"."id"
+          LEFT JOIN "currency" "cu" ON "vo"."currencyId" = "cu"."id"
+          WHERE "vo"."id" = "activity"."activityAbleId"
+          AND "vo"."organizationId" = "activity"."organizationId"
+          AND "vo"."voucherType" = "activity"."activityAbleType"
+          AND "activity"."activityAbleType" IN ('COUPON', 'VOUCHER')
+          ) AS "voucher"`,
+      )
+      .addSelect(
+        /*sql*/ `(
+          SELECT jsonb_build_object(
           'uuid', "app"."uuid",
           'name', "app"."name",
           'color', "app"."color"
@@ -80,6 +100,9 @@ export class FindActivityService {
 
     if (filterQuery?.q) {
       query = query
+        .andWhere('activity.activityAbleType ::text ILIKE :searchQuery', {
+          searchQuery: `%${filterQuery?.q}%`,
+        })
         .andWhere('activity.action ::text ILIKE :searchQuery', {
           searchQuery: `%${filterQuery?.q}%`,
         })

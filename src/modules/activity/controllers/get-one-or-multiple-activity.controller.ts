@@ -43,4 +43,25 @@ export class GetOneOrMultipleActivityController {
     }
     return reply({ res, results });
   }
+
+  @Get(`/vouchers`)
+  @UseGuards(JwtAuthGuard)
+  async getAllActivitiesVoucher(
+    @Res() res,
+    @Req() req,
+    @Query() pagination: RequestPaginationDto,
+    @Query() getMultipleActivityDto: GetMultipleActivityDto,
+  ) {
+    const [errors, results] = await useCatch(
+      this.getOneOrMultipleActivity.execute({
+        ...getMultipleActivityDto,
+        ...pagination,
+        user: req.user,
+      }),
+    );
+    if (errors) {
+      throw new NotFoundException(errors);
+    }
+    return reply({ res, results });
+  }
 }
