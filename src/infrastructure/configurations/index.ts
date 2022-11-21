@@ -25,6 +25,20 @@ export const configurations = {
     emailNoreply: process.env.MAIL_FROM_NO_REPLAY_ADDRESS,
   },
   /**
+   * Organization
+   */
+  organizationAddress: {
+    name: 'Berivo',
+    company: 'Berivo',
+    street1: 'Via della costa 13',
+    street2: '',
+    city: 'Vigevano',
+    zip: '20156',
+    country: 'IT',
+    phone: '+393425712192',
+    email: 'info@birevo.com',
+  },
+  /**
    * Api
    */
   api: {

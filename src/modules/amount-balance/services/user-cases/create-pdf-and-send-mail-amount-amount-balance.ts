@@ -159,7 +159,13 @@ export class CreatePdfAndSendMailAmountAmountBalance {
         {
           columns: [
             {
-              text: 'Berevo \n Berevo srl \n 9999 Street name 1A \n New-York City NY 00000 \n   USA',
+              text: `${configurations.organizationAddress.name} \n ${
+                configurations.organizationAddress.company
+              } \n ${configurations.organizationAddress.street1} \n ${
+                configurations.organizationAddress.city || ''
+              } ${configurations.organizationAddress.zip} ${
+                configurations.organizationAddress.country
+              } \n ${configurations.organizationAddress.country}`,
               bold: true,
               style: 'policyText',
               color: '#333333',
