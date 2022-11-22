@@ -6,6 +6,7 @@ import {
   NotFoundException,
   UseGuards,
   Res,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { reply } from '../../../infrastructure/utils/reply';
 import { useCatch } from '../../../infrastructure/utils/use-catch';
@@ -18,7 +19,7 @@ export class GetOneOrMultipleOrganizationController {
     private readonly findOneOrganizationByService: FindOneOrganizationByService,
   ) {}
 
-  @Get(`/show/:organization_uuid`)
+  @Get(`/show_by_uuid/:organization_uuid`)
   @UseGuards(JwtAuthGuard)
   async getOneByUUIDOrganization(
     @Res() res,
@@ -27,6 +28,24 @@ export class GetOneOrMultipleOrganizationController {
     const [error, result] = await useCatch(
       this.findOneOrganizationByService.findOneBy({
         option2: { organization_uuid },
+      }),
+    );
+
+    if (error) {
+      throw new NotFoundException(error);
+    }
+    return reply({ res, results: result });
+  }
+
+  @Get(`/show_by_id/:organizationId`)
+  @UseGuards(JwtAuthGuard)
+  async getOneByIdOrganization(
+    @Res() res,
+    @Param('organizationId', ParseIntPipe) organizationId: number,
+  ) {
+    const [error, result] = await useCatch(
+      this.findOneOrganizationByService.findOneBy({
+        option1: { organizationId },
       }),
     );
 

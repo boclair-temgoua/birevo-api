@@ -29,7 +29,29 @@ export class FindOneOrganizationByService {
       WHERE ("sr"."subscribableId" = "organization"."id"
       AND "sr"."subscribableType" IN ('ORGANIZATION'))
       AND "sr"."deletedAt" IS NULL
+      GROUP BY "sr"."subscribableId", "organization"."id"
       ) AS "contributorTotal"`,
+      )
+      .addSelect(
+        /*sql*/ `(
+      SELECT
+          CAST(COUNT(DISTINCT vo) AS INT)
+      FROM "voucher" "vo"
+      WHERE ("vo"."organizationId" = "organization"."id"
+      AND "vo"."voucherType" IN ('COUPON'))
+      AND "vo"."deletedAt" IS NULL
+      GROUP BY "vo"."organizationId", "organization"."id"
+      ) AS "couponTotal"`,
+      )
+      .addSelect(
+        /*sql*/ `(
+      SELECT
+          CAST(COUNT(DISTINCT vo) AS INT)
+      FROM "voucher" "vo"
+      WHERE ("vo"."organizationId" = "organization"."id"
+      AND "vo"."voucherType" IN ('VOUCHER'))
+      AND "vo"."deletedAt" IS NULL
+      ) AS "voucherTotal"`,
       )
       .addSelect(
         /*sql*/ `(
@@ -61,6 +83,37 @@ export class FindOneOrganizationByService {
               'color', "profile"."color",
               'image', "profile"."image"
           ) AS "profileOwner"`,
+      )
+      .addSelect(
+        /*sql*/ `(
+        SELECT jsonb_build_object(
+        'total', CAST(SUM("amu"."amountUsage") AS DECIMAL),
+        'currentMonth', DATE_TRUNC('month', "amu"."createdAt")
+        )
+        FROM "amount_usage" "amu"
+        INNER JOIN "amount" "am" ON "amu"."amountId" = "am"."id"
+        WHERE "amu"."organizationId" = "am"."organizationId"
+        AND "amu"."userId" = "am"."userId"
+        AND "organization"."id" = "amu"."organizationId"
+        AND "organization"."id" = "am"."organizationId"
+        AND DATE_TRUNC('month', "amu"."createdAt") = DATE_TRUNC('month', NOW())
+        GROUP BY "amu"."organizationId", "amu"."userId", "am"."userId",
+        "organization"."id", DATE_TRUNC('month', "amu"."createdAt")
+        ) AS "billing"`,
+      )
+      .addSelect(
+        /*sql*/ `(
+        SELECT jsonb_build_object(
+        'total', CAST(SUM("amb"."amountBalance") AS DECIMAL)
+        )
+        FROM "amount_balance" "amb"
+        INNER JOIN "amount" "am" ON "amb"."amountId" = "am"."id"
+        WHERE "amb"."organizationId" = "am"."organizationId"
+        AND "amb"."userId" = "am"."userId"
+        AND "organization"."id" = "amb"."organizationId"
+        AND "organization"."id" = "am"."organizationId"
+        GROUP BY "amb"."organizationId", "amb"."userId", "am"."userId", "organization"."id"
+        ) AS "balance"`,
       )
       .where('organization.deletedAt IS NULL')
       .leftJoin('organization.user', 'user')
