@@ -11,6 +11,7 @@ export type GetActivitySelections = {
   };
   filterQuery?: any;
   data?: any[];
+  isVoucherFilter?: string;
   pagination?: {
     sort: SortType;
     page: number;

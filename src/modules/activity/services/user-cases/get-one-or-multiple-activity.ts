@@ -24,7 +24,15 @@ export class GetOneOrMultipleActivity {
   async execute(
     options: GetMultipleActivityDto & RequestPaginationDto,
   ): Promise<any> {
-    const { voucher_uuid, organizationId, limit, page, sort, user } = {
+    const {
+      voucher_uuid,
+      isVoucherFilter,
+      organizationId,
+      limit,
+      page,
+      sort,
+      user,
+    } = {
       ...options,
     };
 
@@ -58,6 +66,7 @@ export class GetOneOrMultipleActivity {
       const [errors, activity] = await useCatch(
         this.findActivityService.findAllActivities({
           pagination: { page, limit, sort },
+          isVoucherFilter,
           option2: { organizationId: user?.organizationInUtilizationId },
         }),
       );

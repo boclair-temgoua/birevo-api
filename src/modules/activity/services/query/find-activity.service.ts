@@ -14,7 +14,7 @@ export class FindActivityService {
   ) {}
 
   async findAllActivities(selections: GetActivitySelections): Promise<any> {
-    const { filterQuery, pagination, option1, option2 } = {
+    const { filterQuery, isVoucherFilter, pagination, option1, option2 } = {
       ...selections,
     };
 
@@ -38,6 +38,7 @@ export class FindActivityService {
           SELECT jsonb_build_object(
           'uuid', "us"."uuid",
           'profileId', "us"."profileId",
+          'email', "us"."email",
           'fullName', "pr"."fullName",
           'color', "pr"."color",
           'image', "pr"."image"
@@ -47,26 +48,7 @@ export class FindActivityService {
           WHERE "activity"."userCreatedId" = "us"."id"
           ) AS "profileOwner"`,
       )
-      .addSelect(
-        /*sql*/ `(
-          SELECT jsonb_build_object(
-          'uuid', "vo"."uuid",
-          'code', "vo"."code",
-          'status', "vo"."status",
-          'amount', "vo"."amount",
-          'percent', "vo"."percent",
-          'currency', "cu"."code",
-          'image', "qc"."qrCode"
-          )
-          FROM "voucher" "vo"
-          LEFT JOIN "qr_code" "qc" ON "qc"."qrCodableId" = "vo"."id"
-          LEFT JOIN "currency" "cu" ON "vo"."currencyId" = "cu"."id"
-          WHERE "vo"."id" = "activity"."activityAbleId"
-          AND "vo"."organizationId" = "activity"."organizationId"
-          AND "vo"."voucherType" = "activity"."activityAbleType"
-          AND "activity"."activityAbleType" IN ('COUPON', 'VOUCHER')
-          ) AS "voucher"`,
-      )
+
       .addSelect(
         /*sql*/ `(
           SELECT jsonb_build_object(
@@ -77,6 +59,38 @@ export class FindActivityService {
           FROM "application" "app"
           WHERE "activity"."applicationId" = "app"."id"
           ) AS "application"`,
+      )
+      .addSelect(
+        /*sql*/ `(
+        SELECT jsonb_build_object(
+        'uuid', "vo"."uuid",
+        'code', "vo"."code",
+        'status', "vo"."status",
+        'amount', "vo"."amount",
+        'expiredAt', "vo"."expiredAt",
+        'startedAt', "vo"."startedAt",
+        'percent', "vo"."percent",
+        'currency', "cu"."code",
+        'qrCode', "qc"."qrCode",
+        'profile', jsonb_build_object(
+          'uuid', "us"."uuid",
+          'email', "us"."email",
+          'profileId', "us"."profileId",
+          'fullName', "pr"."fullName",
+          'color', "pr"."color",
+          'image', "pr"."image"
+          )
+        )
+        FROM "voucher" "vo"
+        LEFT JOIN "qr_code" "qc" ON "qc"."qrCodableId" = "vo"."id"
+        LEFT JOIN "currency" "cu" ON "vo"."currencyId" = "cu"."id"
+        LEFT JOIN "user" "us" ON "vo"."userCreatedId" = "us"."id"
+        LEFT JOIN "profile" "pr" ON "us"."profileId" = "pr"."id"
+        WHERE "vo"."id" = "activity"."activityAbleId"
+        AND "vo"."organizationId" = "activity"."organizationId"
+        AND "vo"."voucherType" = "activity"."activityAbleType"
+        AND "activity"."activityAbleType" IN ('COUPON', 'VOUCHER')
+        ) AS "voucher"`,
       )
       .addSelect('activity.createdAt', 'createdAt');
 
@@ -96,6 +110,13 @@ export class FindActivityService {
       query = query.where('activity.organizationId = :organizationId', {
         organizationId,
       });
+      if (isVoucherFilter) {
+        query = query
+          .andWhere("activity.activityAbleType IN ('COUPON', 'VOUCHER')")
+          .andWhere(
+            "activity.action IN ('VOUCHER-NEW', 'VOUCHER-USED', 'VOUCHER-VIEW')",
+          );
+      }
     }
 
     if (filterQuery?.q) {

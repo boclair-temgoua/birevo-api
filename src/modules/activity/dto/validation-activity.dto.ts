@@ -99,5 +99,9 @@ export class GetMultipleActivityDto {
   organizationId: string;
 
   @IsOptional()
+  @IsString()
+  isVoucherFilter: string;
+
+  @IsOptional()
   user: any;
 }
