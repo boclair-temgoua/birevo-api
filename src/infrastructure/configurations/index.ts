@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import { TypeDatabase } from '../databases/config';
 dotenv.config();
 
 export const isTesting = () =>
@@ -54,13 +55,27 @@ export const configurations = {
    * Database
    */
   database: {
-    host: process.env.PG_HOST,
-    port: Number(process.env.PG_PORT),
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    name: process.env.POSTGRES_DB,
-    ssl: process.env.POSTGRES_SSL,
-    logging: process.env.POSTGRES_LOG,
+    url: process.env.DATABASE_URL,
+    mysql: {
+      type: 'mysql' as TypeDatabase,
+      host: process.env.MYSQL_HOST,
+      port: Number(process.env.MYSQL_PORT),
+      username: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PASSWORD,
+      name: process.env.MYSQL_DB,
+      ssl: process.env.MYSQL_SSL,
+      logging: process.env.MYSQL_LOG,
+    },
+    postgres: {
+      type: 'postgres' as TypeDatabase,
+      host: process.env.PG_HOST,
+      port: Number(process.env.PG_PORT),
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      name: process.env.POSTGRES_DB,
+      ssl: process.env.POSTGRES_SSL,
+      logging: process.env.POSTGRES_LOG,
+    },
   },
   /**
    * Show or not console.log
