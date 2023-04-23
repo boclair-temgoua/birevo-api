@@ -97,11 +97,11 @@ export const configurations = {
    */
   implementations: {
     /**
-     * Birevo marketplace
+     * Ivemo marketplace
      */
-    birevo: {
-      link: process.env.BIREVO_LINK,
-      token: process.env.BIREVO_ACCESS_TOKEN,
+    ivemo: {
+      link: process.env.IVEMO_LINK,
+      token: process.env.IVEMO_ACCESS_TOKEN,
     },
     /**
      * Stripe

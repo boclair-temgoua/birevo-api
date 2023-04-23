@@ -38,6 +38,7 @@ export class CreateOrUpdateVoucherService {
       userTransactionId,
       userId,
       usedAt,
+      maxUse,
       voucherType,
       voucherCategoryId,
       applicationId,
@@ -71,6 +72,7 @@ export class CreateOrUpdateVoucherService {
     voucher.description = description;
     voucher.validity = new Date();
     voucher.deliveryType = deliveryType;
+    voucher.maxUse = 1; // default max use is 1
     voucher.organizationId = organizationId;
     voucher.userCreatedId = userCreatedId;
     voucher.applicationId = applicationId;

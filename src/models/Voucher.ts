@@ -35,6 +35,9 @@ export class Voucher extends BaseDeleteEntity {
   usedAt?: Date;
 
   @Column({ type: 'bigint', nullable: true })
+  maxUse?: number;
+
+  @Column({ type: 'bigint', nullable: true })
   voucherCategoryId?: number;
 
   @Column({ nullable: true })

@@ -61,9 +61,9 @@ export class CreateAmountAmountBalance {
     }
 
     /** Save to aws PDF */
-    this.createPdfAndSendMailAmountAmountBalance.executeGeneratePDF({
-      amount: amountSave,
-    });
+    // this.createPdfAndSendMailAmountAmountBalance.executeGeneratePDF({
+    //   amount: amountSave,
+    // });
 
     return amountSave;
   }

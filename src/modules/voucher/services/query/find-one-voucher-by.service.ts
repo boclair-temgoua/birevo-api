@@ -67,6 +67,7 @@ export class FindOneVoucherByService {
       .addSelect('voucher.email', 'email')
       .addSelect('voucher.applicationId', 'applicationId')
       .addSelect('voucher.usedAt', 'usedAt')
+      .addSelect('voucher.maxUse', 'maxUse')
       .addSelect('voucher.createdAt', 'createdAt')
       .addSelect('voucher.currencyId', 'currencyId')
       .addSelect('voucher.userCreatedId', 'userCreatedId')

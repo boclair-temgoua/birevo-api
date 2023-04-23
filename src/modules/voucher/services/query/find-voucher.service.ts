@@ -49,6 +49,7 @@ export class FindVoucherService {
       .addSelect('voucher.userCreatedId', 'userCreatedId')
       .addSelect('voucher.organizationId', 'organizationId')
       .addSelect('voucher.description', 'description')
+      .addSelect('voucher.maxUse', 'maxUse')
       .addSelect('voucher.userTransactionId', 'userTransactionId')
       .addSelect('voucher.userId', 'userId')
       .addSelect(
